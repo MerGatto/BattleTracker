@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="index.css">
+    <script src="scripts/jquery.min.js"></script>
+    <script src="scripts/Participant.js"></script>
+    <script src="scripts/utility.js"></script>
+    <script src="scripts/index.js"></script>
+    <title>Battle Tracker</title>
+</head>
+
+<body>
+    <table id="tblMain">
+        <colgroup>
+            <col width="100">
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <col width="50">
+            <col width="50">
+        </colgroup>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>INI</th>
+                <th>VM</th>
+                <th>tmp</th>
+                <th>eff. INI</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <div id="divControls">
+        <button id="btnAddParticipant" onclick="btnAddParticipant_Click()">Add Participant</button>
+        <button id="btnNext" onclick="btnNext_Click()">Next</button>
+        <button id="btnWait" onclick="btnWait_Click()">Wait</button>
+        <button id="btnReset" onclick="btnReset_Click()">Next Round</button>
+    </div>
+</body>
+
+</html>

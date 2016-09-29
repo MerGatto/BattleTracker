@@ -1,0 +1,34 @@
+table {
+    margin: 10px auto
+}
+
+table, th, td {
+   border: 1px solid black;
+   border-collapse: collapse;
+}
+
+input {
+    width: 80%;
+    margin: 0 auto;
+    display: block;
+}
+
+.currentActor, .currentActor * {
+    background-color: lightgreen;
+}
+
+.awaitingINI .inpIni {
+    background-color: lightblue;
+}
+
+.finished, .finished * {
+    background-color: lightgray;
+}
+
+.waiting, .waiting * {
+    background-color: yellow;  
+}
+
+.dead, .dead * {
+    background-color: darkred;  
+}
