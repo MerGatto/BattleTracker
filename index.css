@@ -1,10 +1,10 @@
-table {
-    width: 500px;
-}
-
 table, th, td {
    border: 1px solid black;
    border-collapse: collapse;
+}
+
+tbody button {
+    display: block;
 }
 
 #divControls {
@@ -17,7 +17,7 @@ input {
     display: block;
 }
 
-.currentActor, .currentActor * {
+.acting, .acting * {
     background-color: lightgreen;
 }
 
@@ -33,6 +33,19 @@ input {
     background-color: yellow;  
 }
 
+.participant .btnAct, .participant .btnWait {
+    display: none;
+}
+
+.waiting .btnAct, .acting .btnWait, .acting .btnAct {
+    display: inline-block;
+}
+
 .dead, .dead * {
-    background-color: darkred;  
+    background-color: darkred !important;
+}
+
+#spanCT, #spanIT {
+    font: bolder;
+    font-size: 14px;
 }

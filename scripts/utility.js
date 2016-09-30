@@ -18,7 +18,8 @@ function deleteRow(row) {
 
 function getRowIndex(obj)
 {
-    return $("tr").index(obj);
+    var row = getRow(obj);
+    return $("tr").index(row);
 }
 
 function getRow(obj)

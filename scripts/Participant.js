@@ -16,7 +16,7 @@ class Participant
 
     calculateInitiative()
     {
-        this.ini = this.baseIni + this.iniChange - this.vm -(window.iniDurchgang-1) * 10;
+        this.ini = this.baseIni + this.iniChange - this.vm -(initiativeTurn-1) * 10;
         $(this.row).find('.effIni')[0].innerHTML = this.ini;
         return this.ini;
     }
@@ -53,12 +53,23 @@ class Participant
         this.calculateInitiative();
     }
 
+    die()
+    {
+        $(this.row).addClass('dead');
+        this.dead = true;
+    }
+
+    revive()
+    {
+        $(this.row).removeClass('dead');
+        this.dead = false;
+    }
+
     setStatus(status)
     {
         $(this.row).removeClass('finished');
-        $(this.row).removeClass('currentActor');
+        $(this.row).removeClass('acting');
         $(this.row).removeClass('waiting');
-        $(this.row).removeClass('dead');
         this.status = status;
         if (status == StatusEnum.Waiting)
         {
@@ -70,18 +81,14 @@ class Participant
         }
         if (status == StatusEnum.Active)
         {
-            $(this.row).addClass('currentActor');
-        }
-        if (status == StatusEnum.Dead)
-        {
-            $(this.row).addClass('dead');
+            $(this.row).addClass('acting');
         }
     }
 
     softReset()
     {
         this.baseIni = 0;
-        if (this.status != StatusEnum.Dead)
+        if (!this.dead)
         {
             this.setStatus(StatusEnum.Idle);
         }
