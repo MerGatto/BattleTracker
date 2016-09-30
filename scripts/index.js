@@ -53,7 +53,7 @@ function getNextParticipants() {
     var i = 0;
     var over = true;
     $.each(participants, function () {
-        if (this.ini > 0) {
+        if (this.ini > 0 && !this.dead) {
             over = false;
         }
         if (!this.dead && this.status == StatusEnum.Idle && this.baseIni > 0 && this.ini > 0) {
@@ -167,7 +167,6 @@ function btnAct_Click() {
     {
         currentActors.splice(i, 1);
         if (currentActors.length == 0) {
-            console.log("aha");
             goToNextActors();
         }
     }
