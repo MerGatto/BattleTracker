@@ -2,7 +2,7 @@ var newParticipantRow =
     '<td><input type="text" class="inpName"></td>' +
     '<td class="effIni"></td>' +
     '<td><input class="inpIni iniInput" type="number"></td>' +
-    '<td><input class="vm" iniInput" type="number"></td>' +
+    '<td><input class="vm iniInput" type="number"></td>' +
     '<td><input class="iniChange iniInput" type="number"></td>' +
     '<td><button class="btnAct">Act</button>' +
     '<button class="btnWait">Wait</button></td>' +
