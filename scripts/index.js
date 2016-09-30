@@ -43,6 +43,7 @@ function endCombatTurn()
     $.each(participants, function () {
         this.softReset();
     });
+    this.started = false;
     syncTurnValues();
 }
 
@@ -162,9 +163,13 @@ function btnAct_Click() {
     var actor = getParticipant(this);
     actor.setStatus(StatusEnum.Finished);
     var i = currentActors.indexOf(actor)
-    currentActors.splice(i, 1);
-    if (currentActors.length == 0) {
-        goToNextActors();
+    if (i != -1)
+    {
+        currentActors.splice(i, 1);
+        if (currentActors.length == 0) {
+            console.log("aha");
+            goToNextActors();
+        }
     }
 }
 
@@ -181,6 +186,7 @@ function btnWait_Click() {
 function btnStartRound_Click() {
     
     $('#btnStart').toggle();
+    started = true;
     goToNextActors();
 }
 
@@ -190,6 +196,11 @@ function btnDelete_Click() {
 
 function btnReset_Click() {
     combatTurn = 1;
+    if (started)
+    {
+        $('#btnStart').toggle();
+        started = false;
+    }
     initiativeTurn = 1;
     $.each(participants, function () {
         this.softReset();

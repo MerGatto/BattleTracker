@@ -12,8 +12,7 @@ function convertToInt(input, deflt = 0)
 }
 
 function deleteRow(row) {
-    var i = getRowIndex(row);
-    document.getElementById("tblMain").deleteRow(i);
+    $(row).remove();
 }
 
 function getRowIndex(obj)
