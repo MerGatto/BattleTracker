@@ -12,11 +12,16 @@ class Participant
         this.vm = 0;
         this.iniChange = 0;
         this.dead = false;
+        this.fullDefense = false;
     }
 
     calculateInitiative()
     {
         this.ini = this.baseIni + this.iniChange - this.vm -(initiativeTurn-1) * 10;
+        if (this.fullDefense)
+        {
+            this.ini = this.ini-10;
+        }
         $(this.row).find('.effIni')[0].innerHTML = this.ini;
         return this.ini;
     }
