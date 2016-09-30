@@ -1,10 +1,14 @@
 table {
-    margin: 10px auto
+    width: 500px;
 }
 
 table, th, td {
    border: 1px solid black;
    border-collapse: collapse;
+}
+
+#divControls {
+    width: 200px;
 }
 
 input {

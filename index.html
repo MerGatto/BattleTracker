@@ -5,13 +5,19 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="index.css">
     <script src="scripts/jquery.min.js"></script>
-    <script src="scripts/Participant.js"></script>
     <script src="scripts/utility.js"></script>
     <script src="scripts/index.js"></script>
+    <script src="scripts/Participant.js"></script>
     <title>Battle Tracker</title>
 </head>
 
 <body>
+    <div id="divControls">
+        <button id="btnAddParticipant" onclick="btnAddParticipant_Click()">Add Participant</button>
+        <button id="btnNext" onclick="btnNext_Click()">Next</button>
+        <button id="btnWait" onclick="btnWait_Click()">Wait</button>
+        <button id="btnReset" onclick="btnReset_Click()">Next Round</button>
+    </div>
     <table id="tblMain">
         <colgroup>
             <col width="100">
@@ -20,6 +26,7 @@
             <col width="50">
             <col width="50">
             <col width="50">
+            <col width="100">
         </colgroup>
         <thead>
             <tr>
@@ -34,12 +41,5 @@
         <tbody>
         </tbody>
     </table>
-    <div id="divControls">
-        <button id="btnAddParticipant" onclick="btnAddParticipant_Click()">Add Participant</button>
-        <button id="btnNext" onclick="btnNext_Click()">Next</button>
-        <button id="btnWait" onclick="btnWait_Click()">Wait</button>
-        <button id="btnReset" onclick="btnReset_Click()">Next Round</button>
-    </div>
 </body>
-
 </html>

@@ -11,7 +11,7 @@ var newParticipantRow =
 var participants = new Array();
 
 var kampfRunde = 1;
-var iniDurchgang = 1;
+window.iniDurchgang = 1;
 var currentActors = new Array();;
 
 $( document ).ready(function() {
@@ -20,13 +20,31 @@ $( document ).ready(function() {
 });
 
 
+function nextIniTurn()
+{
+    window.iniDurchgang++;
+    $.each(participants, function()
+    {
+        if (this.status != StatusEnum.Dead)
+        {
+            this.setStatus(StatusEnum.Idle);
+            this.calculateInitiative();
+        }
+    });
+}
+
 function getNextParticipants()
 {
     var nextParticipants = new Array();
     var max = 0;
     var i = 0;
+    var over = true;
     $.each(participants, function() 
     {   
+        if (this.ini > 0)
+        {
+            over = false;
+        }
         if (this.status == StatusEnum.Idle && this.baseIni > 0 && this.ini > 0)
         {
             if (this.ini > max)
@@ -41,6 +59,14 @@ function getNextParticipants()
             }
         }
     });
+    if (nextParticipants.length == 0)
+    {
+        if (!over)
+        {
+            nextIniTurn();
+            nextParticipants = getNextParticipants();
+        }
+    }
     return nextParticipants;
 }
 
@@ -127,7 +153,7 @@ function removeParticipant(participant)
     function btnReset_Click()
     {
         kampfRunde = 1;
-        iniDurchgang = 1;
+        window.iniDurchgang = 1;
         $.each(participants, function()
         {
             this.softReset();

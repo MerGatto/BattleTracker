@@ -16,7 +16,7 @@ class Participant
 
     calculateInitiative()
     {
-        this.ini = this.baseIni + this.iniChange - this.vm -(iniDurchgang-1) * 10;
+        this.ini = this.baseIni + this.iniChange - this.vm -(window.iniDurchgang-1) * 10;
         $(this.row).find('.effIni')[0].innerHTML = this.ini;
         return this.ini;
     }
