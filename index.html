@@ -16,23 +16,23 @@
     <div class="datagrid">
         <table id="tblMain">
             <colgroup>
-                <col width="150">
-                <col width="60">
-                <col width="60">
-                <col width="60">
-                <col width="60">
-                <col width="100">
-                <col width="100">
-                <col width="100">
-                <col width="100">
+                <col style="width:15vw;">
+                <col style="width:5vw;">
+                <col style="width:5vw;">
+                <col style="width:5vw;">
+                <col style="width:5vw;">
+                <col style="width:15vw;">
+                <col style="width:15vw;">
+                <col style="width:15vw;">
+                <col style="width:10vw;">
             </colgroup>
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>eff. INI</th>
-                    <th>INI Input</th>
+                    <th>INI</th>
+                    <th>Input</th>
                     <th>VM</th>
-                    <th>tmp</th>
+                    <th>TMP</th>
                     <th></th>
                     <th>Full Defense</th>
                     <th></th>
@@ -44,20 +44,22 @@
                     <td colspan="9">
                         <div id="paging">
                             <ul>
-                                <li><button id="btnAddParticipant" class="active" onclick="btnAddParticipant_Click()">Add Participant</button></li>
                                 <li><button id="btnStart" class="active" onclick="btnStartRound_Click()">Start Round</button></li>
+                                <li><button id="btnAddParticipant" class="active" onclick="btnAddParticipant_Click()">Add Participant</button></li>
                                 <li><button id="btnReset" class="active" onclick="btnReset_Click()">Reset</button></li>
                             </ul>
                         </div>
                     </td>
                 </tr>
-                <tr class="infoPanel footerrow">
+                <tr class="footerrow">
                     <td colspan="9">
-                        <div>
-                            <ul>
-                                <li>CT: <span id="spanCT" /></li> | 
-                                <li>IT: <span id="spanIT" /></li>
-                            </ul>
+                        <div id="infopanel">
+                            <span>
+                                    CT: <span id="spanCT" />
+                            </span>
+                            <span>
+                                IT: <span id="spanIT" />
+                            </span>
                         </div>
                     </td>
                 </tr>

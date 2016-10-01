@@ -1,18 +1,9 @@
-table, th, td {
-   border: 1px solid black;
-   border-collapse: collapse;
-}
-
 tbody button {
     display: block;
 }
 
-#divControls {
-    width: 200px;
-}
-
 input {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     display: block;
 }
@@ -30,7 +21,11 @@ input {
 }
 
 .waiting, .waiting * {
-    background-color: yellow;  
+    background-color: #ffff66;  
+}
+
+.negativeIni, .negativeIni * {
+    background-color: lightgray;  
 }
 
 .participant .btnAct, .participant .btnWait {
@@ -42,10 +37,15 @@ input {
 }
 
 .dead, .dead * {
-    background-color: darkred !important;
+    background-color: #ff6b66 !important;
 }
 
-#spanCT, #spanIT {
-    font: bolder;
-    font-size: 14px;
+#infopanel, #paging {
+    display: block;
+    height: initial;
+    margin-left: 1vw;
+}
+
+#infopanel > *{
+    vertical-align: middle !important;
 }

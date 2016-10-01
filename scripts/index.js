@@ -20,7 +20,7 @@ var currentActors = new Array();;
 
 $(document).ready(function () {
     console.log("ready!");
-    addParticipant();    
+    addParticipant();
     syncTurnValues();
 });
 
@@ -31,13 +31,12 @@ function nextIniTurn() {
         if (!this.dead) {
             this.setStatus(StatusEnum.Idle);
         }
-            this.calculateInitiative();
+        this.calculateInitiative();
     });
     syncTurnValues();
 }
 
-function endCombatTurn()
-{
+function endCombatTurn() {
     initiativeTurn = 1;
     combatTurn++;
     $('#btnStart').toggle();
@@ -74,8 +73,7 @@ function getNextParticipants() {
             nextIniTurn();
             nextParticipants = getNextParticipants();
         }
-        else
-        {
+        else {
             endCombatTurn();
         }
     }
@@ -90,6 +88,16 @@ function addParticipant() {
     p.syncValuesToRow();
     $(row).data('participant', p);
     participants.push(p)
+
+    $(row).find('.vm, .inpIni').on('input', function () {
+        if(this.value < 0) {
+            this.value = 0;
+        }
+        if (this.value > 99) {
+            this.value = 99;
+        }
+    });
+
     $(row).find('.iniInput').on('focus', function () {
         this.select();
     });
@@ -99,12 +107,12 @@ function addParticipant() {
         var p = $(row).data('participant');
         p.syncValuesFromRow();
     });
-    
-    $(".chkFullDefense").change(function() {
+
+    $(".chkFullDefense").change(function () {
         var participant = getParticipant(this);
         participant.fullDefense = this.checked;
         participant.calculateInitiative();
-});
+    });
 
     $(".inpIni").on('keydown', function (e) {
         var keyCode = e.keyCode || e.which;
@@ -113,12 +121,10 @@ function addParticipant() {
             e.preventDefault();
             var row = getRow(this);
             var nextRow = $(row).next()[0];
-            if (nextRow != undefined && !$(nextRow).hasClass('footerrow'))
-            {
+            if (nextRow != undefined && !$(nextRow).hasClass('footerrow')) {
                 $(nextRow).find('.inpIni')[0].select();
             }
-            else
-            {
+            else {
                 addParticipant();
                 nextRow = $(row).next()[0];
                 $(nextRow).find('.inpIni')[0].select();
@@ -133,12 +139,10 @@ function addParticipant() {
             e.preventDefault();
             var row = getRow(this);
             var nextRow = $(row).next()[0];
-            if (nextRow != undefined && !$(nextRow).hasClass('footerrow'))
-            {
+            if (nextRow != undefined && !$(nextRow).hasClass('footerrow')) {
                 $(nextRow).find('.inpName')[0].focus();
             }
-            else
-            {
+            else {
                 addParticipant();
                 nextRow = $(row).next()[0];
                 $(nextRow).find('.inpName')[0].focus();
@@ -176,18 +180,15 @@ function goToNextActors() {
     }
 }
 
-function  syncTurnValues()
-{
+function syncTurnValues() {
     $('#spanCT')[0].innerHTML = combatTurn;
     $('#spanIT')[0].innerHTML = initiativeTurn;
 }
 
-function act(actor)
-{
+function act(actor) {
     actor.setStatus(StatusEnum.Finished);
     var i = currentActors.indexOf(actor)
-    if (i != -1)
-    {
+    if (i != -1) {
         currentActors.splice(i, 1);
         if (currentActors.length == 0) {
             goToNextActors();
@@ -216,7 +217,7 @@ function btnWait_Click() {
 }
 
 function btnStartRound_Click() {
-    
+
     $('#btnStart').toggle();
     $('.btnDelete').toggle();
     started = true;
@@ -224,20 +225,28 @@ function btnStartRound_Click() {
 }
 
 function btnDelete_Click() {
+    var name = $(getRow(this)).find('.inpName')[0].value;
+    if (name != "") {
+        if (!confirm("Are you sure you want to remove " + name + "?")) {
+            return;
+        }
+    }
     removeParticipant(getParticipant(this));
 }
 
 function btnReset_Click() {
+    if (!confirm("Are you sure you want to reset the BattleTracker?")) {
+        return;
+    }
     combatTurn = 1;
-    if (started)
-    {
+    if (started) {
         $('#btnStart').toggle();
         $('.btnDelete').toggle();
         started = false;
     }
     initiativeTurn = 1;
     $.each(participants, function () {
-        this.softReset();
+        this.hardReset();
     });
     syncTurnValues();
 }
@@ -249,8 +258,7 @@ function btnDie_Click() {
     $(row).find('.btnRevive').toggle();
     $(row).find('.btnDie').toggle();
     var i = currentActors.indexOf(actor)
-    if (i != -1)
-    {
+    if (i != -1) {
         act(actor);
     }
 }

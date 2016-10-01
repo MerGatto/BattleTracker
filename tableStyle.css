@@ -1,11 +1,33 @@
+.datagrid table, .datagrid th, .datagrid td {
+   border: 1px solid black;
+}
+
 .datagrid table {
     border-collapse: collapse;
-    text-align: left;
+    width: 90vw;
+}
+
+.datagrid table td {
+    text-align: center;
+}
+
+.datagrid table td::first-child {
+    margin-left: 1vw;
+}
+
+.datagrid table tr {
+    height: 2.5vw;
+}
+
+.datagrid table tr * {
+    height: 2vw;
+    font-size: 1.5vw;
 }
 
 .datagrid {
-    margin-left: 50px;
+    margin-left: 5vw;
     font: normal 12px/150% Arial, Helvetica, sans-serif;
+    text-align: center;
     background: #fff;
     overflow: hidden;
     border: 1px solid #36752D;
@@ -16,7 +38,7 @@
 }
 
 .datagrid table td, .datagrid table th {
-    padding: 3px 10px;
+     padding: 3px 10px; 
 }
 
 .datagrid table thead th {
@@ -25,7 +47,7 @@
     filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#36752D', endColorstr='#275420');
     background-color: #36752D;
     color: #FFFFFF;
-    font-size: 15px;
+    font-size: 1vw;
     font-weight: bold;
     border-left: 1px solid #36752D;
 }
@@ -37,7 +59,6 @@
 .datagrid table tbody td {
     color: #275420;
     border-left: 1px solid #C6FFC2;
-    font-size: 16px;
     font-weight: normal;
 }
 
@@ -54,14 +75,13 @@
     border-bottom: none;
 }
 
-.datagrid table tfoot td div {
-    border-top: 1px solid #36752D;
+.datagrid table tfoot tr {
     background: #DFFFDE;
 }
 
 .datagrid table tfoot td {
     padding: 0;
-    font-size: 12px
+    font-size: 1vw;
 }
 
 .datagrid table tfoot td div {
@@ -73,10 +93,22 @@
     padding: 0;
     list-style: none;
     text-align: left;
+    vertical-align: middle;
 }
 
 .datagrid table tfoot li {
     display: inline;
+    vertical-align: middle;
+}
+
+.datagrid table tfoot div {
+    margin-left: 0px;
+    text-align: left;
+}
+
+.datagrid table tfoot span {
+    display: inline;
+    margin-left: 0px;
 }
 
 .datagrid table tfoot li a {

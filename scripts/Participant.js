@@ -23,6 +23,14 @@ class Participant
             this.ini = this.ini-10;
         }
         $(this.row).find('.effIni')[0].innerHTML = this.ini;
+        if(this.ini <= 0 && this.baseIni != 0)
+        {
+            $(this.row).addClass('negativeIni');
+        }
+        else
+        {
+            $(this.row).removeClass('negativeIni');
+        }
         return this.ini;
     }
 
@@ -37,6 +45,7 @@ class Participant
         {
             $(this.row).addClass('awaitingINI')
         }
+        this.fullDefense = $(this.row).find('.chkFullDefense')[0].checked;
         this.vm = convertToInt($(this.row).find('.vm')[0].value);
         this.iniChange = convertToInt($(this.row).find('.iniChange')[0].value);
         this.calculateInitiative();
@@ -53,6 +62,7 @@ class Participant
         {
             $(this.row).addClass('awaitingINI')
         }
+        $(this.row).find('.chkFullDefense')[0].checked = this.fullDefense
         $(this.row).find('.vm')[0].value = this.vm;
         $(this.row).find('.iniChange')[0].value = this.iniChange;
         this.calculateInitiative();
@@ -75,6 +85,7 @@ class Participant
         $(this.row).removeClass('finished');
         $(this.row).removeClass('acting');
         $(this.row).removeClass('waiting');
+        $(this.row).removeClass('negativeIni');
         this.status = status;
         if (status == StatusEnum.Waiting)
         {
@@ -90,19 +101,21 @@ class Participant
         }
     }
 
-    softReset()
+    softReset(revive = false)
     {
         this.baseIni = 0;
-        if (!this.dead)
+        if (revive || !this.dead)
         {
             this.setStatus(StatusEnum.Idle);
+            this.revive();
         }
+        this.fullDefense = false;
         this.syncValuesToRow();
     }
 
     hardReset()
     {
-        this.setStatus(StatusEnum.Idle);
+        this.softReset(true);
         this.vm = 0;
         this.iniChange = 0;
         this.syncValuesToRow();
