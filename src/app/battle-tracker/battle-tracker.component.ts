@@ -204,6 +204,7 @@ export class BattleTrackerComponent implements OnInit {
             return;
         }
         this.combatTurn = 1;
+        this.currentActors = []
         if (this.started) {
             this.started = false;
         }

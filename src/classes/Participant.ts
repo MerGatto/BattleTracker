@@ -65,9 +65,9 @@ export class Participant
     {
         this.ini = 0
         this.edge = false
+        this.setStatus(StatusEnum.Waiting)
         if (revive || !this.ooc)
         {
-            this.setStatus(StatusEnum.Waiting)
             this.enterCombat()
         }
         this.fullDefense = false
