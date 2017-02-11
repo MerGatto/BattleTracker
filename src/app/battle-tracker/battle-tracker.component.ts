@@ -27,6 +27,7 @@ export class BattleTrackerComponent implements OnInit {
     initialize() {
         this.participants = new Array<Participant>()
         this.started = false
+        this.passEnded = false
         this.combatTurn = 1
         this.initiativeTurn = 1
         this.currentActors = new Array<Participant>()
@@ -219,5 +220,24 @@ export class BattleTrackerComponent implements OnInit {
 
     btnEnterCombat_Click(sender: Participant) {
         sender.enterCombat();
+    }
+
+    inpName_KeyPress(e) {       
+        var keyCode = e.keyCode || e.which;
+        console.log(keyCode)
+
+        if (keyCode == 9) {
+            e.preventDefault();
+            var row = getRow(this);
+            var nextRow = $(row).next()[0];
+            if (nextRow != undefined && !$(nextRow).hasClass('footerrow')) {
+                $(nextRow).find('.baseIni')[0].select();
+            }
+            else {
+                this.addParticipant();
+                nextRow = $(row).next()[0];
+                $(nextRow).find('.baseIni')[0].select();
+            }
+        }
     }
 }
