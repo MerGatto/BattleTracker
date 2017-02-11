@@ -43,5 +43,6 @@ export function getParticipant(obj)
 
 export function getRowForIndex(i)
 {
-    return document.getElementById('tblMain').rows[i];
+    var ele: any = document.getElementById('tblMain')
+    return ele.rows[i];
 }
