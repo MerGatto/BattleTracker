@@ -4,10 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BattleTrackerComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,100 @@
+<div class="container-fluid">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr class="info row">
+          <th class="col-md-2">
+            Name
+          </th>
+          <th class="col-md-1">
+            INI
+          </th>
+          <th class="col-md-1">
+            Input
+          </th>
+          <th class="col-md-1">
+            VM
+          </th>
+          <th class="col-md-1">
+            Temp
+          </th>
+          <th class="col-md-2">
+            Action
+          </th>
+          <th class="col-md-2">
+            Interrupt Action
+          </th>
+          <th class="col-md-1">
+            Die
+          </th>
+          <th class="col-md-1">
+            Delete
+          </th>
+        </tr>
+      </thead>
+
+      <tbody class="panel-body">
+        <tr class="row" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants">
+          <td>
+            <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" [(ngModel)]="p.name">
+          </td>
+          <td>
+            <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
+          </td>
+          <td>
+            <input class="form-control input-md inpIni" name="ini" type="number" [(ngModel)]="p.ini">
+          </td>
+          <td>
+            <input class="form-control input-md" name="vm" type="number" [(ngModel)]="p.vm">
+          </td>
+          <td>
+            <input class="form-control input-md" name="tmp" type="number" [(ngModel)]="p.iniChange">
+          </td>
+          <td>
+            <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && !started">
+              Seize Initiative
+            </button>
+            <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
+              Act
+            </button>
+            <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
+              Delay
+            </button>
+          </td>
+          <td>
+            <label class="btn btn-default" [class.active]="p.fullDefense">
+              <input type="checkbox" [(ngModel)]="p.fullDefense">Full Def
+            </label>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
+              Enter Combat
+            </button>
+            <button type="button" class="btn btn-default" (click)="btnLeaveCombat_Click(p)" *ngIf="!p.ooc">
+              Leave Combat
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-default" (click)="btnDelete_Click(p)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <button type="button" class="btn btn-default" (click)="btnAddParticipant_Click()">
+      Add Participant
+    </button>
+    <button type="button" class="btn btn-default" (click)="btnStartRound_Click()">
+      Start Round
+    </button>
+    <button type="button" class="btn btn-default" (click)="btnNextPass_Click()">
+      Next Pass
+    </button>
+    <button type="button" class="btn btn-default" (click)="btnReset_Click()">
+      Reset
+    </button>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+.acting, .acting > * {
+    background: rgba(0, 255, 0, 0.5)
+}
+
+.noIni .inpIni {
+    background: rgba(0, 0, 255, 0.5)
+}
+
+.negIni .inpIni {
+    background: rgba(255, 0, 0, 0.5)
+}
+
+.finished, .finished > * {
+    background: rgba(128, 128, 128, 0.5);
+}
+
+.delaying, .delaying > * {
+    background: rgba(255, 255, 0, 0.5)
+}
+
+.negativeIni, .negativeIni > * {
+    background: rgba(128, 128, 128, 0.5);
+}
+
+.edged .lblIni::after {
+    content: 'e';
+}
+
+
+.ooc, .ooc > * {
+    background: rgba(255, 0, 0, 0.5);
+}
