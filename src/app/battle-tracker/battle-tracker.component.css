@@ -6,10 +6,6 @@
     background: rgba(0, 128, 255, 0.5)
 }
 
-.negIni .inpIni {
-    background: rgba(255, 0, 0, 0.5)
-}
-
 .finished, .finished > * {
     background: rgba(128, 128, 128, 0.5);
 }

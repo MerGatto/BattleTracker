@@ -150,7 +150,7 @@ export class BattleTrackerComponent implements OnInit {
             'delaying': p.status == StatusEnum.Delaying,
             'waiting': p.status == StatusEnum.Waiting,
             'noIni': p.ini == 0,
-            'negIni': p.ini < 0,
+            'negativeIni': this.getInitiative(p) <= 0 && this.started,
             'finished': p.status == StatusEnum.Finished,
             'edged': p.edge
         }
