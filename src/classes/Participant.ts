@@ -8,7 +8,7 @@ export class Participant
     active: boolean
     baseIni: number
     ini: number
-    vm: number
+    wm: number
     iniChange: number
     ooc: boolean
     fullDefense: boolean
@@ -23,7 +23,7 @@ export class Participant
         this.active = false
         this.baseIni = 0
         this.ini = 0
-        this.vm = 0
+        this.wm = 0
         this.iniChange = 0
         this.ooc = false
         this.fullDefense = false
@@ -38,12 +38,12 @@ export class Participant
 
     calculateInitiative(initiativeTurn: number)
     {
-        this.ini = this.baseIni + this.iniChange - this.vm -(initiativeTurn-1) * 10
+        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10
         if (this.fullDefense)
         {
-            this.ini = this.ini-10
+            ini = ini-10
         }
-        return this.ini
+        return ini
     }
 
     leaveCombat()
@@ -63,7 +63,7 @@ export class Participant
 
     softReset(revive = false)
     {
-        this.baseIni = 0
+        this.ini = 0
         this.edge = false
         if (revive || !this.ooc)
         {
@@ -76,7 +76,7 @@ export class Participant
     hardReset()
     {
         this.softReset(true)
-        this.vm = 0
+        this.wm = 0
         this.iniChange = 0
     }
 }

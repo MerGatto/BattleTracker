@@ -1,4 +1,4 @@
-function convertToInt(input, deflt = 0)
+export function convertToInt(input, deflt = 0)
 {
     var int =  parseInt(input, 10);
     if (isNaN(int))
@@ -11,17 +11,17 @@ function convertToInt(input, deflt = 0)
     }
 }
 
-function deleteRow(row) {
+export function deleteRow(row) {
     $(row).remove();
 }
 
-function getRowIndex(obj)
+export function getRowIndex(obj)
 {
     var row = getRow(obj);
     return $("tr").index(row);
 }
 
-function getRow(obj)
+export function getRow(obj)
 {
     var node = obj;
     if (node == undefined)
@@ -35,13 +35,13 @@ function getRow(obj)
     return getRow(node.parentNode);
 }
 
-function getParticipant(obj)
+export function getParticipant(obj)
 {
     var row = getRow(obj);
     return $(row).data('participant');
 }
 
-function getRowForIndex(i)
+export function getRowForIndex(i)
 {
     return document.getElementById('tblMain').rows[i];
 }

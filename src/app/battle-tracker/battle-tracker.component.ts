@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Participant } from "../../classes/Participant"
 import { StatusEnum } from "../../classes/StatusEnum"
+import * as Utility from "../../utility"
 
 @Component({
     selector: 'app-battle-tracker',
@@ -11,6 +12,7 @@ export class BattleTrackerComponent implements OnInit {
 
     participants: Participant[]
     started: boolean
+    passEnded: boolean
     combatTurn: number
     initiativeTurn: number
     currentActors: Participant[]
@@ -34,6 +36,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     nextIniPass() {
+        this.passEnded = false
         this.initiativeTurn++;
         for (let p of this.participants) {
             if (!p.ooc) {
@@ -52,6 +55,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     endInitiativePass() {
+        this.passEnded = true;
         if (this.isOver()) {
             this.endCombatTurn();
             return;
@@ -92,7 +96,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     getInitiative(p: Participant): number {
-        return p.ini + p.iniChange - 10 * (this.initiativeTurn - 1) - p.vm
+        return p.calculateInitiative(this.initiativeTurn)
     }
 
     seizeInitiative(p: Participant) {
@@ -222,22 +226,61 @@ export class BattleTrackerComponent implements OnInit {
         sender.enterCombat();
     }
 
-    inpName_KeyPress(e) {       
+    inpName_KeyDown(e) {        
         var keyCode = e.keyCode || e.which;
-        console.log(keyCode)
 
         if (keyCode == 9) {
             e.preventDefault();
-            var row = getRow(this);
+            var row = Utility.getRow(e.target);
             var nextRow = $(row).next()[0];
-            if (nextRow != undefined && !$(nextRow).hasClass('footerrow')) {
-                $(nextRow).find('.baseIni')[0].select();
+            if (nextRow != undefined) 
+            { 
+                var field:any = $(nextRow).find('.input-md')[0]
+                if(field) {
+                    field.select()
+                    return
+                }
             }
-            else {
-                this.addParticipant();
-                nextRow = $(row).next()[0];
-                $(nextRow).find('.baseIni')[0].select();
-            }
+            this.addParticipant();
+        }
+    }
+
+    inpIni_KeyDown(e) {        
+        var keyCode = e.keyCode || e.which;
+
+        if (keyCode == 9) {
+            e.preventDefault();
+            var row = Utility.getRow(e.target);
+            var nextRow = $(row).next()[0];
+            if (nextRow != undefined) 
+            { 
+                var field:any = $(nextRow).find('.inpIni')[0]
+                if(field) {
+                    field.select()
+                    return
+                }
+            }            
+        }
+    }
+
+    //Focus Handler
+    inp_Focus(e) {
+        e.target.select()
+    }
+
+    wmChange(e, p:Participant) {
+        if (p.wm < 0) {
+            e.preventDefault()
+            p.wm = 0
+            e.target.value = 0
+        }
+    }
+
+    iniChange(e, p:Participant) {
+        if (p.ini < 0) {
+            e.preventDefault()
+            p.ini = 0
+            e.target.value = 0
         }
     }
 }
