@@ -49,7 +49,7 @@
             <input class="form-control input-md" name="tmp" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.iniChange">
           </td>
           <td>
-            <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && !started">
+            <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
               Seize Initiative
             </button>
             <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
@@ -60,7 +60,7 @@
             </button>
           </td>
           <td>
-            <label class="btn btn-default" [class.active]="p.fullDefense">
+            <label class="btn btn-default" [class.active]="p.fullDefense" *ngIf="started">
               <input type="checkbox" [(ngModel)]="p.fullDefense">Full Def
             </label>
           </td>
