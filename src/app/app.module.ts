@@ -2,7 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+
 import { CustomFormsModule } from 'ng2-validation'
+import { DropdownModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
 import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
@@ -16,7 +18,8 @@ import { BattleTrackerComponent } from './battle-tracker/battle-tracker.componen
     BrowserModule,
     FormsModule,
     HttpModule, 
-    CustomFormsModule
+    CustomFormsModule,
+    DropdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

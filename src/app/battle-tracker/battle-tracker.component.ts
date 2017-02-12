@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Participant } from "../../classes/Participant"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
@@ -283,5 +284,9 @@ export class BattleTrackerComponent implements OnInit {
             p.ini = 0
             e.target.value = 0
         }
+    }
+
+    onChange(e) {
+        console.log(e)
     }
 }
