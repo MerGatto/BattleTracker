@@ -11,7 +11,6 @@ export class Participant
         PropertyHandler.handleProperty(this, "name", val)
     }
 
-
     private _waiting: boolean
     get waiting(): boolean {
         return this._waiting
@@ -19,7 +18,6 @@ export class Participant
     set waiting(val: boolean) {
         PropertyHandler.handleProperty(this, "waiting", val)
     }
-
 
     private _finished: boolean
     get finished(): boolean {

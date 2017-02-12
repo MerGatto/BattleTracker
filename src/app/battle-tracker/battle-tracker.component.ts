@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Participant } from "../../classes/Participant"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
+import {PropertyHandler} from "../../classes/PropertyHandler"
 
 @Component({
     selector: 'app-battle-tracker',
@@ -11,13 +12,53 @@ import * as Utility from "../../utility"
 })
 export class BattleTrackerComponent implements OnInit {
 
-    participants: Participant[]
-    started: boolean
-    passEnded: boolean
-    combatTurn: number
-    initiativeTurn: number
-    currentActors: Participant[]
-    statusEnum = StatusEnum
+    private _participants: Participant[]
+    get participants(): Participant[] {
+        return this._participants
+    }
+    set participants(val: Participant[]) {
+        PropertyHandler.handleProperty(this, "participants", val)
+    }
+
+    private _currentActors: Participant[]
+    get currentActors(): Participant[] {
+        return this._participants
+    }
+    set currentActors(val: Participant[]) {
+        PropertyHandler.handleProperty(this, "currentActors", val)
+    }
+    
+    private _started: boolean
+    get started(): boolean {
+        return this._started
+    }
+    set started(val: boolean) {
+        PropertyHandler.handleProperty(this, "started", val)
+    }
+
+    private _passEnded: boolean
+    get passEnded(): boolean {
+        return this._passEnded
+    }
+    set passEnded(val: boolean) {
+        PropertyHandler.handleProperty(this, "passEnded", val)
+    }
+
+    private _combatTurn: number
+    get combatTurn(): number {
+        return this._combatTurn
+    }
+    set combatTurn(val: number) {
+        PropertyHandler.handleProperty(this, "combatTurn", val)
+    }
+
+    private _initiativeTurn: number
+    get initiativeTurn(): number {
+        return this._initiativeTurn
+    }
+    set initiativeTurn(val: number) {
+        PropertyHandler.handleProperty(this, "initiativeTurn", val)
+    }
 
     constructor() {
         this.initialize()
