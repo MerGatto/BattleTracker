@@ -3,7 +3,41 @@ import { Component, OnInit } from '@angular/core';
 import { Participant } from "../../classes/Participant"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
-import {PropertyHandler} from "../../classes/PropertyHandler"
+import {PropertyHandler} from "../../classes/PropertyHandler" 
+
+class ParticipantList {
+
+    private _list: Array<Participant>
+    get items(): Participant[] {
+        return this._list
+    }
+
+    constructor() {
+        this._list = new Array<Participant>()
+    }
+
+    insert(p: Participant) {
+        this.items.push(p)
+    }
+
+    remove(p: Participant): boolean {
+        var i = this.items.indexOf(p)
+        if (i != -1) {
+            this.items.splice(i, 1)
+            return true
+        }
+        return false
+    }
+
+    contains(p: Participant): boolean {
+        return this.items.indexOf(p) != -1
+    }
+    
+    get count(): number {
+        return this.items.length
+    }
+
+}
 
 @Component({
     selector: 'app-battle-tracker',
@@ -12,21 +46,21 @@ import {PropertyHandler} from "../../classes/PropertyHandler"
 })
 export class BattleTrackerComponent implements OnInit {
 
-    private _participants: Participant[]
-    get participants(): Participant[] {
-        return this._participants
-    }
-    set participants(val: Participant[]) {
-        PropertyHandler.handleProperty(this, "participants", val)
-    }
+    participants: ParticipantList
+    // get participants(): Participant[] {
+    //     return this._participants
+    // }
+    // set participants(val: Participant[]) {
+    //     PropertyHandler.handleProperty(this, "participants", val)
+    // }
 
-    private _currentActors: Participant[]
-    get currentActors(): Participant[] {
-        return this._participants
-    }
-    set currentActors(val: Participant[]) {
-        PropertyHandler.handleProperty(this, "currentActors", val)
-    }
+    currentActors: ParticipantList
+    // get currentActors(): Participant[] {
+    //     return this._participants
+    // }
+    // set currentActors(val: Participant[]) {
+    //     PropertyHandler.handleProperty(this, "currentActors", val)
+    // }
     
     private _started: boolean
     get started(): boolean {
@@ -69,18 +103,21 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     initialize() {
-        this.participants = new Array<Participant>()
+        // this.participants = new Array<Participant>()
+        // this.currentActors = new Array<Participant>()
+        this.participants = new ParticipantList()
+        this.currentActors = new ParticipantList()
+
         this.started = false
         this.passEnded = false
         this.combatTurn = 1
         this.initiativeTurn = 1
-        this.currentActors = new Array<Participant>()
     }
 
     nextIniPass() {
         this.passEnded = false
         this.initiativeTurn++;
-        for (let p of this.participants) {
+        for (let p of this.participants.items) {
             if (!p.ooc) {
                 p.setStatus(StatusEnum.Waiting);
             }
@@ -90,7 +127,7 @@ export class BattleTrackerComponent implements OnInit {
     endCombatTurn() {
         this.initiativeTurn = 1;
         this.combatTurn++;
-        for (let p of this.participants) {
+        for (let p of this.participants.items) {
             p.softReset();
         }
         this.started = false;
@@ -106,7 +143,7 @@ export class BattleTrackerComponent implements OnInit {
 
     isOver() {
         var over = true;
-        for (let p of this.participants) {
+        for (let p of this.participants.items) {
             if (this.getInitiative(p) > 0 && !p.ooc) {
                 over = false;
             }
@@ -114,27 +151,26 @@ export class BattleTrackerComponent implements OnInit {
         return over;
     }
 
-    getNextParticipants() {
-        var nextParticipants: Participant[] = new Array<Participant>();
+    getNextActors() {
+        this.currentActors = new ParticipantList()
         var max = 0;
         var i = 0;
         var edge = false;
         var over = true;
-        for (let p of this.participants) {
+        for (let p of this.participants.items) {
             let effIni = this.getInitiative(p)
             if (!p.ooc && p.status == StatusEnum.Waiting && p.ini > 0 && effIni > 0) {
                 if (effIni > max && (p.edge || !edge) || p.edge && !edge) {
-                    nextParticipants = [];
-                    nextParticipants.push(p);
+                    this.currentActors = new ParticipantList()
+                    this.currentActors.insert(p);
                     max = effIni;
                     edge = p.edge;
                 }
                 else if (effIni == max && edge == p.edge) {
-                    nextParticipants.push(p);
+                    this.currentActors.insert(p);
                 }
             }
         }
-        return nextParticipants;
     }
 
     getInitiative(p: Participant): number {
@@ -147,24 +183,22 @@ export class BattleTrackerComponent implements OnInit {
 
     addParticipant() {
         var p = new Participant();
-        this.participants.push(p)
+        this.participants.insert(p)
     }
 
     removeParticipant(participant) {
-        var i = this.participants.indexOf(participant)
-        this.participants.splice(i, 1);
+        this.participants.remove(participant)
     }
 
     goToNextActors() {
-        if (this.currentActors.length > 0) {
-            for (let a of this.currentActors) {
+        if (this.currentActors.count > 0) {
+            for (let a of this.currentActors.items) {
                 a.setStatus(StatusEnum.Finished);
             }
         }
-        this.currentActors = [];
-        this.currentActors = this.getNextParticipants();
-        if (this.currentActors.length > 0) {
-            for (let a of this.currentActors) {
+        this.getNextActors();
+        if (this.currentActors.count > 0) {
+            for (let a of this.currentActors.items) {
                 a.setStatus(StatusEnum.Active);
             }
         }
@@ -175,10 +209,8 @@ export class BattleTrackerComponent implements OnInit {
 
     act(actor: Participant) {
         actor.setStatus(StatusEnum.Finished);
-        var i = this.currentActors.indexOf(actor)
-        if (i != -1) {
-            this.currentActors.splice(i, 1);
-            if (this.currentActors.length == 0) {
+        if (this.currentActors.remove(actor)) {
+            if (this.currentActors.count == 0) {
                 this.goToNextActors();
             }
         }
@@ -187,7 +219,7 @@ export class BattleTrackerComponent implements OnInit {
     /// Style Handler
     getParticipantStyles(p: Participant) {
         var styles = {
-            'acting': this.currentActors.indexOf(p) != -1,
+            'acting': this.currentActors.contains(p),
             'ooc': p.ooc,
             'delaying': p.status == StatusEnum.Delaying,
             'waiting': p.status == StatusEnum.Waiting,
@@ -214,10 +246,10 @@ export class BattleTrackerComponent implements OnInit {
 
     btnDelay_Click(sender: Participant) {
         sender.setStatus(StatusEnum.Delaying);
-        var i = this.currentActors.indexOf(sender)
-        this.currentActors.splice(i, 1);
-        if (this.currentActors.length == 0) {
-            this.goToNextActors();
+        if (this.currentActors.remove(sender)) {
+            if (this.currentActors.count == 0) {
+                this.goToNextActors();
+            }
         }
     }
 
@@ -246,20 +278,19 @@ export class BattleTrackerComponent implements OnInit {
             return;
         }
         this.combatTurn = 1;
-        this.currentActors = []
+        this.currentActors = new ParticipantList()
         if (this.started) {
             this.started = false;
         }
         this.initiativeTurn = 1;
-        for (let p of this.participants){
+        for (let p of this.participants.items){
             p.hardReset();
         }
     }
 
     btnLeaveCombat_Click(sender: Participant) {
         sender.leaveCombat();
-        var i = this.currentActors.indexOf(sender)
-        if (i != -1) {
+        if (this.currentActors.contains(sender)) {
             // Remove sender from active Actors
             this.act(sender);
         }

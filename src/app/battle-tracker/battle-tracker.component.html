@@ -32,7 +32,7 @@
       </thead>
 
       <tbody class="panel-body">
-        <tr class="row" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants">
+        <tr class="row" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items">
           <td>
             <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </td>
