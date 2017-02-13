@@ -6,6 +6,16 @@ import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
 import {UndoHandler} from "../../classes/UndoHandler" 
 
+var bt: any
+            
+//Debug stuff
+(<any>window).dump = function dump() {
+    console.log("===========")
+    console.log("bt: ")
+    console.log(bt)    
+    console.log("===========")
+}
+
 @Component({
     selector: 'app-battle-tracker',
     templateUrl: './battle-tracker.component.html',
@@ -51,6 +61,7 @@ export class BattleTrackerComponent implements OnInit {
     constructor() {
         this.initialize()
         this.addParticipant()
+        bt = this
     }
 
     ngOnInit() {   
@@ -213,48 +224,49 @@ export class BattleTrackerComponent implements OnInit {
 
     btnStartRound_Click() {
         UndoHandler.StartActions()
-        this.started = true;
-        this.goToNextActors();
+        this.started = true
+        this.passEnded = false
+        this.goToNextActors()
     }
 
     btnNextPass_Click() {
         UndoHandler.StartActions()
-        this.nextIniPass();
-        this.goToNextActors();
+        this.nextIniPass()
+        this.goToNextActors()
     }
 
     btnDelete_Click(sender: Participant) {
         if (sender.name != "") {
             if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
-                return;
+                return
             }
         }
         UndoHandler.StartActions()
-        this.removeParticipant(sender);
+        this.removeParticipant(sender)
     }
 
     btnReset_Click() {
         if (!confirm("Are you sure you want to reset the BattleTracker?")) {
-            return;
+            return
         }
         UndoHandler.StartActions()
-        this.combatTurn = 1;
+        this.combatTurn = 1
         this.currentActors.clear()
         if (this.started) {
-            this.started = false;
+            this.started = false
         }
-        this.initiativeTurn = 1;
+        this.initiativeTurn = 1
         for (let p of this.participants.items){
-            p.hardReset();
+            p.hardReset()
         }
     }
 
     btnLeaveCombat_Click(sender: Participant) {
         UndoHandler.StartActions()
-        sender.leaveCombat();
+        sender.leaveCombat()
         if (this.currentActors.contains(sender)) {
             // Remove sender from active Actors
-            this.act(sender);
+            this.act(sender)
         }
     }
 
