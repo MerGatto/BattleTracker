@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Participant } from "../../classes/Participant"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
-import {PropertyHandler} from "../../classes/PropertyHandler" 
+import {UndoHandler} from "../../classes/UndoHandler" 
 
 class ParticipantList {
 
@@ -18,7 +18,7 @@ class ParticipantList {
 
     insert(p: Participant, log: boolean = true) {
         if (log) {
-            PropertyHandler.DoAction(() => this.insert(p, false), () => this.remove(p, false))
+            UndoHandler.DoAction(() => this.insert(p, false), () => this.remove(p, false))
         }
         else 
         {
@@ -28,7 +28,7 @@ class ParticipantList {
 
     insertAt(p: Participant, i: number, log: boolean = true) {
         if (log) {
-            PropertyHandler.DoAction(() => this.insertAt(p, i, false), () => this.remove(p, false))
+            UndoHandler.DoAction(() => this.insertAt(p, i, false), () => this.remove(p, false))
         }
         else 
         {
@@ -40,7 +40,7 @@ class ParticipantList {
         var i = this.items.indexOf(p)
         if (i != -1) {
             if (log) {
-                PropertyHandler.DoAction(() => this.remove(p, false), () => this.insertAt(p, i, false))
+                UndoHandler.DoAction(() => this.remove(p, false), () => this.insertAt(p, i, false))
             }
             else {
                 this.items.splice(i, 1)
@@ -53,7 +53,7 @@ class ParticipantList {
     clear(log: boolean = true) {
         if (log) {
             var items = this.items
-            PropertyHandler.DoAction(() => this.clear(false), () => { this._list = items})
+            UndoHandler.DoAction(() => this.clear(false), () => { this._list = items})
         }
         else {
             this._list = []
@@ -98,7 +98,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._started
     }
     set started(val: boolean) {
-        PropertyHandler.handleProperty(this, "started", val)
+        UndoHandler.handleProperty(this, "started", val)
     }
 
     private _passEnded: boolean
@@ -106,7 +106,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._passEnded
     }
     set passEnded(val: boolean) {
-        PropertyHandler.handleProperty(this, "passEnded", val)
+        UndoHandler.handleProperty(this, "passEnded", val)
     }
 
     private _combatTurn: number
@@ -114,7 +114,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._combatTurn
     }
     set combatTurn(val: number) {
-        PropertyHandler.handleProperty(this, "combatTurn", val)
+        UndoHandler.handleProperty(this, "combatTurn", val)
     }
 
     private _initiativeTurn: number
@@ -122,7 +122,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._initiativeTurn
     }
     set initiativeTurn(val: number) {
-        PropertyHandler.handleProperty(this, "initiativeTurn", val)
+        UndoHandler.handleProperty(this, "initiativeTurn", val)
     }
 
     constructor() {
@@ -131,8 +131,8 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     ngOnInit() {   
-        PropertyHandler.inizialize()
-        PropertyHandler.StartActions()
+        UndoHandler.inizialize()
+        UndoHandler.StartActions()
     }
 
     initialize() {
@@ -266,22 +266,22 @@ export class BattleTrackerComponent implements OnInit {
 
     /// Button Handler
     btnAddParticipant_Click() {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.addParticipant();
     }
 
     btnEdge_Click(sender: Participant) {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         sender.seizeInitiative();
     }
 
     btnAct_Click(sender: Participant) {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.act(sender);
     }
 
     btnDelay_Click(sender: Participant) {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         sender.status = StatusEnum.Delaying;
         if (this.currentActors.remove(sender)) {
             if (this.currentActors.count == 0) {
@@ -291,13 +291,13 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnStartRound_Click() {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.started = true;
         this.goToNextActors();
     }
 
     btnNextPass_Click() {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.nextIniPass();
         this.goToNextActors();
     }
@@ -308,7 +308,7 @@ export class BattleTrackerComponent implements OnInit {
                 return;
             }
         }
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.removeParticipant(sender);
     }
 
@@ -316,7 +316,7 @@ export class BattleTrackerComponent implements OnInit {
         if (!confirm("Are you sure you want to reset the BattleTracker?")) {
             return;
         }
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         this.combatTurn = 1;
         this.currentActors.clear()
         if (this.started) {
@@ -329,7 +329,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnLeaveCombat_Click(sender: Participant) {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         sender.leaveCombat();
         if (this.currentActors.contains(sender)) {
             // Remove sender from active Actors
@@ -338,16 +338,16 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnEnterCombat_Click(sender: Participant) {
-        PropertyHandler.StartActions()
+        UndoHandler.StartActions()
         sender.enterCombat();
     }
 
     btnUndo_Click() {
-        PropertyHandler.Undo()
+        UndoHandler.Undo()
     }
 
     btnRedo_Click() {
-        PropertyHandler.Redo()
+        UndoHandler.Redo()
     }
 
     inpName_KeyDown(e) {       
@@ -365,7 +365,7 @@ export class BattleTrackerComponent implements OnInit {
                     return
                 }
             }
-            PropertyHandler.StartActions() 
+            UndoHandler.StartActions() 
             this.addParticipant();
         }
     }

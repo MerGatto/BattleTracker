@@ -14,7 +14,7 @@ type Chapter = Array<HistoryEntry>
 
 type History = Array<Chapter>
 
-export module PropertyHandler {
+export module UndoHandler {
 
     var pastHistory: History = []
     var futureHistory: History
@@ -38,9 +38,10 @@ export module PropertyHandler {
                 action: () => {(obj["_"+prop] = val) },
                 undoAction: () =>  { (obj["_"+prop]) = oldval }
             }
-            if (recording) {
-                currentChapter.push(entry)    
+            if (!recording) {
+                StartActions()
             }
+            currentChapter.push(entry)    
         }
     }
 
