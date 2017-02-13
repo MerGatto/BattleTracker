@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from './translate';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,36 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Battle Tracker';
+    title = 'Battle Tracker';
+    test = 'fullDefense'
+    
+    public translatedText: string;
+    public supportedLanguages: any[];
+  
+    constructor(private _translate: TranslateService) { }
+
+    ngOnInit() {
+      // standing data
+      this.supportedLanguages = [
+        { display: 'English', value: 'en' },
+        { display: 'Deutsch', value: 'de' },
+      ];
+      
+      this.selectLang('en');
+        
+    }
+    
+    isCurrentLang(lang: string) {
+      return lang === this._translate.currentLang;
+    }
+    
+    selectLang(lang: string) {
+      // set default;
+      this._translate.use(lang);
+      this.refreshText();
+    }
+    
+    refreshText() {
+      this.translatedText = this._translate.instant('fullDefense');
+    }
 }
