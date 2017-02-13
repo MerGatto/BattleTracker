@@ -16,20 +16,51 @@ class ParticipantList {
         this._list = new Array<Participant>()
     }
 
-    insert(p: Participant) {
-        this.items.push(p)
+    insert(p: Participant, log: boolean = true) {
+        if (log) {
+            PropertyHandler.DoAction(() => this.insert(p, false), () => this.remove(p, false))
+        }
+        else 
+        {
+            this.items.push(p)
+        }
     }
 
-    remove(p: Participant): boolean {
+    insertAt(p: Participant, i: number, log: boolean = true) {
+        if (log) {
+            PropertyHandler.DoAction(() => this.insertAt(p, i, false), () => this.remove(p, false))
+        }
+        else 
+        {
+            this.items.splice(i, 0, p)
+        }
+    }
+
+    remove(p: Participant, log: boolean = true): boolean {
         var i = this.items.indexOf(p)
         if (i != -1) {
-            this.items.splice(i, 1)
+            if (log) {
+                PropertyHandler.DoAction(() => this.remove(p, false), () => this.insertAt(p, i, false))
+            }
+            else {
+                this.items.splice(i, 1)
+            }
             return true
         }
         return false
     }
 
-    contains(p: Participant): boolean {
+    clear(log: boolean = true) {
+        if (log) {
+            var items = this.items
+            PropertyHandler.DoAction(() => this.clear(false), () => { this._list = items})
+        }
+        else {
+            this._list = []
+        }
+    }
+
+    contains(p: Participant, log: boolean = true): boolean {
         return this.items.indexOf(p) != -1
     }
     
@@ -99,7 +130,9 @@ export class BattleTrackerComponent implements OnInit {
         this.addParticipant()
     }
 
-    ngOnInit() {
+    ngOnInit() {   
+        PropertyHandler.inizialize()
+        PropertyHandler.StartActions()
     }
 
     initialize() {
@@ -119,7 +152,7 @@ export class BattleTrackerComponent implements OnInit {
         this.initiativeTurn++;
         for (let p of this.participants.items) {
             if (!p.ooc) {
-                p.setStatus(StatusEnum.Waiting);
+                p.status = StatusEnum.Waiting
             }
         }
     }
@@ -152,7 +185,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     getNextActors() {
-        this.currentActors = new ParticipantList()
+        this.currentActors.clear()
         var max = 0;
         var i = 0;
         var edge = false;
@@ -161,7 +194,7 @@ export class BattleTrackerComponent implements OnInit {
             let effIni = this.getInitiative(p)
             if (!p.ooc && p.status == StatusEnum.Waiting && p.ini > 0 && effIni > 0) {
                 if (effIni > max && (p.edge || !edge) || p.edge && !edge) {
-                    this.currentActors = new ParticipantList()
+                    this.currentActors.clear()
                     this.currentActors.insert(p);
                     max = effIni;
                     edge = p.edge;
@@ -193,13 +226,13 @@ export class BattleTrackerComponent implements OnInit {
     goToNextActors() {
         if (this.currentActors.count > 0) {
             for (let a of this.currentActors.items) {
-                a.setStatus(StatusEnum.Finished);
+                a.status = StatusEnum.Finished
             }
         }
         this.getNextActors();
         if (this.currentActors.count > 0) {
             for (let a of this.currentActors.items) {
-                a.setStatus(StatusEnum.Active);
+                a.status = StatusEnum.Active
             }
         }
         else {
@@ -208,7 +241,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     act(actor: Participant) {
-        actor.setStatus(StatusEnum.Finished);
+        actor.status = StatusEnum.Finished;
         if (this.currentActors.remove(actor)) {
             if (this.currentActors.count == 0) {
                 this.goToNextActors();
@@ -233,19 +266,23 @@ export class BattleTrackerComponent implements OnInit {
 
     /// Button Handler
     btnAddParticipant_Click() {
+        PropertyHandler.StartActions()
         this.addParticipant();
     }
 
     btnEdge_Click(sender: Participant) {
+        PropertyHandler.StartActions()
         sender.seizeInitiative();
     }
 
     btnAct_Click(sender: Participant) {
+        PropertyHandler.StartActions()
         this.act(sender);
     }
 
     btnDelay_Click(sender: Participant) {
-        sender.setStatus(StatusEnum.Delaying);
+        PropertyHandler.StartActions()
+        sender.status = StatusEnum.Delaying;
         if (this.currentActors.remove(sender)) {
             if (this.currentActors.count == 0) {
                 this.goToNextActors();
@@ -254,14 +291,15 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnStartRound_Click() {
+        PropertyHandler.StartActions()
         this.started = true;
         this.goToNextActors();
     }
 
     btnNextPass_Click() {
+        PropertyHandler.StartActions()
         this.nextIniPass();
         this.goToNextActors();
-        $(this).hide();
     }
 
     btnDelete_Click(sender: Participant) {
@@ -270,6 +308,7 @@ export class BattleTrackerComponent implements OnInit {
                 return;
             }
         }
+        PropertyHandler.StartActions()
         this.removeParticipant(sender);
     }
 
@@ -277,8 +316,9 @@ export class BattleTrackerComponent implements OnInit {
         if (!confirm("Are you sure you want to reset the BattleTracker?")) {
             return;
         }
+        PropertyHandler.StartActions()
         this.combatTurn = 1;
-        this.currentActors = new ParticipantList()
+        this.currentActors.clear()
         if (this.started) {
             this.started = false;
         }
@@ -289,6 +329,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnLeaveCombat_Click(sender: Participant) {
+        PropertyHandler.StartActions()
         sender.leaveCombat();
         if (this.currentActors.contains(sender)) {
             // Remove sender from active Actors
@@ -297,10 +338,19 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnEnterCombat_Click(sender: Participant) {
+        PropertyHandler.StartActions()
         sender.enterCombat();
     }
 
-    inpName_KeyDown(e) {        
+    btnUndo_Click() {
+        PropertyHandler.Undo()
+    }
+
+    btnRedo_Click() {
+        PropertyHandler.Redo()
+    }
+
+    inpName_KeyDown(e) {       
         var keyCode = e.keyCode || e.which;
 
         if (keyCode == 9) {
@@ -315,11 +365,12 @@ export class BattleTrackerComponent implements OnInit {
                     return
                 }
             }
+            PropertyHandler.StartActions() 
             this.addParticipant();
         }
     }
 
-    inpIni_KeyDown(e) {        
+    inpIni_KeyDown(e) {    
         var keyCode = e.keyCode || e.which;
 
         if (keyCode == 9) {
@@ -338,7 +389,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     //Focus Handler
-    inp_Focus(e) {
+    inp_Focus(e) { 
         e.target.select()
     }
 

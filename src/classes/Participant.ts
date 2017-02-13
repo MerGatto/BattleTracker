@@ -101,7 +101,7 @@ export class Participant
 
     constructor()
     {
-        this.setStatus(StatusEnum.Waiting)
+        this.status = StatusEnum.Waiting
         this.waiting = false
         this.finished = false
         this.active = false
@@ -140,16 +140,11 @@ export class Participant
         this.ooc = false
     }
 
-    setStatus(status)
-    {
-        this.status = status
-    }
-
     softReset(revive = false)
     {
         this.ini = 0
         this.edge = false
-        this.setStatus(StatusEnum.Waiting)
+        this.status = StatusEnum.Waiting
         if (revive || !this.ooc)
         {
             this.enterCombat()
