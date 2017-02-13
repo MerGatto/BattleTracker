@@ -33,10 +33,5 @@ export class AppComponent {
     selectLang(lang: string) {
       // set default;
       this._translate.use(lang);
-      this.refreshText();
-    }
-    
-    refreshText() {
-      this.translatedText = this._translate.instant('fullDefense');
     }
 }

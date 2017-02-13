@@ -61,7 +61,7 @@
           </td>
           <td class="row">
               <label class="btn btn-default" [class.active]="p.interrupts.fullDefense">
-                <input type="checkbox" class="hide" [(ngModel)]="p.interrupts.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.interrupts.fullDefense">Full Def
+                <input type="checkbox" class="hide" [(ngModel)]="p.interrupts.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.interrupts.fullDefense">{{"fullDefense" | translate}}
               </label>
               <div class="btn-group" dropdown>
                 <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
@@ -71,7 +71,7 @@
                   <li role="menuitem" class="buffer" *ngFor="let action of p.interrupts.actions">
                     <label class="dropdown-item btn btn-default btn-block text-left" [class.active]="p.interrupts[action]">
                       <input type="checkbox" class="hide" [(ngModel)]="p.interrupts[action]" (click)="actnBtn_Click()" [disabled]="started && p.interrupts[action]">
-                      {{action}}
+                      {{action | translate}}
                     </label>
                   </li>
                 </ul>
