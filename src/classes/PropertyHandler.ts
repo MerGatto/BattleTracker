@@ -69,8 +69,7 @@ export module PropertyHandler {
     export function Redo() {
         if (futureHistory.length <= 0) return
         var chapt = futureHistory.pop()
-        var last = chapt.length-1
-        for (var i = last; i >= 0; i--) {
+        for (var i = 0; i < chapt.length; i++) {
             chapt[i].action()
         }
         pastHistory.push(chapt)
