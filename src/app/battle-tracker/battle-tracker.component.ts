@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
 
 import { Participant } from "../../classes/Participant"
 import { ParticipantList } from "../../classes/ParticipantList"
@@ -81,7 +81,7 @@ export class BattleTrackerComponent implements OnInit {
 
     nextIniPass() {
         this.passEnded = false
-        this.initiativeTurn++;
+        this.initiativeTurn++
         for (let p of this.participants.items) {
             if (!p.ooc) {
                 p.status = StatusEnum.Waiting
@@ -90,49 +90,49 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     endCombatTurn() {
-        this.initiativeTurn = 1;
-        this.combatTurn++;
+        this.initiativeTurn = 1
+        this.combatTurn++
         for (let p of this.participants.items) {
-            p.softReset();
+            p.softReset()
         }
-        this.started = false;
+        this.started = false
     }
 
     endInitiativePass() {
-        this.passEnded = true;
+        this.passEnded = true
         if (this.isOver()) {
-            this.endCombatTurn();
-            return;
+            this.endCombatTurn()
+            return
         }
     }
 
     isOver() {
-        var over = true;
+        var over = true
         for (let p of this.participants.items) {
             if (this.getInitiative(p) > 0 && !p.ooc) {
-                over = false;
+                over = false
             }
         }
-        return over;
+        return over
     }
 
     getNextActors() {
         this.currentActors.clear()
-        var max = 0;
-        var i = 0;
-        var edge = false;
-        var over = true;
+        var max = 0
+        var i = 0
+        var edge = false
+        var over = true
         for (let p of this.participants.items) {
             let effIni = this.getInitiative(p)
             if (!p.ooc && p.status == StatusEnum.Waiting && p.ini > 0 && effIni > 0) {
                 if (effIni > max && (p.edge || !edge) || p.edge && !edge) {
                     this.currentActors.clear()
-                    this.currentActors.insert(p);
-                    max = effIni;
-                    edge = p.edge;
+                    this.currentActors.insert(p)
+                    max = effIni
+                    edge = p.edge
                 }
                 else if (effIni == max && edge == p.edge) {
-                    this.currentActors.insert(p);
+                    this.currentActors.insert(p)
                 }
             }
         }
@@ -147,7 +147,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     addParticipant() {
-        var p = new Participant();
+        var p = new Participant()
         this.participants.insert(p)
     }
 
@@ -161,22 +161,22 @@ export class BattleTrackerComponent implements OnInit {
                 a.status = StatusEnum.Finished
             }
         }
-        this.getNextActors();
+        this.getNextActors()
         if (this.currentActors.count > 0) {
             for (let a of this.currentActors.items) {
                 a.status = StatusEnum.Active
             }
         }
         else {
-            this.endInitiativePass();
+            this.endInitiativePass()
         }
     }
 
     act(actor: Participant) {
-        actor.status = StatusEnum.Finished;
+        actor.status = StatusEnum.Finished
         if (this.currentActors.remove(actor)) {
             if (this.currentActors.count == 0) {
-                this.goToNextActors();
+                this.goToNextActors()
             }
         }
     }
@@ -193,31 +193,31 @@ export class BattleTrackerComponent implements OnInit {
             'finished': p.status == StatusEnum.Finished,
             'edged': p.edge
         }
-        return styles;
+        return styles
     }
 
     /// Button Handler
     btnAddParticipant_Click() {
         UndoHandler.StartActions()
-        this.addParticipant();
+        this.addParticipant()
     }
 
     btnEdge_Click(sender: Participant) {
         UndoHandler.StartActions()
-        sender.seizeInitiative();
+        sender.seizeInitiative()
     }
 
     btnAct_Click(sender: Participant) {
         UndoHandler.StartActions()
-        this.act(sender);
+        this.act(sender)
     }
 
     btnDelay_Click(sender: Participant) {
         UndoHandler.StartActions()
-        sender.status = StatusEnum.Delaying;
+        sender.status = StatusEnum.Delaying
         if (this.currentActors.remove(sender)) {
             if (this.currentActors.count == 0) {
-                this.goToNextActors();
+                this.goToNextActors()
             }
         }
     }
@@ -272,7 +272,7 @@ export class BattleTrackerComponent implements OnInit {
 
     btnEnterCombat_Click(sender: Participant) {
         UndoHandler.StartActions()
-        sender.enterCombat();
+        sender.enterCombat()
     }
 
     actnBtn_Click() {
@@ -288,12 +288,12 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     inpName_KeyDown(e) {       
-        var keyCode = e.keyCode || e.which;
+        var keyCode = e.keyCode || e.which
 
         if (keyCode == 9) {
-            e.preventDefault();
-            var row = Utility.getRow(e.target);
-            var nextRow = $(row).next()[0];
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
                 var field:any = $(nextRow).find('.input-md')[0]
@@ -303,17 +303,17 @@ export class BattleTrackerComponent implements OnInit {
                 }
             }
             UndoHandler.StartActions() 
-            this.addParticipant();
+            this.addParticipant()
         }
     }
 
     inpIni_KeyDown(e) {    
-        var keyCode = e.keyCode || e.which;
+        var keyCode = e.keyCode || e.which
 
         if (keyCode == 9) {
-            e.preventDefault();
-            var row = Utility.getRow(e.target);
-            var nextRow = $(row).next()[0];
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
                 var field:any = $(nextRow).find('.inpIni')[0]
