@@ -1,5 +1,6 @@
 import {StatusEnum} from "./StatusEnum"
 import {UndoHandler} from "./UndoHandler"
+import {Interrupts} from "./Interrupts"
 
 export class Participant
 {
@@ -75,14 +76,6 @@ export class Participant
         UndoHandler.HandleProperty(this, "ooc", val)
     }
 
-    private _fullDefense: boolean
-    get fullDefense(): boolean {
-        return this._fullDefense
-    }
-    set fullDefense(val: boolean) {
-        UndoHandler.HandleProperty(this, "fullDefense", val)
-    }
-
     private _edge: boolean
     get edge(): boolean {
         return this._edge
@@ -99,6 +92,14 @@ export class Participant
         UndoHandler.HandleProperty(this, "status", val)
     }
 
+    private _interrupts: Interrupts
+    get interrupts(): Interrupts {
+        return this._interrupts
+    }
+    set interrupts(val: Interrupts) {
+        UndoHandler.HandleProperty(this, "interrupts", val)
+    }
+
     constructor()
     {
         this.status = StatusEnum.Waiting
@@ -110,7 +111,7 @@ export class Participant
         this.wm = 0
         this.iniChange = 0
         this.ooc = false
-        this.fullDefense = false
+        this.interrupts = new Interrupts()
         this.edge = false
         this.name = ""
     }
@@ -122,11 +123,7 @@ export class Participant
 
     calculateInitiative(initiativeTurn: number)
     {
-        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10
-        if (this.fullDefense)
-        {
-            ini = ini-10
-        }
+        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10 + this.interrupts.modifier
         return ini
     }
 
@@ -149,7 +146,7 @@ export class Participant
         {
             this.enterCombat()
         }
-        this.fullDefense = false
+        this.interrupts.reset()
     }
 
     hardReset()

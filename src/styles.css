@@ -1,4 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-.top-buffer {
+.buffer-top {
     margin-top: 5px;
+}
+.buffer-left {
+    margin-left: 5px;
+}
+.buffer-bottom {
+    margin-bottom: 5px;
+}
+.buffer-right {
+    margin-right: 5px;
+}
+
+.buffer {
+    margin: 5px;
 }
