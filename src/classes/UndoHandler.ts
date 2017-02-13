@@ -30,6 +30,23 @@ export module UndoHandler {
         recording = false
     }
 
+                    
+    //Debug stuff
+    (<any>window).uhdump = function uhdump() {
+        console.log("===========")
+        console.log("pastHistory: ")
+        console.log(pastHistory)    
+        console.log("futureHistory: ")
+        console.log(futureHistory)    
+        console.log("currentChapter: ")
+        console.log(currentChapter)  
+        console.log("halted: ")
+        console.log(halted)   
+        console.log("recording: ")
+        console.log(recording)   
+        console.log("===========")
+    }
+
     export function HandleProperty(obj: Object, prop: string, val: any) {        
         var oldval = obj["_"+prop]
         if (oldval != val) {
