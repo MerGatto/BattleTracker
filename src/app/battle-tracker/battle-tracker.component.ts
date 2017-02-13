@@ -14,21 +14,8 @@ import {UndoHandler} from "../../classes/UndoHandler"
 export class BattleTrackerComponent implements OnInit {
 
     participants: ParticipantList
-    // get participants(): Participant[] {
-    //     return this._participants
-    // }
-    // set participants(val: Participant[]) {
-    //     PropertyHandler.handleProperty(this, "participants", val)
-    // }
-
     currentActors: ParticipantList
-    // get currentActors(): Participant[] {
-    //     return this._participants
-    // }
-    // set currentActors(val: Participant[]) {
-    //     PropertyHandler.handleProperty(this, "currentActors", val)
-    // }
-    
+
     private _started: boolean
     get started(): boolean {
         return this._started
@@ -72,8 +59,6 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     initialize() {
-        // this.participants = new Array<Participant>()
-        // this.currentActors = new Array<Participant>()
         this.participants = new ParticipantList()
         this.currentActors = new ParticipantList()
 
