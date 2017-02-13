@@ -2,18 +2,10 @@
 
 import { OpaqueToken } from '@angular/core';
 
-// import translations
-import { LANG_EN_NAME, LANG_EN_TRANS } from './lang-en';
-import { LANG_DE_NAME, LANG_DE_TRANS } from './lang-de';
-
 // translation token
 export const TRANSLATIONS = new OpaqueToken('translations');
 
-// all traslations
-const dictionary = {
-	[LANG_EN_NAME]: LANG_EN_TRANS,
-	[LANG_DE_NAME]: LANG_DE_TRANS,
-};
+const dictionary = require("./dictionary.json")
 
 // providers
 export const TRANSLATION_PROVIDERS = [

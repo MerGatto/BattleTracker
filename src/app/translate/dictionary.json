@@ -1,0 +1,66 @@
+{
+    "key": {
+        "en": "english",
+        "de": "german"
+    },
+    "fullDefense": {
+        "en": "Full Defense",
+        "de": "Volle Abwehr"
+    },
+    "intercept": {
+        "en": "Intercept",
+        "de": "Abfangen"
+    },
+    "block": {
+        "en": "Block",
+        "de": "Blocken"
+    },
+    "counterstrike": {
+        "en": "Counterstrike",
+        "de": "Gegenschlag"
+    },
+    "diveForCover": {
+        "en": "Dive For Cover",
+        "de": "In Deckung werfen"
+    },
+    "dodge": {
+        "en": "Dodge",
+        "de": "Ausweichen"
+    },
+    "parry": {
+        "en": "Parry",
+        "de": "Parieren"
+    },
+    "reversal": {
+        "en": "Reversal",
+        "de": "Umkehrgriff"
+    },
+    "rightBackAtYa": {
+        "en": "Right Back At Ya!",
+        "de": "Zurück an den Absender"
+    },
+    "runForYourLife": {
+        "en": "Run for Your Life",
+        "de": "Lauf um dein Leben"
+    },
+    "diveOnTheGrenade": {
+        "en": "Dive on the Grenade",
+        "de": "Auf die Granate werfen"
+    },
+    "sacrificeThrow": {
+        "en": "Sacrifice Throw",
+        "de": "Rücksichtsloser Wurf"
+    },
+    "riposte": {
+        "en": "Riposte",
+        "de": "Riposte"
+    },
+    "protectingThePrinciple": {
+        "en": "Protecting the Principle",
+        "de": "Dazwischengehen"
+    },
+    "shadowBlock": {
+        "en": "Shadow Block",
+        "de": "Schattenblock"
+    }
+}

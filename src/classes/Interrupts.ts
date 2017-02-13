@@ -1,15 +1,117 @@
 import {UndoHandler} from "./UndoHandler"
+import {ActionEntry} from "../Interfaces/IActionEntry"
 
-interface InterruptModifierTable {
-    fullDefense: number,
-    block: number
+interface IInterruptTable {
+    fullDefense: ActionEntry,
+    block: ActionEntry,
+    intercept: ActionEntry,
+    counterstrike: ActionEntry,
+    diveForCover: ActionEntry,
+    dodge: ActionEntry,
+    parry: ActionEntry,
+    reversal: ActionEntry,
+    rightBackAtYa: ActionEntry,
+    runForYourLife: ActionEntry,
+    diveOnTheGrenade: ActionEntry,
+    sacrificeThrow: ActionEntry,
+    riposte: ActionEntry,
+    protectingThePrinciple: ActionEntry,
+    shadowBlock: ActionEntry
 }
 
 export class Interrupts {
     
-    readonly interruptTable: InterruptModifierTable = {
-        fullDefense: -10,
-        block: -5
+    readonly interruptTable: IInterruptTable = {
+        fullDefense: {
+            iniMod: -10,
+            persist: true,
+            edge: false,
+            martialArt: false
+        },
+        block: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        intercept: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        counterstrike: {
+            iniMod: -7,
+            persist: false,
+            edge: false,
+            martialArt: true
+        },
+        diveForCover: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        dodge: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        parry: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        reversal: {
+            iniMod: -7,
+            persist: false,
+            edge: false,
+            martialArt: true
+        },
+        rightBackAtYa: {
+            iniMod: -10,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        runForYourLife: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        diveOnTheGrenade: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: false
+        },
+        sacrificeThrow: {
+            iniMod: -10,
+            persist: false,
+            edge: false,
+            martialArt: true
+        },
+        riposte: {
+            iniMod: -7,
+            persist: false,
+            edge: false,
+            martialArt: true
+        },
+        protectingThePrinciple: {
+            iniMod: -5,
+            persist: false,
+            edge: true,
+            martialArt: false
+        },
+        shadowBlock: {
+            iniMod: -5,
+            persist: false,
+            edge: false,
+            martialArt: true
+        }
     }
 
     private readonly _actions: Array<string> = []
