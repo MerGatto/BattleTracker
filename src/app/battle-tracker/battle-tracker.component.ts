@@ -31,7 +31,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._started
     }
     set started(val: boolean) {
-        UndoHandler.handleProperty(this, "started", val)
+        UndoHandler.HandleProperty(this, "started", val)
     }
 
     private _passEnded: boolean
@@ -39,7 +39,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._passEnded
     }
     set passEnded(val: boolean) {
-        UndoHandler.handleProperty(this, "passEnded", val)
+        UndoHandler.HandleProperty(this, "passEnded", val)
     }
 
     private _combatTurn: number
@@ -47,7 +47,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._combatTurn
     }
     set combatTurn(val: number) {
-        UndoHandler.handleProperty(this, "combatTurn", val)
+        UndoHandler.HandleProperty(this, "combatTurn", val)
     }
 
     private _initiativeTurn: number
@@ -55,7 +55,7 @@ export class BattleTrackerComponent implements OnInit {
         return this._initiativeTurn
     }
     set initiativeTurn(val: number) {
-        UndoHandler.handleProperty(this, "initiativeTurn", val)
+        UndoHandler.HandleProperty(this, "initiativeTurn", val)
     }
 
     constructor() {
@@ -65,7 +65,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     ngOnInit() {   
-        UndoHandler.inizialize()
+        UndoHandler.Inizialize()
         UndoHandler.StartActions()
     }
 

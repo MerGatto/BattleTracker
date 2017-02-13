@@ -23,14 +23,14 @@ export module UndoHandler {
     var halted: boolean = true
     var recording: boolean = false
 
-    export function inizialize() {
+    export function Inizialize() {
         pastHistory = []
         futureHistory = []
 
         recording = false
     }
 
-    export function handleProperty(obj: Object, prop: string, val: any) {        
+    export function HandleProperty(obj: Object, prop: string, val: any) {        
         var oldval = obj["_"+prop]
         if (oldval != val) {
             obj["_"+prop] = val

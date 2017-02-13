@@ -8,7 +8,7 @@ export class Participant
         return this._name
     }
     set name(val: string) {
-        UndoHandler.handleProperty(this, "name", val)
+        UndoHandler.HandleProperty(this, "name", val)
     }
 
     private _waiting: boolean
@@ -16,7 +16,7 @@ export class Participant
         return this._waiting
     }
     set waiting(val: boolean) {
-        UndoHandler.handleProperty(this, "waiting", val)
+        UndoHandler.HandleProperty(this, "waiting", val)
     }
 
     private _finished: boolean
@@ -24,7 +24,7 @@ export class Participant
         return this._finished
     }
     set finished(val: boolean) {
-        UndoHandler.handleProperty(this, "finished", val)
+        UndoHandler.HandleProperty(this, "finished", val)
     }
 
     private _active: boolean
@@ -32,7 +32,7 @@ export class Participant
         return this._active
     }
     set active(val: boolean) {
-        UndoHandler.handleProperty(this, "active", val)
+        UndoHandler.HandleProperty(this, "active", val)
     }
     
     private _baseIni: number
@@ -40,7 +40,7 @@ export class Participant
         return this._baseIni
     }
     set baseIni(val: number) {
-        UndoHandler.handleProperty(this, "baseIni", val)
+        UndoHandler.HandleProperty(this, "baseIni", val)
     }
 
     private _ini: number
@@ -48,7 +48,7 @@ export class Participant
         return this._ini
     }
     set ini(val: number) {
-        UndoHandler.handleProperty(this, "ini", val)
+        UndoHandler.HandleProperty(this, "ini", val)
     }
 
     private _wm: number
@@ -56,7 +56,7 @@ export class Participant
         return this._wm
     }
     set wm(val: number) {
-        UndoHandler.handleProperty(this, "wm", val)
+        UndoHandler.HandleProperty(this, "wm", val)
     }
 
     private _iniChange: number
@@ -64,7 +64,7 @@ export class Participant
         return this._iniChange
     }
     set iniChange(val: number) {
-        UndoHandler.handleProperty(this, "iniChange", val)
+        UndoHandler.HandleProperty(this, "iniChange", val)
     }
 
     private _ooc: boolean
@@ -72,7 +72,7 @@ export class Participant
         return this._ooc
     }
     set ooc(val: boolean) {
-        UndoHandler.handleProperty(this, "ooc", val)
+        UndoHandler.HandleProperty(this, "ooc", val)
     }
 
     private _fullDefense: boolean
@@ -80,7 +80,7 @@ export class Participant
         return this._fullDefense
     }
     set fullDefense(val: boolean) {
-        UndoHandler.handleProperty(this, "fullDefense", val)
+        UndoHandler.HandleProperty(this, "fullDefense", val)
     }
 
     private _edge: boolean
@@ -88,7 +88,7 @@ export class Participant
         return this._edge
     }
     set edge(val: boolean) {
-        UndoHandler.handleProperty(this, "edge", val)
+        UndoHandler.HandleProperty(this, "edge", val)
     }
 
     private _status: StatusEnum 
@@ -96,7 +96,7 @@ export class Participant
         return this._status
     }
     set status(val: StatusEnum) {
-        UndoHandler.handleProperty(this, "status", val)
+        UndoHandler.HandleProperty(this, "status", val)
     }
 
     constructor()
