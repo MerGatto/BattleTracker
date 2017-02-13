@@ -263,6 +263,10 @@ export class BattleTrackerComponent implements OnInit {
         sender.enterCombat();
     }
 
+    actnBtn_Click() {
+        UndoHandler.StartActions()
+    }
+
     btnUndo_Click() {
         UndoHandler.Undo()
     }

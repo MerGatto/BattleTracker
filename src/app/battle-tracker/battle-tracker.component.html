@@ -60,8 +60,8 @@
             </button>
           </td>
           <td class="row">
-              <label class="btn btn-default" [class.active]="p.fullDefense" *ngIf="started">
-                <input type="checkbox" [(ngModel)]="p.fullDefense">Full Def
+              <label class="btn btn-default" [class.active]="p.fullDefense">
+                <input type="checkbox" [(ngModel)]="p.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.fullDefense">Full Def
               </label>
               <div class="btn-group" dropdown>
                 <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
