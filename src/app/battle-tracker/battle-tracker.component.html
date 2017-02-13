@@ -103,21 +103,23 @@
       </tfoot>
     </table>
   </div>
-    <div class="row">
-      <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
-        Start Round
-      </button>
-      <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
-        Next Pass
-      </button>
-      <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
-        Reset
-      </button>
-      <button type="button" class="btn btn-default" (click)="btnUndo_Click(p)">
-        Undo
-      </button>
-      <button type="button" class="btn btn-default" (click)="btnRedo_Click(p)">
-        Redo
-      </button>
-    </div>
+  <div class="row">
+    <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
+      Start Round
+    </button>
+    <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
+      Next Pass
+    </button>
+    <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
+      Reset
+    </button>
   </div>
+  <div class="row top-buffer">
+    <button type="button" class="btn btn-warning" (click)="btnUndo_Click(p)">
+      Undo
+    </button>
+    <button type="button" class="btn btn-warning" (click)="btnRedo_Click(p)">
+      Redo
+    </button>
+  </div>
+</div>
