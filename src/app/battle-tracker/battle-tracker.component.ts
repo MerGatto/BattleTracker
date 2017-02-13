@@ -9,7 +9,7 @@ import {UndoHandler} from "../../classes/UndoHandler"
 var bt: any
             
 //Debug stuff
-(<any>window).dump = function dump() {
+(<any>window).btdump = function btdump() {
     console.log("===========")
     console.log("bt: ")
     console.log(bt)    
