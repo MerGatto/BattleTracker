@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 
 import { Participant } from "../../classes/Participant"
 import { ParticipantList } from "../../classes/ParticipantList"
+import {Action} from "../../Interfaces/Action"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
 import {UndoHandler} from "../../classes/UndoHandler" 
@@ -275,8 +276,11 @@ export class BattleTrackerComponent implements OnInit {
         sender.enterCombat()
     }
 
-    actnBtn_Click() {
+    actnBtn_Click(p?: Participant, action?: Action) {
         UndoHandler.StartActions()
+        if (action && p) {
+            console.log("todo")
+        }
     }
 
     btnUndo_Click() {

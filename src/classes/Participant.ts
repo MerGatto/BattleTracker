@@ -1,6 +1,6 @@
 import {StatusEnum} from "./StatusEnum"
 import {UndoHandler} from "./UndoHandler"
-import {Interrupts} from "./Interrupts"
+import {Actions} from "./Actions"
 
 export class Participant
 {
@@ -92,12 +92,12 @@ export class Participant
         UndoHandler.HandleProperty(this, "status", val)
     }
 
-    private _interrupts: Interrupts
-    get interrupts(): Interrupts {
-        return this._interrupts
+    private _actions: Actions
+    get actions(): Actions {
+        return this._actions
     }
-    set interrupts(val: Interrupts) {
-        UndoHandler.HandleProperty(this, "interrupts", val)
+    set actions(val: Actions) {
+        UndoHandler.HandleProperty(this, "actions", val)
     }
 
     constructor()
@@ -111,7 +111,7 @@ export class Participant
         this.wm = 0
         this.iniChange = 0
         this.ooc = false
-        this.interrupts = new Interrupts()
+        this.actions = new Actions()
         this.edge = false
         this.name = ""
     }
@@ -123,7 +123,7 @@ export class Participant
 
     calculateInitiative(initiativeTurn: number)
     {
-        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10 + this.interrupts.modifier
+        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10 + this.actions.modifier
         return ini
     }
 
@@ -146,7 +146,7 @@ export class Participant
         {
             this.enterCombat()
         }
-        this.interrupts.reset()
+        this.actions.reset()
     }
 
     hardReset()
