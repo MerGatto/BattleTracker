@@ -279,7 +279,7 @@ export class BattleTrackerComponent implements OnInit {
     actnBtn_Click(p?: Participant, action?: Action) {
         UndoHandler.StartActions()
         if (action && p) {
-            console.log("todo")
+            p.actions.doAction(this.getInitiative(p), action)
         }
     }
 

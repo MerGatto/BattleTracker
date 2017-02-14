@@ -4,6 +4,11 @@ import {interruptTable} from "./InterruptTable"
 
 export class Actions {
 
+    private _actionHistory: Array<Action> = []
+    get actionHistory() {
+        return this._actionHistory
+    }
+
     get interrupts() {
         return interruptTable
     }
@@ -12,6 +17,9 @@ export class Actions {
         var sum: number = 0
         for (let action of this.persistentInterrupts) {
             if (this[action.key] === true) sum+= action.iniMod
+        }
+        for (let action of this.actionHistory) {
+            sum += action.iniMod
         }
 
         return sum
@@ -31,6 +39,14 @@ export class Actions {
             })
         }
         this.reset()
+    }
+
+    doAction(ini: number, action: Action) {
+        UndoHandler.DoAction(() => {
+            this.actionHistory.push(action)
+        }, () => {
+            this.actionHistory.pop()
+        })
     }
 
     reset() {
