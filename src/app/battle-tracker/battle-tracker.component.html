@@ -4,25 +4,24 @@
       <thead>
         <tr class="info row">
           <th class="col-md-2">
-            Name
+            {{"Name" | translate}}
           </th>
           <th class="col-md-1">
-            INI
+            {{"INI" | translate}}
           </th>
           <th class="col-md-1">
-            Input
+            {{"Input" | translate}}
           </th>
           <th class="col-md-1">
-            WM
+            {{"WM" | translate}}
           </th>
           <th class="col-md-1">
-            Temp
+            {{"Temp" | translate}}
           </th>
-          <th class="col-md-2">
-            Action
+          <th class="col-md-3">
+            {{"Actions" | translate}}
           </th>
-          <th class="col-md-2">
-            Interrupt Action
+          <th class="col-md-1">
           </th>
           <th class="col-md-1">
           </th>
@@ -48,51 +47,49 @@
           <td>
             <input class="form-control input-md" name="tmp" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.iniChange">
           </td>
-          <td>
+          <td class="row">
             <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
-              Seize Initiative
+              {{"Seize Initiative" | translate}}
             </button>
             <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
-              Act
+              {{"Action" | translate}}
             </button>
             <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
-              Delay
+              {{"Delay" | translate}}
             </button>
-          </td>
-          <td class="row">
-              <label class="btn btn-default" [class.active]="p.actions.fullDefense">
-                <input type="checkbox" class="hide" [(ngModel)]="p.actions.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.actions.fullDefense">{{"fullDefense" | translate}}
-              </label>
-              <div class="btn-group" dropdown>
-                <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-                  Others <span class="caret"></span>
-                </button>
-                <ul dropdownMenu role="menu" aria-labelledby="single-button">
-                  <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
-                    <label class="dropdown-item btn btn-default btn-block" [class.active]="p.actions[action.key]">
-                      <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="actnBtn_Click()" [disabled]="started && p.actions[action.key]">
-                      {{action.key | translate}}
-                    </label>
-                  </li>
-                  <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
-                    <button type="button" class="btn btn-default btn-block" (click)="actnBtn_Click(p, action)">
-                      {{action.key | translate}}
-                    </button>
-                  </li>
-                </ul>
-              </div>
+            <label class="btn btn-default" [class.active]="p.actions.fullDefense" *ngIf="started && getInitiative(p) > 1">
+              <input type="checkbox" class="hide" [(ngModel)]="p.actions.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.actions.fullDefense">{{"fullDefense" | translate}}
+            </label>
+            <div class="btn-group" dropdown *ngIf="started && getInitiative(p) > 1">
+              <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
+                {{"Interrupts" | translate}} <span class="caret"></span>
+              </button>
+              <ul dropdownMenu role="menu" aria-labelledby="single-button">
+                <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
+                  <label class="dropdown-item btn btn-default btn-block" [class.active]="p.actions[action.key]">
+                    <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="actnBtn_Click()" [disabled]="started && p.actions[action.key]">
+                    {{action.key | translate}}
+                  </label>
+                </li>
+                <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
+                  <button type="button" class="btn btn-default btn-block" (click)="actnBtn_Click(p, action)">
+                    {{action.key | translate}}
+                  </button>
+                </li>
+              </ul>
+            </div>
           </td>
           <td>
             <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
-              Enter Combat
+              {{"Enter Combat" | translate}}
             </button>
             <button type="button" class="btn btn-default" (click)="btnLeaveCombat_Click(p)" *ngIf="!p.ooc">
-              Leave Combat
+              {{"Leave Combat" | translate}}
             </button>
           </td>
           <td>
             <button type="button" class="btn btn-default" (click)="btnDelete_Click(p)">
-              Delete
+              {{"Delete" | translate}}
             </button>
           </td>
         </tr>
@@ -104,28 +101,28 @@
       </tbody>
       <tfoot>
         <tr class="row">
-          <td colspan="9">Turn {{combatTurn}}, Pass {{initiativeTurn}}</td>
+          <td colspan="9">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativeTurn}}</td>
         </tr>
       </tfoot>
     </table>
   </div>
   <div class="row">
     <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
-      Start Round
+      {{"Start Round" | translate}}
     </button>
     <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
-      Next Pass
+      {{"Next Pass" | translate}}
     </button>
     <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
-      Reset
+      {{"Reset" | translate}}
     </button>
   </div>
   <div class="row buffer-top">
     <button type="button" class="btn btn-warning" (click)="btnUndo_Click(p)">
-      Undo
+      {{"Undo" | translate}}
     </button>
     <button type="button" class="btn btn-warning" (click)="btnRedo_Click(p)">
-      Redo
+      {{"Redo" | translate}}
     </button>
   </div>
 </div>
