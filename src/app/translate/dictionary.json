@@ -62,5 +62,77 @@
     "shadowBlock": {
         "en": "Shadow Block",
         "de": "Schattenblock"
+    },
+    "Seize Initiative": {
+        "en": "Seize Initiative",
+        "de": "Iniative ergreifen"
+    },
+    "Leave Combat": {
+        "en": "Leave Combat",
+        "de": "Kampf verlassen"
+    },
+    "Start Round": {
+        "en": "Start Round",
+        "de": "Runde Starten"
+    },
+    "Name": {
+        "en": "Name",
+        "de": "Name"
+    },
+    "INI": {
+        "en": "INI",
+        "de": "INI"
+    },
+    "Input": {
+        "en": "Input",
+        "de": "Eingabe"
+    },
+    "WM": {
+        "en": "WM",
+        "de": "VM"
+    },
+    "Temp": {
+        "en": "Temp.",
+        "de": "Temp."
+    },
+    "Actions": {
+        "en": "Actions",
+        "de": "Handlungen"
+    },
+    "Turn": {
+        "en": "Combat Turn",
+        "de": "Kampfrunde"
+    },
+    "Pass": {
+        "en": "Pass",
+        "de": "Durchgang"
+    },
+    "Reset": {
+        "en": "Reset",
+        "de": "Reset"
+    },
+    "Undo": {
+        "en": "Undo",
+        "de": "Zurück"
+    },
+    "Redo": {
+        "en": "Redo",
+        "de": "Vor"
+    },
+    "Action": {
+        "en": "Action",
+        "de": "Handlung"
+    },
+    "Delay": {
+        "en": "Delay",
+        "de": "Abwarten"
+    },
+    "Interrupts": {
+        "en": "Interrupts",
+        "de": "Unterbrechungen"
+    },
+    "Next Pass": {
+        "en": "Next Pass",
+        "de": "Nächster Durchgang"
     }
 }

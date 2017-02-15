@@ -53,5 +53,7 @@ export class Actions {
         for (var action of this.persistentInterrupts) {
             this[action.key] = false
         }
+        var items = this.actionHistory
+        UndoHandler.DoAction(() => this._actionHistory = [], () => { this._actionHistory = items})
     }
 }

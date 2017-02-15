@@ -18,8 +18,11 @@ export class TranslateService {
 		// private perform translation
 		let translation = key;
      
-    if (this._translations[key] && this._translations[key][this.currentLang]) {
-			return this._translations[key][this.currentLang];
+		if (this._translations[key] && this._translations[key][this.currentLang]) {
+				return this._translations[key][this.currentLang];
+		}
+		else {
+			console.log("no translation for "+key)
 		}
 
 		return translation;

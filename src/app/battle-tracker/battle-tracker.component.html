@@ -6,19 +6,19 @@
           <th class="col-md-2">
             {{"Name" | translate}}
           </th>
-          <th class="col-md-1">
+          <th class="col-md-1 text-center">
             {{"INI" | translate}}
           </th>
-          <th class="col-md-1">
+          <th class="col-md-1 text-center">
             {{"Input" | translate}}
           </th>
-          <th class="col-md-1">
+          <th class="col-md-1 text-center">
             {{"WM" | translate}}
           </th>
-          <th class="col-md-1">
+          <th class="col-md-1 text-center">
             {{"Temp" | translate}}
           </th>
-          <th class="col-md-3">
+          <th class="col-md-3 text-left">
             {{"Actions" | translate}}
           </th>
           <th class="col-md-1">
@@ -35,17 +35,17 @@
           <td>
             <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </td>
-          <td>
+          <td class="text-center">
             <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
           </td>
-          <td>
-            <input class="form-control input-md inpIni" name="ini" type="number"(keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" [(ngModel)]="p.ini" #field="ngModel" [min]="0">
+          <td class="text-center">
+            <input class="form-control input-md inpIni text-center" name="ini" type="number"(keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" [(ngModel)]="p.ini" #field="ngModel" [min]="0">
           </td>
-          <td>
-            <input class="form-control input-md" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
+          <td class="text-center">
+            <input class="form-control input-md text-center" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
           </td>
-          <td>
-            <input class="form-control input-md" name="tmp" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.iniChange">
+          <td class="text-center">
+            <input class="form-control input-md text-center" name="tmp" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.iniChange">
           </td>
           <td class="row">
             <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
@@ -57,9 +57,6 @@
             <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
               {{"Delay" | translate}}
             </button>
-            <label class="btn btn-default" [class.active]="p.actions.fullDefense" *ngIf="started && getInitiative(p) > 1">
-              <input type="checkbox" class="hide" [(ngModel)]="p.actions.fullDefense" (click)="actnBtn_Click()" [disabled]="started && p.actions.fullDefense">{{"fullDefense" | translate}}
-            </label>
             <div class="btn-group" dropdown *ngIf="started && getInitiative(p) > 1">
               <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
                 {{"Interrupts" | translate}} <span class="caret"></span>
@@ -76,9 +73,15 @@
                     {{action.key | translate}}
                   </button>
                 </li>
+                <li role="menuitem" class="buffer">
+                  <label class="dropdown-item btn btn-default btn-block">
+                    Test
+                  </label>
+                </li>
               </ul>
             </div>
           </td>
+          <td></td>
           <td>
             <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
               {{"Enter Combat" | translate}}
@@ -87,9 +90,9 @@
               {{"Leave Combat" | translate}}
             </button>
           </td>
-          <td>
-            <button type="button" class="btn btn-default" (click)="btnDelete_Click(p)">
-              {{"Delete" | translate}}
+          <td class="text-center"> 
+            <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
+              <span class="glyphicon glyphicon-remove"></span>
             </button>
           </td>
         </tr>
