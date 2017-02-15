@@ -8,7 +8,6 @@ import { TranslateService } from './translate';
 })
 export class AppComponent {
     title = 'Battle Tracker';
-    test = 'fullDefense'
     
     public translatedText: string;
     public supportedLanguages: any[];

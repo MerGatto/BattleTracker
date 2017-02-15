@@ -57,7 +57,7 @@
             <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
               {{"Delay" | translate}}
             </button>
-            <div class="btn-group" dropdown *ngIf="started && getInitiative(p) > 1">
+            <div class="btn-group" dropdown *ngIf="started && getInitiative(p) >= 1">
               <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
                 {{"Interrupts" | translate}} <span class="caret"></span>
               </button>
