@@ -1,16 +1,12 @@
 import {Injectable, Inject} from '@angular/core';
-import { TRANSLATIONS } from './translations'; // import our opaque token
 
 @Injectable()
 export class TranslateService {
 	private _currentLang: string;
+	private _translations = require("./dictionary.json")
 	
 	public get currentLang() {
 	  return this._currentLang;
-	}
-
-  // inject our translations
-	constructor(@Inject(TRANSLATIONS) private _translations: any) {
 	}
 
 	public use(lang: string): void {

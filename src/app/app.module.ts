@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { CustomFormsModule } from 'ng2-validation'
 import { DropdownModule } from 'ng2-bootstrap';
-import { TRANSLATION_PROVIDERS, TranslatePipe, TranslateService }   from './translate';
+import { TranslatePipe, TranslateService }   from './translate';
 
 import { AppComponent } from './app.component';
 import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
@@ -24,7 +24,7 @@ import { BattleTrackerComponent } from './battle-tracker/battle-tracker.componen
     CustomFormsModule,
     DropdownModule.forRoot()
   ],
-  providers: [ TRANSLATION_PROVIDERS, TranslateService ],
+  providers: [ TranslateService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
