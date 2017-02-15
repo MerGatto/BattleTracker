@@ -52,8 +52,8 @@ export module UndoHandler {
         if (oldval != val) {
             obj["_"+prop] = val
             var entry: HistoryEntry = {
-                action: () => {(obj["_"+prop] = val) },
-                undoAction: () =>  { (obj["_"+prop]) = oldval }
+                action: function () {obj["_"+prop] = val },
+                undoAction: function () { obj["_"+prop] = oldval }
             }
             if (!recording) {
                 StartActions()
