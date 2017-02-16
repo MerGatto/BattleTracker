@@ -26,6 +26,7 @@ export class BattleTrackerComponent implements OnInit {
 
     participants: ParticipantList
     currentActors: ParticipantList
+    indexToSelect: number = -1
 
     private _started: boolean
     get started(): boolean {
@@ -296,6 +297,7 @@ export class BattleTrackerComponent implements OnInit {
 
         if (keyCode == 9) {
             e.preventDefault()
+            var currentIndex: number = Utility.getDataIndex(e.target)
             var row = Utility.getRow(e.target)
             var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
@@ -308,6 +310,7 @@ export class BattleTrackerComponent implements OnInit {
             }
             UndoHandler.StartActions() 
             this.addParticipant()
+            this.indexToSelect = currentIndex + 1
         }
     }
 
@@ -327,6 +330,22 @@ export class BattleTrackerComponent implements OnInit {
                 }
             }            
         }
+    }
+
+    selectIndex(i: Number) {
+        if (i == this.indexToSelect) {
+            var row = Utility.getRowForIndex(i)
+            if (row != undefined) 
+            { 
+                var field:any = $(row).find('.input-md')[0]
+                if(field) {
+                    field.select()
+                    this.indexToSelect = -1
+                }
+            }    
+
+        }
+        return i
     }
 
     //Focus Handler

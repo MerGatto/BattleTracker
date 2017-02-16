@@ -35,6 +35,11 @@ export function getRow(obj)
     return getRow(node.parentNode);
 }
 
+export function getDataIndex(obj): number {
+    var row = getRow(obj)
+    return parseInt(row.dataset.indexnr)
+}
+
 export function getParticipant(obj)
 {
     var row = getRow(obj);
@@ -43,6 +48,12 @@ export function getParticipant(obj)
 
 export function getRowForIndex(i)
 {
-    var ele: any = document.getElementById('tblMain')
-    return ele.rows[i];
+    var ele: any = document.getElementById('tblBattleTracker')
+    for (let r of ele.rows) {
+        if (r.dataset.indexnr == i) 
+        {
+            return r
+        }
+    }
+    return undefined
 }
