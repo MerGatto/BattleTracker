@@ -84,7 +84,7 @@ export class BattleTrackerComponent implements OnInit {
         this.passEnded = false
         this.initiativeTurn++
         for (let p of this.participants.items) {
-            if (!p.ooc) {
+            if (!p.ooc && p.status != StatusEnum.Delaying) {
                 p.status = StatusEnum.Waiting
             }
         }
