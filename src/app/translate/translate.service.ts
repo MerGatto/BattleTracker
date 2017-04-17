@@ -5,6 +5,8 @@ export class TranslateService {
 	private _currentLang: string;
 	private _translations = require("./dictionary.json")
 	
+	private _logMissingTranslations: boolean = false
+	
 	public get currentLang() {
 	  return this._currentLang;
 	}
@@ -22,7 +24,9 @@ export class TranslateService {
 				return this._translations[key][this.currentLang];
 		}
 		else {
-			console.log("no translation for "+key)
+			if (this._logMissingTranslations) {
+				console.log("no translation for "+key)
+			}
 		}
 
 		return translation;

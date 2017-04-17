@@ -1,9 +1,23 @@
+tr {
+    background: white;
+}
+
+.selected > * {
+    border: none;
+}
+
+.selected {
+    transition: transform .2s ease-in-out; 
+    transform:scale(1.02);
+}
+
+
 .acting, .acting > * {
-    background: rgba(0, 255, 0, 0.5)
+    background: rgba(0, 255, 0, 0.5);
 }
 
 .noIni .inpIni {
-    background: rgba(0, 128, 255, 0.5)
+    background: rgba(0, 128, 255, 0.5);
 }
 
 .finished, .finished > * {

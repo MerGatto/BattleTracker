@@ -137,6 +137,30 @@ export class Participant
         this.ooc = false
     }
 
+    rollInitiative() {
+        this.diceIni = 0
+        var max = 6
+        var min = 1
+        for(var i = 0; i < this.dices; i++) {
+            this.diceIni += Math.floor(Math.random() * (max - min + 1)) + min
+        }  
+
+        var test = false
+        // DICE TEST
+        if (test) {
+            var slots: Array<number> = new Array<number>()
+            for (var index = 1; index <= 6; index++) {
+                slots[index] = 0            
+            }
+            for(var i = 0; i < 1000000; i++) {
+                var d = Math.floor(Math.random() * (max - min + 1)) + min
+                slots[d]++
+            }
+            console.log(slots)
+        }
+
+    }
+
     softReset(revive = false)
     {
         this.diceIni = 0

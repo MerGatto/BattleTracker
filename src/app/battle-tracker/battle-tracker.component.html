@@ -16,7 +16,7 @@
         </thead>
 
         <tbody>
-          <tr [attr.data-indexnr]="selectIndex(i)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items; let i = index">
+          <tr [attr.data-indexnr]="selectIndex(i)"(click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items; let i = index">
             <td class="col-md-2">
               <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
             </td>
@@ -35,6 +35,9 @@
               <input class="form-control text-center" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
             </td>
             <td>
+              <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
+                {{"Roll Initiative" | translate}}
+              </button>
               <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
                 {{"Seize Initiative" | translate}}
               </button>
@@ -100,9 +103,12 @@
       <table class="table table-bordered table-responsive">
         <thead>
           <tr>
-            <th>{{selectedActor.name}}</th>
+            <th>{{"Selected Actor" | translate}}</th>
           </tr>
         </thead>
+        <tr>
+          <th>{{selectedActor.name}}</th>
+        </tr>
         <tr>
           <td class="col-md-1 text-center">
             <label>{{"Dices" | translate}}<input class="form-control input-md text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices"></label>

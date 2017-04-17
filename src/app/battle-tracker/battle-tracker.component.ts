@@ -160,6 +160,11 @@ export class BattleTrackerComponent implements OnInit {
     addParticipant() {
         var p = new Participant()
         this.participants.insert(p)
+        this.selectedActor = p
+    }
+
+    selectActor(p: Participant) {
+        this.selectedActor = p;
     }
 
     removeParticipant(participant) {
@@ -202,7 +207,8 @@ export class BattleTrackerComponent implements OnInit {
             'noIni': p.diceIni == 0,
             'negativeIni': this.getInitiative(p) <= 0 && this.started,
             'finished': p.status == StatusEnum.Finished,
-            'edged': p.edge
+            'edged': p.edge,
+            'selected': p == this.selectedActor
         }
         return styles
     }
@@ -216,6 +222,11 @@ export class BattleTrackerComponent implements OnInit {
     btnEdge_Click(sender: Participant) {
         UndoHandler.StartActions()
         sender.seizeInitiative()
+    }
+
+    btnRollInitative_Click(sender: Participant) {
+        UndoHandler.StartActions()
+        sender.rollInitiative()
     }
 
     btnAct_Click(sender: Participant) {
