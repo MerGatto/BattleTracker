@@ -126,7 +126,7 @@ export class BattleTrackerComponent implements OnInit {
         var over = true
         for (let p of this.participants.items) {
             let effIni = this.getInitiative(p)
-            if (!p.ooc && p.status == StatusEnum.Waiting && p.ini > 0 && effIni > 0) {
+            if (!p.ooc && p.status == StatusEnum.Waiting && p.diceIni > 0 && effIni > 0) {
                 if (effIni > max && (p.edge || !edge) || p.edge && !edge) {
                     this.currentActors.clear()
                     this.currentActors.insert(p)
@@ -190,7 +190,7 @@ export class BattleTrackerComponent implements OnInit {
             'ooc': p.ooc,
             'delaying': p.status == StatusEnum.Delaying,
             'waiting': p.status == StatusEnum.Waiting,
-            'noIni': p.ini == 0,
+            'noIni': p.diceIni == 0,
             'negativeIni': this.getInitiative(p) <= 0 && this.started,
             'finished': p.status == StatusEnum.Finished,
             'edged': p.edge
@@ -362,9 +362,9 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     iniChange(e, p:Participant) {
-        if (p.ini < 0) {
+        if (p.diceIni < 0) {
             e.preventDefault()
-            p.ini = 0
+            p.diceIni = 0
             e.target.value = 0
         }
     }

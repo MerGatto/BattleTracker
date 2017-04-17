@@ -10,13 +10,13 @@
             {{"INI" | translate}}
           </th>
           <th class="col-md-1 text-center">
-            {{"Input" | translate}}
+            {{"Dice" | translate}}
+          </th>
+          <th class="col-md-1 text-center">
+            {{"Base" | translate}}
           </th>
           <th class="col-md-1 text-center">
             {{"WM" | translate}}
-          </th>
-          <th class="col-md-1 text-center">
-            {{"Temp" | translate}}
           </th>
           <th class="col-md-3 text-left">
             {{"Actions" | translate}}
@@ -39,13 +39,15 @@
             <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
           </td>
           <td class="text-center">
-            <input class="form-control input-md inpIni text-center" name="ini" type="number"(keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" [(ngModel)]="p.ini" #field="ngModel" [min]="0">
+            <input class="form-control input-md inpIni text-center" name="ini" type="number" 
+                  (keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" 
+                  [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
+          </td>
+          <td class="text-center">
+            <input class="form-control input-md text-center" name="base" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.baseIni">
           </td>
           <td class="text-center">
             <input class="form-control input-md text-center" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
-          </td>
-          <td class="text-center">
-            <input class="form-control input-md text-center" name="tmp" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.iniChange">
           </td>
           <td class="row">
             <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">

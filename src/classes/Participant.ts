@@ -44,12 +44,20 @@ export class Participant
         UndoHandler.HandleProperty(this, "baseIni", val)
     }
 
-    private _ini: number
-    get ini(): number {
-        return this._ini
+    private _diceIni: number
+    get diceIni(): number {
+        return this._diceIni
     }
-    set ini(val: number) {
-        UndoHandler.HandleProperty(this, "ini", val)
+    set diceIni(val: number) {
+        UndoHandler.HandleProperty(this, "diceIni", val)
+    }
+
+    private _dices: number
+    get dices(): number {
+        return this._dices
+    }
+    set dices(val: number) {
+        UndoHandler.HandleProperty(this, "dices", val)
     }
 
     private _wm: number
@@ -58,14 +66,6 @@ export class Participant
     }
     set wm(val: number) {
         UndoHandler.HandleProperty(this, "wm", val)
-    }
-
-    private _iniChange: number
-    get iniChange(): number {
-        return this._iniChange
-    }
-    set iniChange(val: number) {
-        UndoHandler.HandleProperty(this, "iniChange", val)
     }
 
     private _ooc: boolean
@@ -107,9 +107,9 @@ export class Participant
         this.finished = false
         this.active = false
         this.baseIni = 0
-        this.ini = 0
+        this.diceIni = 0
+        this.dices = 1
         this.wm = 0
-        this.iniChange = 0
         this.ooc = false
         this.actions = new Actions()
         this.edge = false
@@ -123,7 +123,7 @@ export class Participant
 
     calculateInitiative(initiativeTurn: number)
     {
-        var ini = this.ini + this.iniChange - this.wm -(initiativeTurn-1) * 10 + this.actions.modifier
+        var ini = this.diceIni + this.baseIni - this.wm -(initiativeTurn-1) * 10 + this.actions.modifier
         return ini
     }
 
@@ -139,7 +139,7 @@ export class Participant
 
     softReset(revive = false)
     {
-        this.ini = 0
+        this.diceIni = 0
         this.edge = false
         this.status = StatusEnum.Waiting
         if (revive || !this.ooc)
@@ -153,6 +153,8 @@ export class Participant
     {
         this.softReset(true)
         this.wm = 0
-        this.iniChange = 0
+        this.diceIni = 0
+        this.dices = 1
+        this.baseIni = 0
     }
 }
