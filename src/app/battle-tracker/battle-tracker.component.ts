@@ -325,6 +325,7 @@ export class BattleTrackerComponent implements OnInit {
                 var field:any = $(nextRow).find('.input-md')[0]
                 if(field) {
                     field.select()
+                    $(nextRow).click();
                     return
                 }
             }
@@ -346,6 +347,7 @@ export class BattleTrackerComponent implements OnInit {
                 var field:any = $(nextRow).find('.inpIni')[0]
                 if(field) {
                     field.select()
+                    $(nextRow).click();
                     return
                 }
             }            
