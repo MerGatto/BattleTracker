@@ -60,9 +60,18 @@ export class BattleTrackerComponent implements OnInit {
         UndoHandler.HandleProperty(this, "initiativeTurn", val)
     }
 
+    private _selectedActor: Participant
+    get selectedActor(): Participant {
+        return this._selectedActor
+    }
+    set selectedActor(val: Participant) {
+        UndoHandler.HandleProperty(this, "selectedActor", val)
+    }
+
     constructor() {
         this.initialize()
         this.addParticipant()
+        this.selectedActor = this.participants.items[0]
         bt = this
     }
 

@@ -1,116 +1,117 @@
 <div class="container-fluid">
   <div class="row">
-    <table class="table table-striped table-bordered" id="tblBattleTracker">
-      <thead>
-        <tr class="info row">
-          <th class="col-md-2">
-            {{"Name" | translate}}
-          </th>
-          <th class="col-md-1 text-center">
-            {{"Ini" | translate}}
-          </th>
-          <th class="col-md-1 text-center">
-            {{"Dice Roll" | translate}}
-          </th>
-          <th class="col-md-1 text-center">
-            {{"Base Ini" | translate}}
-          </th>
-          <th class="col-md-1 text-center">
-            {{"WM" | translate}}
-          </th>
-          <th class="col-md-3 text-left">
-            {{"Actions" | translate}}
-          </th>
-          <th class="col-md-1">
-          </th>
-          <th class="col-md-1">
-          </th>
-          <th class="col-md-1">
-          </th>
-        </tr>
-      </thead>
+    <div class="col-md-10">
+      <table class="table table-striped table-bordered table-responsive" id="tblBattleTracker">
+        <thead>
+          <tr class="info">
+            <th>{{"Name" | translate}}</th>
+            <th class="text-center">{{"Ini" | translate}}</th>
+            <th class="text-center">{{"Dice Roll" | translate}}</th>
+            <th class="text-center">{{"Base Ini" | translate}}</th>
+            <th class="text-center">{{"WM" | translate}}</th>
+            <th class="text-left">{{"Actions" | translate}}</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
 
-      <tbody class="panel-body">
-        <tr class="row" [attr.data-indexnr]="selectIndex(i)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items; let i = index">
-          <td>
-            <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
-          </td>
-          <td class="text-center">
-            <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
-          </td>
-          <td class="text-center">
-            <input class="form-control input-md inpIni text-center" name="ini" type="number" 
-                  (keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" 
-                  [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
-          </td>
-          <td class="text-center">
-            <input class="form-control input-md text-center" name="base" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.baseIni">
-          </td>
-          <td class="text-center">
-            <input class="form-control input-md text-center" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
-          </td>
-          <td class="row">
-            <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
-              {{"Seize Initiative" | translate}}
-            </button>
-            <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
-              {{"Action" | translate}}
-            </button>
-            <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
-              {{"Delay" | translate}}
-            </button>
-            <div class="btn-group" dropdown *ngIf="started && getInitiative(p) >= 1">
-              <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-                {{"Interrupts" | translate}} <span class="caret"></span>
+        <tbody>
+          <tr [attr.data-indexnr]="selectIndex(i)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items; let i = index">
+            <td class="col-md-2">
+              <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
+            </td>
+            <td class="col-md-1 text-center">
+              <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
+            </td>
+            <td class="col-md-1 text-center">
+              <input class="form-control inpIni text-center" name="ini" type="number" 
+                    (keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)" 
+                    [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
+            </td>
+            <td class="col-md-1 text-center">
+              <input class="form-control text-center" name="base" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.baseIni">
+            </td>
+            <td class="col-md-1 text-center">
+              <input class="form-control text-center" name="wm" type="number" (focus)="inp_Focus($event)" (input)="wmChange($event, p)" [(ngModel)]="p.wm">
+            </td>
+            <td>
+              <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
+                {{"Seize Initiative" | translate}}
               </button>
-              <ul dropdownMenu role="menu" aria-labelledby="single-button">
-                <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
-                  <label class="dropdown-item btn btn-default btn-block" [class.active]="p.actions[action.key]">
-                    <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="actnBtn_Click()" [disabled]="started && p.actions[action.key]">
-                    {{action.key | translate}}
-                  </label>
-                </li>
-                <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
-                  <button type="button" class="btn btn-default btn-block" (click)="actnBtn_Click(p, action)">
-                    {{action.key | translate}}
-                  </button>
-                </li>
-                <li role="menuitem" class="buffer">
-                  <label class="dropdown-item btn btn-default btn-block">
-                    Test
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </td>
-          <td></td>
-          <td>
-            <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
-              {{"Enter Combat" | translate}}
-            </button>
-            <button type="button" class="btn btn-default" (click)="btnLeaveCombat_Click(p)" *ngIf="!p.ooc">
-              {{"Leave Combat" | translate}}
-            </button>
-          </td>
-          <td class="text-center"> 
-            <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
-              <span class="glyphicon glyphicon-remove"></span>
-            </button>
+              <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
+                {{"Action" | translate}}
+              </button>
+              <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
+                {{"Delay" | translate}}
+              </button>
+              <div class="btn-group" dropdown *ngIf="started && getInitiative(p) >= 1">
+                <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
+                  {{"Interrupts" | translate}} <span class="caret"></span>
+                </button>
+                <ul dropdownMenu role="menu" aria-labelledby="single-button">
+                  <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
+                    <label class="dropdown-item btn btn-default btn-block" [class.active]="p.actions[action.key]">
+                      <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="actnBtn_Click()" [disabled]="started && p.actions[action.key]">
+                      {{action.key | translate}}
+                    </label>
+                  </li>
+                  <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
+                    <button type="button" class="btn btn-default btn-block" (click)="actnBtn_Click(p, action)">
+                      {{action.key | translate}}
+                    </button>
+                  </li>
+                  <li role="menuitem" class="buffer">
+                    <label class="dropdown-item btn btn-default btn-block">
+                      Test
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
+                {{"Enter Combat" | translate}}
+              </button>
+              <button type="button" class="btn btn-default" (click)="btnLeaveCombat_Click(p)" *ngIf="!p.ooc">
+                {{"Leave Combat" | translate}}
+              </button>
+            </td>
+            <td class="text-center"> 
+              <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="8">
+              <button type="submit" class="btn btn-primary" (click)="btnAddParticipant_Click()"><span class="glyphicon glyphicon-plus"></span></button>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="8">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativeTurn}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    
+    <div class="col-md-2">
+      <table class="table table-bordered table-responsive">
+        <thead>
+          <tr>
+            <th>{{selectedActor.name}}</th>
+          </tr>
+        </thead>
+        <tr>
+          <td class="col-md-1 text-center">
+            <label>{{"Dices" | translate}}<input class="form-control input-md text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices"></label>
           </td>
         </tr>
-        <tr class="row">
-          <td colspan="9">
-            <button type="submit" class="btn btn-primary" (click)="btnAddParticipant_Click()"><span class="glyphicon glyphicon-plus"></span></button>
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr class="row">
-          <td colspan="9">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativeTurn}}</td>
-        </tr>
-      </tfoot>
-    </table>
+      </table>
+    </div>
   </div>
+
   <div class="row">
     <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
       {{"Start Round" | translate}}

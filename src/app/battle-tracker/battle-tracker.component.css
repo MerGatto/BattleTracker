@@ -26,3 +26,21 @@
 .ooc, .ooc > * {
     background: rgba(255, 0, 0, 0.5);
 }
+
+.innertable {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.innertable thead {
+    display: none;
+}
+
+.innertable td, .innertable th {
+    border: none;
+}
+
+.smcol {
+    max-width: 10vw;
+}
