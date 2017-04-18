@@ -60,12 +60,12 @@ export class Participant
         UndoHandler.HandleProperty(this, "dices", val)
     }
 
-    private _wm: number
     get wm(): number {
-        return this._wm
-    }
-    set wm(val: number) {
-        UndoHandler.HandleProperty(this, "wm", val)
+        var physicalWM = Math.floor((this.physicalDamage - this.painTolerance) / 3)
+        if (physicalWM < 0) physicalWM = 0
+        var stunWM = Math.floor((this.stunDamage - this.painTolerance) / 3)
+        if (stunWM  < 0) stunWM = 0
+        return physicalWM + stunWM
     }
 
     private _ooc: boolean
@@ -100,6 +100,46 @@ export class Participant
         UndoHandler.HandleProperty(this, "actions", val)
     }
 
+    private _painTolerance: number
+    get painTolerance(): number {
+        return this._painTolerance
+    }
+    set painTolerance(val: number) {
+        UndoHandler.HandleProperty(this, "painTolerance", val)
+    }
+
+    private _physicalHealth: number
+    get physicalHealth(): number {
+        return this._physicalHealth
+    }
+    set physicalHealth(val: number) {
+        UndoHandler.HandleProperty(this, "physicalHealth", val)
+    }
+
+    private _stunHealth: number
+    get stunHealth(): number {
+        return this._stunHealth
+    }
+    set stunHealth(val: number) {
+        UndoHandler.HandleProperty(this, "stunHealth", val)
+    }
+
+    private _physicalDamage: number
+    get physicalDamage(): number {
+        return this._physicalDamage
+    }
+    set physicalDamage(val: number) {
+        UndoHandler.HandleProperty(this, "physicalDamage", val)
+    }
+
+    private _stunDamage: number
+    get stunDamage(): number {
+        return this._stunDamage
+    }
+    set stunDamage(val: number) {
+        UndoHandler.HandleProperty(this, "stunDamage", val)
+    }
+
     constructor()
     {
         this.status = StatusEnum.Waiting
@@ -109,11 +149,15 @@ export class Participant
         this.baseIni = 0
         this.diceIni = 0
         this.dices = 1
-        this.wm = 0
         this.ooc = false
         this.actions = new Actions()
         this.edge = false
         this.name = ""
+        this.painTolerance = 0
+        this.physicalHealth = 10
+        this.stunHealth = 10
+        this.stunDamage = 0
+        this.physicalDamage = 0
     }
 
     seizeInitiative() 
@@ -176,7 +220,8 @@ export class Participant
     hardReset()
     {
         this.softReset(true)
-        this.wm = 0
+        this.physicalDamage = 0
+        this.stunDamage = 0
         this.diceIni = 0
         this.dices = 1
         this.baseIni = 0

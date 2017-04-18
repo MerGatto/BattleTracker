@@ -375,14 +375,6 @@ export class BattleTrackerComponent implements OnInit {
         e.target.select()
     }
 
-    wmChange(e, p:Participant) {
-        if (p.wm < 0) {
-            e.preventDefault()
-            p.wm = 0
-            e.target.value = 0
-        }
-    }
-
     iniChange(e, p:Participant) {
         if (p.diceIni < 0) {
             e.preventDefault()
