@@ -127,6 +127,28 @@
           <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
           <div class="row">
             <div class="col-md-12">
+              <label>{{"Physical Health" | translate}}</label>
+            </div>
+            <div class="col-md-7">
+              <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.physicalHealth" />
+            </div>
+            <div class="col-md-5">
+              <input class="form-control input-md text-center" name="physicalHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.physicalHealth">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>{{"Stun Health" | translate}}</label>
+            </div>
+            <div class="col-md-7">
+              <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.stunHealth" />
+            </div>
+            <div class="col-md-5">
+              <input class="form-control input-md text-center" name="stunHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.stunHealth">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
               <label>{{"Dices" | translate}}</label>
             </div>
             <div class="col-md-7">
