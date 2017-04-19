@@ -2,6 +2,13 @@ tr {
     background: white;
 }
 
+.detailsBar {
+    right: 0;
+    top: 10vh;
+    position: fixed;
+    height: 80vh;
+    overflow: auto
+}
 .selected > * {
     /*border: none;*/
 }
