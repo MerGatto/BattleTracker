@@ -9,12 +9,14 @@ import { TranslatePipe, TranslateService }   from './translate';
 
 import { AppComponent } from './app.component';
 import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
+import { ConditionMonitorComponent } from './condition-monitor/condition-monitor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BattleTrackerComponent,
-    TranslatePipe
+    TranslatePipe,
+    ConditionMonitorComponent
 
   ],
   imports: [

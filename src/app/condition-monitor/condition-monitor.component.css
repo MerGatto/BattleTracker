@@ -1,0 +1,29 @@
+.cmCell {
+    padding-bottom: 100%;
+    position: relative;
+    background: rgba(0, 255, 0, 0.9);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.damage {
+    background: rgba(255, 0, 0, 0.7);
+}
+
+.cmCellContent {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: text-bottom;
+    padding: 5px;
+    padding-left: 10px;
+    display: flex;
+    align-items: flex-end;
+    user-select: none;
+}
+
+.table, .table * {
+    border: none;
+}
