@@ -70,7 +70,7 @@ export class Participant
 
     private _ooc: boolean
     get ooc(): boolean {
-        return this._ooc
+        return this._ooc || this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.physicalHealth
     }
     set ooc(val: boolean) {
         UndoHandler.HandleProperty(this, "ooc", val)
