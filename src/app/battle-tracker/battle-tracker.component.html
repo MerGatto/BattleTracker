@@ -1,16 +1,24 @@
 <div class="container-fluid">
+  
+  <div class="row">
+    <h1>
+      BattleTracker
+    </h1>
+  </div>
   <div class="row">
     <div class="col-md-10">
-      <div class="col-md-6 left">
-        <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
-          {{"Start Round" | translate}}
-        </button>
-        <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
-          {{"Next Pass" | translate}}
-        </button>
-        <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
-          {{"Reset" | translate}}
-        </button>
+      <div class="col-md-6" style="padding-left: 0">
+        <div class="left">
+          <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
+            {{"Start Round" | translate}}
+          </button>
+          <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
+            {{"Next Pass" | translate}}
+          </button>
+          <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
+            {{"Reset" | translate}}
+          </button>
+        </div>
       </div>
       <div class="col-md-6">
         <div class="right">

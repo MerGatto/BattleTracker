@@ -29,7 +29,6 @@ tr {
 .right {
     right: 0;
     position: absolute;
-    display: inline-block;
 }
 
 .selected > * {
