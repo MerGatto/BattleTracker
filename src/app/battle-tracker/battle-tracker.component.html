@@ -171,17 +171,6 @@
           </div>
           <div class="row">
             <div class="col-md-12">
-              <label>{{"Dices" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="1" max="5" step="1" [(ngModel)]="selectedActor.dices" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
               <label>{{"Pain Tolerance" | translate}}</label>
             </div>
             <div class="col-md-7">
@@ -189,6 +178,17 @@
             </div>
             <div class="col-md-5">
               <input class="form-control input-sm text-center" name="painTolerance" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.painTolerance">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>{{"Dices" | translate}}</label>
+            </div>
+            <div class="col-md-7">
+              <input type="range" min="1" max="5" step="1" [(ngModel)]="selectedActor.dices" />
+            </div>
+            <div class="col-md-5">
+              <input class="form-control input-sm text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices">
             </div>
           </div>
         </div>
