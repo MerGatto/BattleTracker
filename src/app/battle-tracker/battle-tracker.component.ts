@@ -279,7 +279,7 @@ export class BattleTrackerComponent implements OnInit {
         }
         this.initiativeTurn = 1
         for (let p of this.participants.items){
-            p.hardReset()
+            p.softReset()
         }
     }
 
