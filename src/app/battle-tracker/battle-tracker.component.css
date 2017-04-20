@@ -12,17 +12,26 @@ tr {
 
 #btnRedo {
     background-image: url("assets/redo.svg");
-    background-size: cover;
-    height: 100%;
-    color: rgba(0, 0, 0, 0.0);
 }
 
 #btnUndo {
     background-image: url("assets/undo.svg");
+}
+
+#btnUndo, #btnRedo {
     background-size: cover;
     height: 100%;
     color: rgba(0, 0, 0, 0.0);
+    user-select: none;
+
 }
+
+.right {
+    right: 0;
+    position: absolute;
+    display: inline-block;
+}
+
 .selected > * {
     /*border: none;*/
 }
