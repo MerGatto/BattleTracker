@@ -119,78 +119,91 @@
 
     <div class="col-md-2 detailsBar">
       <div class="panel panel-default">
-        <div class="panel-heading"><h3>{{selectedActor.name}}</h3></div>
+        <div class="panel-heading"><h3>{{selectedActor.name || "Selected Actor" | translate}}</h3></div>
         <div class="panel-body">
-          <div class="row">
-            <div class="col-md-6">
-              <h4>Physical</h4>
-              <app-condition-monitor 
-                [health]="selectedActor.physicalHealth" 
-                [overflow]="selectedActor.overflowHealth" 
-                [painPolerance]="selectedActor.painTolerance" 
-                [(ngModel)]="selectedActor.physicalDamage">
-              </app-condition-monitor>
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#conditionMonitor">{{"Condition Monitor" | translate}}</a></li>
+            <li><a data-toggle="tab" href="#options">{{"Options" | translate}}</a></li>
+          </ul>
+          <div class="tab-content">
+            <div id="conditionMonitor" class="tab-pane fade in active">
+              <div class="row">
+                <div class="col-md-6">
+                  <h4>Physical</h4>
+                  <app-condition-monitor 
+                    [health]="selectedActor.physicalHealth" 
+                    [overflow]="selectedActor.overflowHealth" 
+                    [painPolerance]="selectedActor.painTolerance" 
+                    [(ngModel)]="selectedActor.physicalDamage">
+                  </app-condition-monitor>
+                </div>
+                <div class="col-md-6">
+                  <h4>Stun</h4>
+                  <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
+                </div>
+              </div>
             </div>
-            <div class="col-md-6">
-              <h4>Stun</h4>
-              <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
+            <div id="options" class="tab-pane fade">
+
+              <div class="row">
+                <div class="col-md-12">
+                  <label>{{"Overflow" | translate}}</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.overflowHealth" />
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input-sm text-center" name="overflowHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.overflowHealth">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>{{"Physical Health" | translate}}</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.physicalHealth" />
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input-sm text-center" name="physicalHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.physicalHealth">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>{{"Stun Health" | translate}}</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.stunHealth" />
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input-sm text-center" name="stunHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.stunHealth">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>{{"Pain Tolerance" | translate}}</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.painTolerance" />
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input-sm text-center" name="painTolerance" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.painTolerance">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <label>{{"Dices" | translate}}</label>
+                </div>
+                <div class="col-md-7">
+                  <input type="range" min="1" max="5" step="1" [(ngModel)]="selectedActor.dices" />
+                </div>
+                <div class="col-md-5">
+                  <input class="form-control input-sm text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices">
+                </div>
+              </div>
+
             </div>
           </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>{{"Overflow" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.overflowHealth" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="overflowHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.overflowHealth">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>{{"Physical Health" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.physicalHealth" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="physicalHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.physicalHealth">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>{{"Stun Health" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.stunHealth" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="stunHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.stunHealth">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>{{"Pain Tolerance" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.painTolerance" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="painTolerance" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.painTolerance">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <label>{{"Dices" | translate}}</label>
-            </div>
-            <div class="col-md-7">
-              <input type="range" min="1" max="5" step="1" [(ngModel)]="selectedActor.dices" />
-            </div>
-            <div class="col-md-5">
-              <input class="form-control input-sm text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices">
-            </div>
-          </div>
+
         </div>
       </div>
     </div>
