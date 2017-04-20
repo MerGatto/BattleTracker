@@ -6,8 +6,32 @@
     cursor: pointer;
 }
 
+.cmTd {
+    padding: 2px;}
+
 .damage {
     background: rgba(255, 0, 0, 0.7);
+}
+
+.overflow {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.damage.overflow {
+    background: rgba(128, 0, 0, 0.9);
+}
+
+.filled {
+    background-color: rgba(0, 0, 0, 1);
+    background-image: url(assets/skull.svg);
+    fill: red;
+    background-size: cover;
+}
+
+.damage.filled {
+    background-color: rgba(0, 0, 0, 1);
+    background-image: url(assets/skull_red.svg);
+    background-size: cover;
 }
 
 .cmCellContent {

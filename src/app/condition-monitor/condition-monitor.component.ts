@@ -37,6 +37,15 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
     return this._health
   }
 
+  private _overflow: number
+  @Input()
+  set overflow(value: number) {
+    UndoHandler.HandleProperty(this, "overflow", value)
+  }
+  get overflow(): number {
+    return this._overflow
+  }
+
   private _painPolerance: number
   @Input()
   set painPolerance(value: number) {
@@ -47,10 +56,23 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   }
 
   get rows(): number {
-    return Math.ceil(this.health / 3)
+    return Math.ceil(this.cellCount / 3)
   }
 
-  constructor() { }
+  get cellCount(): number {
+    var overflow = 0
+    if (this.overflow > 0) {
+      overflow = this.overflow+1
+    }
+    return this.health+overflow
+  }
+
+  constructor() { 
+    this.health = 10
+    this.overflow = 0
+    this.painPolerance = 0
+    this.damage = 0
+  }
 
   ngOnInit() {
   }
@@ -64,11 +86,11 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   }
 
   getCols(row: number) {
-    if (this.health / (row * 3) >= 1) {
+    if (this.cellCount / (row * 3) >= 1) {
       return 3
     }
     else {
-      return this.health % 3;
+      return this.cellCount % 3;
     }
   }
 
@@ -83,14 +105,16 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
 
   getCellStyle(n: number) {
     var styles = {
-      'damage': this.damage >= n
+      'damage': this.damage >= n,
+      'overflow': n > this.health,
+      'filled': n == this.cellCount && this.overflow > 0
     }
     return styles
   }
 
   getCellText(n: number): string {
     var result: string = ""
-    if ((n > this.painPolerance) && (n - this.painPolerance) % 3 == 0) {
+    if ((n > this.painPolerance) && (n - this.painPolerance) % 3 == 0 && n <= this.health) {
       result = '-' + ((n - this.painPolerance) / 3)
     }
     return result

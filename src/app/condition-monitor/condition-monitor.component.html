@@ -1,7 +1,7 @@
 <div>
     <table class="table table-condensed">
         <tr *ngFor="let row of createRange(rows)">   
-            <td *ngFor="let col of createRange(getCols(row))">
+            <td class="cmTd" *ngFor="let col of createRange(getCols(row))">
                 <div class="cmCell" [ngClass]="getCellStyle((row-1)*3+col)" (click)="OnCellClick((row-1)*3+col)">
                     <div class="cmCellContent">
                         {{ getCellText((row-1)*3+col) }}

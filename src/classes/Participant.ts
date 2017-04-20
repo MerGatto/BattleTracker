@@ -108,6 +108,14 @@ export class Participant
         UndoHandler.HandleProperty(this, "painTolerance", val)
     }
 
+    private _overflowHealth: number
+    get overflowHealth(): number {
+        return this._overflowHealth
+    }
+    set overflowHealth(val: number) {
+        UndoHandler.HandleProperty(this, "overflowHealth", val)
+    }
+
     private _physicalHealth: number
     get physicalHealth(): number {
         return this._physicalHealth
@@ -154,6 +162,7 @@ export class Participant
         this.edge = false
         this.name = ""
         this.painTolerance = 0
+        this.overflowHealth = 4
         this.physicalHealth = 10
         this.stunHealth = 10
         this.stunDamage = 0

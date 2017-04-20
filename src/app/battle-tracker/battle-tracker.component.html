@@ -121,10 +121,32 @@
       <div class="panel panel-default">
         <div class="panel-heading"><h3>{{selectedActor.name}}</h3></div>
         <div class="panel-body">
-          <h4>Physical</h4>
-          <app-condition-monitor [health]="selectedActor.physicalHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.physicalDamage"></app-condition-monitor>
-          <h4>Stun</h4>
-          <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
+          <div class="row">
+            <div class="col-md-6">
+              <h4>Physical</h4>
+              <app-condition-monitor 
+                [health]="selectedActor.physicalHealth" 
+                [overflow]="selectedActor.overflowHealth" 
+                [painPolerance]="selectedActor.painTolerance" 
+                [(ngModel)]="selectedActor.physicalDamage">
+              </app-condition-monitor>
+            </div>
+            <div class="col-md-6">
+              <h4>Stun</h4>
+              <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>{{"Overflow" | translate}}</label>
+            </div>
+            <div class="col-md-7">
+              <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.overflowHealth" />
+            </div>
+            <div class="col-md-5">
+              <input class="form-control input-sm text-center" name="overflowHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.overflowHealth">
+            </div>
+          </div>
           <div class="row">
             <div class="col-md-12">
               <label>{{"Physical Health" | translate}}</label>
