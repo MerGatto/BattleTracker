@@ -1,14 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="buffer-top">
-      <button type="button" class="btn btn-warning" (click)="btnUndo_Click(p)">
-        {{"Undo" | translate}}
-      </button>
-      <button type="button" class="btn btn-warning" (click)="btnRedo_Click(p)">
-        {{"Redo" | translate}}
-      </button>
-    </div>
-    <div class="buffer-top">
+    <div class="col-md-3">
       <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
         {{"Start Round" | translate}}
       </button>
@@ -17,6 +9,14 @@
       </button>
       <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
         {{"Reset" | translate}}
+      </button>
+    </div>
+    <div class="col-md-3" styl>
+      <button id="btnUndo" type="button" class="btn btn-warning" (click)="btnUndo_Click(p)">
+        B
+      </button> 
+      <button id="btnRedo" type="button" class="btn btn-warning" (click)="btnRedo_Click(p)">
+        B
       </button>
     </div>
   </div>

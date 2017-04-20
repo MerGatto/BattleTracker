@@ -9,6 +9,20 @@ tr {
     height: 80vh;
     overflow: auto
 }
+
+#btnRedo {
+    background-image: url("assets/redo.svg");
+    background-size: cover;
+    height: 100%;
+    color: rgba(0, 0, 0, 0.0);
+}
+
+#btnUndo {
+    background-image: url("assets/undo.svg");
+    background-size: cover;
+    height: 100%;
+    color: rgba(0, 0, 0, 0.0);
+}
 .selected > * {
     /*border: none;*/
 }
