@@ -315,14 +315,14 @@ export class BattleTrackerComponent implements OnInit {
     inpName_KeyDown(e) {       
         var keyCode = e.keyCode || e.which
 
-        if (keyCode == 9) {
+        if (keyCode == 9 && !e.shiftKey) {
             e.preventDefault()
             var currentIndex: number = Utility.getDataIndex(e.target)
             var row = Utility.getRow(e.target)
             var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
-                var field:any = $(nextRow).find('.input-md')[0]
+                var field:any = $(nextRow).find('input')[0]
                 if(field) {
                     field.select()
                     $(nextRow).click();
@@ -333,24 +333,86 @@ export class BattleTrackerComponent implements OnInit {
             this.addParticipant()
             this.indexToSelect = currentIndex + 1
         }
+        else if(keyCode == 9 && e.shiftKey) {
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var prevRow = $(row).prev()[0]
+            if (prevRow != undefined) 
+            { 
+                var field:any = $(prevRow).find('input')[0]
+                if(field) {
+                    field.select()
+                    $(prevRow).click();
+                    return
+                }
+            }
+        }
     }
 
-    inpIni_KeyDown(e) {    
+    inpDiceIni_KeyDown(e) {    
         var keyCode = e.keyCode || e.which
 
-        if (keyCode == 9) {
+        if (keyCode == 9 && !e.shiftKey) {
             e.preventDefault()
             var row = Utility.getRow(e.target)
             var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
-                var field:any = $(nextRow).find('.inpIni')[0]
+                var field:any = $(nextRow).find('.inpDiceIni')[0]
                 if(field) {
                     field.select()
                     $(nextRow).click();
                     return
                 }
             }            
+        }
+        else if(keyCode == 9 && e.shiftKey) {
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var prevRow = $(row).prev()[0]
+            if (prevRow != undefined) 
+            { 
+                var field:any = $(prevRow).find('.inpDiceIni')[0]
+                if(field) {
+                    field.select()
+                    $(prevRow).click();
+                    return
+                }
+            }
+        }
+    }
+
+    inpBaseIni_KeyDown(e) {    
+        var keyCode = e.keyCode || e.which
+        var shift = e.shiftKey
+
+        if (keyCode == 9 && !shift) {
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var nextRow = $(row).next()[0]
+            if (nextRow != undefined) 
+            { 
+                var field:any = $(nextRow).find('.inpBaseIni')[0]
+                if(field) {
+                    field.select()
+                    $(nextRow).click();
+                    return
+                }
+            }            
+        }
+        else if(keyCode == 9 && shift) {
+            e.preventDefault()
+            var row = Utility.getRow(e.target)
+            var prevRow = $(row).prev()[0]
+            if (prevRow != undefined) 
+            { 
+                var field:any = $(prevRow).find('.inpBaseIni')[0]
+                if(field) {
+                    field.select()
+                    $(prevRow).click();
+                    return
+                }
+            }
         }
     }
 

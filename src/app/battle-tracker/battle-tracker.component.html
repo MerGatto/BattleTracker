@@ -14,10 +14,10 @@
       </div>
       <div class="col-md-6">
         <div class="right">
-          <button id="btnUndo" type="button" class="btn btn-warning" (click)="btnUndo_Click(p)">
+          <button id="btnUndo" type="button" class="btn btn-warning" (click)="btnUndo_Click(p)" alt="Undo">
             B
           </button> 
-          <button id="btnRedo" type="button" class="btn btn-warning" (click)="btnRedo_Click(p)">
+          <button id="btnRedo" type="button" class="btn btn-warning" (click)="btnRedo_Click(p)" alt="Redo">
             B
           </button>
         </div>
@@ -50,11 +50,11 @@
               <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
             </td>
             <td class="col-md-1 text-center">
-              <input class="form-control inpIni text-center" name="ini" type="number" (keydown)="inpIni_KeyDown($event)" (focus)="inp_Focus($event)"
+              <input class="form-control inpDiceIni text-center" name="diceIni" type="number" (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)"
                 (input)="iniChange($event, p)" [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
             </td>
             <td class="col-md-1 text-center">
-              <input class="form-control text-center" name="base" type="number" (focus)="inp_Focus($event)" [(ngModel)]="p.baseIni">
+              <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)"  (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
             </td>
             <td>
               <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
