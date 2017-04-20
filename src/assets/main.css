@@ -1,0 +1,13 @@
+html, body { 
+    height:100%;
+}
+
+footer {
+    background-color: rgba(0, 255, 0, 0.3);
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid;
+    margin: 10px;
+    }
