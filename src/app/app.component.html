@@ -1,12 +1,25 @@
-<div class="container-fluid">
-  <div class="row">
-    <div class="btn-group">
-      <button *ngFor="let lang of supportedLanguages"
-        (click)="selectLang(lang.value)"
-        class="btn btn-default" [class.btn-primary]="isCurrentLang(lang.value)">
-        {{ lang.display }}
-      </button>
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">BattleTracker</a>
     </div>
+    <ul class="nav navbar-nav">
+      <li>
+        <div class="btn-group" style="display: inline-block">
+          <button *ngFor="let lang of supportedLanguages"
+            (click)="selectLang(lang.value)"
+            class="btn btn-default navbar-btn" [class.btn-primary]="isCurrentLang(lang.value)">
+            {{ lang.display }}
+          </button>
+        </div>  
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li *ngIf="!auth.authenticated()"><a href="#" (click)="auth.login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li *ngIf="auth.authenticated()"> <a href="#" (click)="auth.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
   </div>
-  <app-battle-tracker></app-battle-tracker>
+</nav>
+<div class="container-fluid">
+    <app-battle-tracker></app-battle-tracker>
 </div>

@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { TranslateService } from './translate';
+import { Auth } from './auth';
+
+declare var Auth0Lock;
 
 @Component({
   selector: 'app-root',
@@ -12,7 +15,7 @@ export class AppComponent {
     public translatedText: string;
     public supportedLanguages: any[];
   
-    constructor(private _translate: TranslateService) { }
+    constructor(private _translate: TranslateService, private auth: Auth) { }
 
     ngOnInit() {
       // standing data

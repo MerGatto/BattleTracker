@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { CustomFormsModule } from 'ng2-validation'
 import { DropdownModule } from 'ng2-bootstrap';
 import { TranslatePipe, TranslateService }   from './translate';
+import { Auth }   from './auth';
 
 import { AppComponent } from './app.component';
 import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
@@ -26,7 +27,7 @@ import { ConditionMonitorComponent } from './condition-monitor/condition-monitor
     CustomFormsModule,
     DropdownModule.forRoot()
   ],
-  providers: [ TranslateService ],
+  providers: [ TranslateService, Auth ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
