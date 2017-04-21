@@ -1,1 +1,1 @@
-ng github-pages:deploy --bh /BattleTracker/
+start ng build --prod

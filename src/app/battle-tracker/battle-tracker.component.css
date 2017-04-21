@@ -11,7 +11,13 @@ tr {
 }
 
 #btnRedo {
-    background-image: url("assets/redo.svg");
+    background-image: url("assets/undo.svg");
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
 }
 
 #btnUndo {
@@ -19,7 +25,9 @@ tr {
 }
 
 #btnUndo, #btnRedo {
-    background-size: cover;
+    background-size: 80% auto;
+    background-position: center;
+    background-repeat: no-repeat;
     height: 100%;
     color: rgba(0, 0, 0, 0.0);
     user-select: none;
