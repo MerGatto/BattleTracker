@@ -11,13 +11,15 @@ import { Auth }   from './auth';
 import { AppComponent } from './app.component';
 import { BattleTrackerComponent } from './battle-tracker/battle-tracker.component';
 import { ConditionMonitorComponent } from './condition-monitor/condition-monitor.component';
+import { RangeSliderComponent } from './range-slider/range-slider.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BattleTrackerComponent,
     TranslatePipe,
-    ConditionMonitorComponent
+    ConditionMonitorComponent,
+    RangeSliderComponent
 
   ],
   imports: [

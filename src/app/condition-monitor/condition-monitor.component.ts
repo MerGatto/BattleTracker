@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
-import { UndoHandler } from "../../classes/UndoHandler"
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -24,14 +23,14 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
     return this._damage
   }
   set damage(val: number) {
-    UndoHandler.HandleProperty(this, "damage", val)
+    this._damage = val
     this.onChangeCallback(val);
   }
 
   private _health: number
   @Input()
   set health(value: number) {
-    UndoHandler.HandleProperty(this, "health", value)
+    this._health = value
   }
   get health(): number {
     return this._health
@@ -40,7 +39,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   private _overflow: number
   @Input()
   set overflow(value: number) {
-    UndoHandler.HandleProperty(this, "overflow", value)
+    this._overflow = value
   }
   get overflow(): number {
     return this._overflow
@@ -49,7 +48,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   private _painPolerance: number
   @Input()
   set painPolerance(value: number) {
-    UndoHandler.HandleProperty(this, "painPolerance", value)
+    this._painPolerance = value
   }
   get painPolerance(): number {
     return this._painPolerance
