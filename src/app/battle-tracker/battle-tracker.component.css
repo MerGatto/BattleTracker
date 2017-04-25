@@ -2,6 +2,14 @@ tr {
     background: white;
 }
 
+.row {
+    margin-top: 5px;
+}
+
+div {
+    margin-top: 2px;
+}
+
 .detailsBar {
     right: 0;
     top: 10vh;
