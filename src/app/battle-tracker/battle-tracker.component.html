@@ -117,11 +117,20 @@
         <div class="panel-heading"><h3>{{selectedActor.name || "Selected Actor" | translate}}</h3></div>
         <div class="panel-body">
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#conditionMonitor">{{"Condition Monitor" | translate}}</a></li>
-            <li><a data-toggle="tab" href="#options">{{"Options" | translate}}</a></li>
+            <li role="presentation" class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                Details <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="active"><a data-toggle="tab" href="#conditionMonitor">{{"Condition Monitor" | translate}}</a></li>
+                <li><a data-toggle="tab" href="#options">{{"Options" | translate}}</a></li>
+                <li><a data-toggle="tab" href="#log">{{"Log" | translate}}</a></li>
+              </ul>
+            </li>
           </ul>
           <div class="tab-content">
             <div id="conditionMonitor" class="tab-pane fade in active">
+              <h4>{{"Condition Monitor" | translate}}</h4>
               <div class="row">
                 <div class="col-lg-6">
                   <h4>Physical</h4>
@@ -139,7 +148,7 @@
               </div>
             </div>
             <div id="options" class="tab-pane fade">
-
+              <h4>{{"Options" | translate}}</h4>
               <div class="row">
                 <div class="col-xs-12">
                   <label>{{"Overflow" | translate}}</label>
@@ -181,6 +190,11 @@
                 </div>
               </div>
 
+            </div>
+            <div id="log" class="tab-pane fade">
+              <h4>{{"Log" | translate}}</h4>
+              <div class="row">
+              </div>
             </div>
           </div>
 

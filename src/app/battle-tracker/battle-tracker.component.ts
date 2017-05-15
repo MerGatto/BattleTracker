@@ -355,7 +355,6 @@ export class BattleTrackerComponent implements OnInit {
             e.preventDefault()
             var row = $(e.target).closest('.participant')
             var nextRow = $(row).next()[0]
-            this.indexToSelect = 1 + $(row).data("indexnr")
             if (nextRow != undefined) 
             { 
                 var field:any = $(nextRow).find('.inpDiceIni')[0]
