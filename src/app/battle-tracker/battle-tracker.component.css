@@ -43,13 +43,14 @@ div {
 
 }
 
+.participant {
+    border: 3px solid white;
+    border-radius: 5px;
+}
+
 .right {
     right: 0;
     position: absolute;
-}
-
-.selected > * {
-    /*border: none;*/
 }
 
 .acting, .acting > * {
@@ -72,8 +73,9 @@ div {
     background: rgba(160, 160, 160, 1);
 }
 
-.selected ::after {
-    
+.selected {
+    border: 3px solid cornflowerblue;
+    border-radius: 5px;
 }
 
 .edged .lblIni::after {
