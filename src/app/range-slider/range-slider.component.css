@@ -22,49 +22,28 @@ body {
   width: 100%;
   background: transparent;
   border: none;
+  -moz-appearance:textfield;
 }
+
+.range-slider__input::-webkit-inner-spin-button,
+.range-slider__input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0; 
+}
+
 
 .range-slider__range {
   -webkit-appearance: none;
+  display: inline-block;
   height: 10px;
+  width: calc(100% - 74px);
   border-radius: 5px;
   background: #d7dcdf;
   outline: none;
   padding: 0;
   margin: 0;
-}
-.range-slider__range::-webkit-slider-thumb {
-  -webkit-appearance: none;
-          appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #2c3e50;
-  cursor: pointer;
-  -webkit-transition: background .15s ease-in-out;
-  transition: background .15s ease-in-out;
-}
-.range-slider__range::-webkit-slider-thumb:hover {
-  background: #1abc9c;
-}
-.range-slider__range:active::-webkit-slider-thumb {
-  background: #1abc9c;
-}
-.range-slider__range::-moz-range-thumb {
-  width: 20px;
-  height: 20px;
-  border: 0;
-  border-radius: 50%;
-  background: #2c3e50;
-  cursor: pointer;
-  -webkit-transition: background .15s ease-in-out;
-  transition: background .15s ease-in-out;
-}
-.range-slider__range::-moz-range-thumb:hover {
-  background: #1abc9c;
-}
-.range-slider__range:active::-moz-range-thumb {
-  background: #1abc9c;
 }
 
 .range-slider__value {
@@ -99,4 +78,39 @@ body {
 input::-moz-focus-inner,
 input::-moz-focus-outer {
   border: 0;
+}
+.range-slider__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+
+
+.range-slider__range::-webkit-slider-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-webkit-slider-thumb {
+  background: #1abc9c;
+}
+.range-slider__range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border: 0;
+  border-radius: 50%;
+  background: #2c3e50;
+  cursor: pointer;
+  -webkit-transition: background .15s ease-in-out;
+  transition: background .15s ease-in-out;
+}
+.range-slider__range::-moz-range-thumb:hover {
+  background: #1abc9c;
+}
+.range-slider__range:active::-moz-range-thumb {
+  background: #1abc9c;
 }

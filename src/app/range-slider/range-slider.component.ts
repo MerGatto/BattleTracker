@@ -92,4 +92,8 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  inp_Focus(e) { 
+    e.target.select()
+  }
+
 }
