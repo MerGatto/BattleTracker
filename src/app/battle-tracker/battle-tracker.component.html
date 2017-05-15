@@ -144,44 +144,32 @@
                 <div class="col-xs-12">
                   <label>{{"Overflow" | translate}}</label>
                 </div>
-                <div class="col-xs-7">
-                  <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.overflowHealth" />
-                </div>
-                <div class="col-xs-5">
-                  <input class="form-control input-sm text-center" name="overflowHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.overflowHealth">
+                <div class="col-xs-12">
+                  <range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1"></range-slider>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-12">
                   <label>{{"Physical Health" | translate}}</label>
                 </div>
-                <div class="col-xs-7">
-                  <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.physicalHealth" />
-                </div>
-                <div class="col-xs-5">
-                  <input class="form-control input-sm text-center" name="physicalHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.physicalHealth">
+                <div class="col-xs-12">
+                  <range-slider [(ngModel)]="selectedActor.physicalHealth" min="1" max="20" step="1"></range-slider>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-12">
                   <label>{{"Stun Health" | translate}}</label>
                 </div>
-                <div class="col-xs-7">
-                  <input type="range" min="1" max="20" step="1" [(ngModel)]="selectedActor.stunHealth" />
-                </div>
-                <div class="col-xs-5">
-                  <input class="form-control input-sm text-center" name="stunHealth" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.stunHealth">
+                <div class="col-xs-12">
+                  <range-slider [(ngModel)]="selectedActor.stunHealth" min="1" max="20" step="1"></range-slider>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-12">
                   <label>{{"Pain Tolerance" | translate}}</label>
                 </div>
-                <div class="col-xs-7">
-                  <input type="range" min="0" max="20" step="1" [(ngModel)]="selectedActor.painTolerance" />
-                </div>
-                <div class="col-xs-5">
-                  <input class="form-control input-sm text-center" name="painTolerance" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.painTolerance">
+                <div class="col-xs-12">
+                  <range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="20" step="1"></range-slider>
                 </div>
               </div>
               <div class="row">
@@ -189,7 +177,7 @@
                   <label>{{"Dices" | translate}}</label>
                 </div>
                 <div class="col-xs-12">
-                  <range-slider [(ngModel)]="selectedActor.dices" max="5" min="1" step="1"></range-slider>
+                  <range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1"></range-slider>
                 </div>
               </div>
 
