@@ -7,7 +7,8 @@ tr {
 }
 
 div {
-    margin-top: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 .detailsBar {
@@ -51,39 +52,28 @@ div {
     /*border: none;*/
 }
 
-.selected {
-    /*-webkit-transition:  -webkit-transform .2s ease-out;
-    -moz-transition: -moz-transform .2s ease-out;
-    -o-transition: -o-transform .2s ease-out;
-    -ms-transition: -ms-transform .2s ease-out; 
-    transition: transform .2s ease-out; 
-
-   -webkit-transform:scale(1.02);
-   -moz-transform:scale(1.02);
-   -o-transform:scale(1.02);
-    transform:scale(1.02);
-    transform:scale(1.02);*/
-}
-
-
 .acting, .acting > * {
-    background: rgba(0, 255, 0, 0.5);
+    background: rgba(100, 255, 100, 1);
 }
 
 .noIni .inpDiceIni {
-    background: rgba(0, 128, 255, 0.5);
+    background: rgba(100, 150, 255, 1);
 }
 
 .finished, .finished > * {
-    background: rgba(128, 128, 128, 0.5);
+    background: rgba(160, 160, 160, 1);
 }
 
 .delaying, .delaying > * {
-    background: rgba(255, 255, 0, 0.5)
+    background: rgba(255, 255, 150, 1)
 }
 
 .negativeIni, .negativeIni > * {
-    background: rgba(128, 128, 128, 0.5);
+    background: rgba(160, 160, 160, 1);
+}
+
+.selected ::after {
+    
 }
 
 .edged .lblIni::after {
@@ -92,7 +82,7 @@ div {
 
 
 .ooc, .ooc > * {
-    background: rgba(255, 0, 0, 0.5);
+    background: rgba(255, 0, 0, 1);
 }
 
 .innertable {

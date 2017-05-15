@@ -317,8 +317,7 @@ export class BattleTrackerComponent implements OnInit {
 
         if (keyCode == 9 && !e.shiftKey) {
             e.preventDefault()
-            var currentIndex: number = Utility.getDataIndex(e.target)
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
@@ -331,11 +330,11 @@ export class BattleTrackerComponent implements OnInit {
             }
             UndoHandler.StartActions() 
             this.addParticipant()
-            this.indexToSelect = currentIndex + 1
+            this.indexToSelect = 1 + $(row).data("indexnr")
         }
         else if(keyCode == 9 && e.shiftKey) {
             e.preventDefault()
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var prevRow = $(row).prev()[0]
             if (prevRow != undefined) 
             { 
@@ -354,8 +353,9 @@ export class BattleTrackerComponent implements OnInit {
 
         if (keyCode == 9 && !e.shiftKey) {
             e.preventDefault()
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var nextRow = $(row).next()[0]
+            this.indexToSelect = 1 + $(row).data("indexnr")
             if (nextRow != undefined) 
             { 
                 var field:any = $(nextRow).find('.inpDiceIni')[0]
@@ -368,7 +368,7 @@ export class BattleTrackerComponent implements OnInit {
         }
         else if(keyCode == 9 && e.shiftKey) {
             e.preventDefault()
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var prevRow = $(row).prev()[0]
             if (prevRow != undefined) 
             { 
@@ -388,7 +388,7 @@ export class BattleTrackerComponent implements OnInit {
 
         if (keyCode == 9 && !shift) {
             e.preventDefault()
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var nextRow = $(row).next()[0]
             if (nextRow != undefined) 
             { 
@@ -402,7 +402,7 @@ export class BattleTrackerComponent implements OnInit {
         }
         else if(keyCode == 9 && shift) {
             e.preventDefault()
-            var row = Utility.getRow(e.target)
+            var row = $(e.target).closest('.participant')
             var prevRow = $(row).prev()[0]
             if (prevRow != undefined) 
             { 
@@ -416,20 +416,17 @@ export class BattleTrackerComponent implements OnInit {
         }
     }
 
-    selectIndex(i: Number) {
-        if (i == this.indexToSelect) {
-            var row = Utility.getRowForIndex(i)
-            if (row != undefined) 
-            { 
-                var field:any = $(row).find('.input-md')[0]
-                if(field) {
-                    field.select()
-                    this.indexToSelect = -1
-                }
-            }    
-
+    ngReady() {
+        var row = document.getElementById("participant" + this.indexToSelect)
+        if (row) 
+        { 
+            var field:any = $(row).find('input')[0]
+            if(field) {
+                this.indexToSelect = -1
+                field.select()
+                $(row).click()
+            }
         }
-        return i
     }
 
     //Focus Handler

@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="row">
-    <div class="col-xs-9 col-md-10">
+    <div class="col-xs-9 col-xl-10">
       <div class="col-xs-6" style="padding-left: 0">
         <div class="left">
           <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
@@ -28,30 +28,31 @@
   </div>
   <br>
   <div class="row">
-    <div class="col-xs-9 col-md-10">
+    <div class="col-xs-9 col-xl-10">
       <div class="row bg-info">
-        <div class="col-xs-4 col-md-2"><h4><b>{{"Name" | translate}}</b></h4></div>
-        <div class="col-xs-2 col-md-1 text-center"><h4><b>{{"Ini" | translate}}</b></h4></div>
-        <div class="col-xs-3 col-md-1 text-center"><h4><b>{{"Dice Roll" | translate}}</b></h4></div>
-        <div class="col-xs-3 col-md-1 text-center"><h4><b>{{"Base Ini" | translate}}</b></h4></div>
+        <div class="col-xs-4 col-lg-2"><h4><b>{{"Name" | translate}}</b></h4></div>
+        <div class="col-xs-2 col-lg-1 text-center"><h4><b>{{"Ini" | translate}}</b></h4></div>
+        <div class="col-xs-3 col-lg-1 text-center"><h4><b>{{"Dice Roll" | translate}}</b></h4></div>
+        <div class="col-xs-3 col-lg-1 text-center"><h4><b>{{"Base Ini" | translate}}</b></h4></div>
       </div>
 
-      <div class="row" [attr.data-indexnr]="selectIndex(i)" (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items; let i = index">
-        <div class="col-xs-4 col-md-2">
+      <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p" 
+          (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items let i = index let last = last">
+        <div class="col-xs-4 col-lg-2">
           <input id="name" name="name" type="text" placeholder="Name" class="form-control" (keydown)="inpName_KeyDown($event)"
             [(ngModel)]="p.name">
         </div>
-        <div class="col-xs-2 col-md-1 text-center">
+        <div class="col-xs-2 col-lg-1 text-center">
           <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
         </div>
-        <div class="col-xs-3 col-md-1 text-center">
+        <div class="col-xs-3 col-lg-1 text-center">
           <input class="form-control inpDiceIni text-center" name="diceIni" type="number" (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)"
             (input)="iniChange($event, p)" [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
         </div>
-        <div class="col-xs-3 col-md-1 text-center">
+        <div class="col-xs-3 col-lg-1 text-center">
           <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)"  (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
         </div>
-        <div class="col-xs-6 col-md-3"><!--action-->
+        <div class="col-xs-9 col-lg-6"><!--action-->
           <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
             {{"Roll Initiative" | translate}}
           </button>
@@ -88,19 +89,18 @@
             </ul>
           </div>
         </div><!--action bar-->
-        <div class="col-xs-3 col-md-2">
-          <button type="button" class="btn btn-default" (click)="btnEnterCombat_Click(p)" *ngIf="p.ooc">
-            {{"Enter Combat" | translate}}
+        <div class="col-xs-3 col-lg-1 text-center">
+          <button type="button" class="btn btn-primary" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
+            <span class="glyphicon glyphicon-log-in"></span>
           </button>
-          <button type="button" class="btn btn-default" (click)="btnLeaveCombat_Click(p)" *ngIf="!p.ooc">
-            {{"Leave Combat" | translate}}
+          <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
+            <span class="glyphicon glyphicon-log-out"></span>
           </button>
-        </div>
-        <div class="col-xs-3 col-md-1 text-center">
           <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
         </div>
+        <span *ngIf="last">{{ngReady()}}</span>
       </div><!--endrow-->
       <div>
         <div colspan="8">
@@ -112,7 +112,7 @@
       </div>
     </div>
 
-    <div class="col-xs-3 col-md-2 detailsBar">
+    <div class="col-xs-3 col-xl-2 detailsBar">
       <div class="panel panel-default">
         <div class="panel-heading"><h3>{{selectedActor.name || "Selected Actor" | translate}}</h3></div>
         <div class="panel-body">
@@ -123,7 +123,7 @@
           <div class="tab-content">
             <div id="conditionMonitor" class="tab-pane fade in active">
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-lg-6">
                   <h4>Physical</h4>
                   <app-condition-monitor 
                     [health]="selectedActor.physicalHealth" 
@@ -132,7 +132,7 @@
                     [(ngModel)]="selectedActor.physicalDamage">
                   </app-condition-monitor>
                 </div>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                   <h4>Stun</h4>
                   <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
                 </div>
@@ -199,7 +199,12 @@
                 <div class="col-xs-12">
                   <label>{{"test" | translate}}</label>
                 </div>
-                <range-slider [(ngModel)]="selectedActor.dices" max="20" min="5" step="10"></range-slider>
+                <div class="col-xs-12">
+                  <range-slider [(ngModel)]="selectedActor.dices" max="5" min="1" step="1"></range-slider>
+                </div>
+                <div class="col-xs-5">
+                  <input class="form-control input-sm text-center" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="selectedActor.dices">
+                </div>
               </div>
 
             </div>

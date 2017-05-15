@@ -80,4 +80,16 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
 
   }
 
+  onInput(e) {
+    let val = $(e.target).val()
+    if (val > this.max) {
+      this.value = this.max
+      $(e.target).val(this.max)
+    }
+    if (val < this.min) {
+      this.value = this.min
+      $(e.target).val(this.min)
+    }
+  }
+
 }

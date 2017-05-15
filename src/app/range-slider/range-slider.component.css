@@ -4,25 +4,28 @@
 
 body {
   font-family: sans-serif;
-  padding: 60px 20px;
 }
 @media (min-width: 600px) {
   body {
-    padding: 60px;
   }
 }
 
 .range-slider {
-  margin: 60px 0 0 0%;
 }
 
 .range-slider {
   width: 100%;
 }
 
+.range-slider__input {
+  display: inline-block;
+  width: 100%;
+  background: transparent;
+  border: none;
+}
+
 .range-slider__range {
   -webkit-appearance: none;
-  width: calc(100% - (73px));
   height: 10px;
   border-radius: 5px;
   background: #d7dcdf;

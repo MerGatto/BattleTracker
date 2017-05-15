@@ -1,4 +1,4 @@
-<div class="row range-slider">
-  <input class="range-slider__range" type="range" [(ngModel)]="value" min="5" min="{{ 10 }}" max="{{ max }}" [(step)]="step">
-  <span class="range-slider__value">{{ value }}</span>
+<div class="range-slider">
+  <input class="range-slider__range" type="range" [(ngModel)]="value" attr.min="{{min}}" attr.max="{{max}}" [(step)]="step">
+  <span class="range-slider__value"><input class="range-slider__input" name="dices" type="number" (input)="onInput($event)" [(ngModel)]="value"></span>  
 </div>

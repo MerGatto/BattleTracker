@@ -24,8 +24,7 @@ export class AppComponent {
         { display: 'Deutsch', value: 'de' },
       ];
       
-      this.selectLang('en');
-        
+      this.selectLang('en');        
     }
     
     isCurrentLang(lang: string) {

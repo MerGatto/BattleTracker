@@ -19,7 +19,8 @@
       "mobile": false,
       "styles": [
         "styles.css",
-        "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+        "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+        "bootstrap-xlgrid.min.css"
       ],
       "scripts": [],
       "environments": {
