@@ -1,5 +1,6 @@
 .cmCell {
-    padding-bottom: 100%;
+    width: 32px;
+    height: 32px;
     position: relative;
     background: rgba(0, 255, 0, 0.9);
     border-radius: 5px;
