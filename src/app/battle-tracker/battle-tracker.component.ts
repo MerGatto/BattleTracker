@@ -160,7 +160,41 @@ export class BattleTrackerComponent implements OnInit {
     addParticipant() {
         var p = new Participant()
         this.participants.insert(p)
-        this.selectedActor = p
+        this.selectActor(p)
+    }
+
+    copyParticipant(p : Participant) {
+        var copy = p.clone()
+
+        var regexresult = p.name.match("\\d*$")
+        var number = regexresult[0]
+        var name = p.name
+        var int
+
+        //  Extract name and numbner
+        if (number) {
+            name = p.name.substring(0, regexresult.index)
+            console.log(name)
+            int = Utility.convertToInt(number)
+        }
+
+        // Check for other Participants with the same name
+        var high = 0
+        for(var participant of this.participants.items) {
+            if (participant.name.match(name)) {
+                number = participant.name.match("\\d*$")[0]
+                if (number) {
+                    int = Utility.convertToInt(number)
+                    if (int > high) {
+                        high = int
+                    }
+                }
+            }
+        }
+
+        // Set the name for the Copy
+        copy.name = name + (high+1)    
+        this.participants.insert(copy)
     }
 
     selectActor(p: Participant) {
@@ -265,6 +299,11 @@ export class BattleTrackerComponent implements OnInit {
         }
         UndoHandler.StartActions()
         this.removeParticipant(sender)
+    }
+
+    btnDuplicate_Click(p) {        
+        UndoHandler.StartActions()
+        this.copyParticipant(p)
     }
 
     btnReset_Click() {

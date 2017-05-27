@@ -169,6 +169,10 @@ export class Participant
         this.physicalDamage = 0
     }
 
+    clone(): any {
+        return jQuery.extend(true, {}, this)
+    }
+
     seizeInitiative() 
     {
         this.edge = true
