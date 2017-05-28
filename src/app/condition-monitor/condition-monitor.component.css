@@ -25,14 +25,18 @@
 .filled {
     background-color: rgba(0, 0, 0, 1);
     background-image: url(assets/skull.svg);
+    background-size: 80%, auto;
+    background-repeat: no-repeat;
+    background-position: center;
     fill: red;
-    background-size: cover;
 }
 
 .damage.filled {
     background-color: rgba(0, 0, 0, 1);
     background-image: url(assets/skull_red.svg);
-    background-size: cover;
+    background-size: 80%, auto;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .cmCellContent {

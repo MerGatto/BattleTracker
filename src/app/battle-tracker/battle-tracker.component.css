@@ -36,6 +36,7 @@ div {
     background-size: 80% auto;
     background-position: center;
     background-repeat: no-repeat;
+    fill: black;
     height: 100%;
     color: rgba(0, 0, 0, 0.0);
     user-select: none;
@@ -43,7 +44,7 @@ div {
 }
 
 .btn-duplicate {
-    background-image: url("assets/duplicate.png");
+    background-image: url("assets/duplicate.svg");
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: center;
