@@ -6,6 +6,7 @@ import {Action} from "../../Interfaces/Action"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
 import {UndoHandler} from "../../classes/UndoHandler" 
+import {LogHandler} from "../../classes/LogHandler" 
 
 var bt: any
             
@@ -27,6 +28,7 @@ export class BattleTrackerComponent implements OnInit {
     participants: ParticipantList
     currentActors: ParticipantList
     indexToSelect: number = -1
+    logHandler = LogHandler
 
     private _started: boolean
     get started(): boolean {
@@ -76,8 +78,9 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     ngOnInit() {   
-        UndoHandler.Inizialize()
+        UndoHandler.Initialize()
         UndoHandler.StartActions()
+        LogHandler.Initialize()
     }
 
     initialize() {
@@ -250,26 +253,31 @@ export class BattleTrackerComponent implements OnInit {
     /// Button Handler
     btnAddParticipant_Click() {
         UndoHandler.StartActions()
+        LogHandler.Log("AddParticipant_Click")
         this.addParticipant()
     }
 
     btnEdge_Click(sender: Participant) {
         UndoHandler.StartActions()
+        LogHandler.Log(sender.name +" Edge_Click")
         sender.seizeInitiative()
     }
 
     btnRollInitative_Click(sender: Participant) {
         UndoHandler.StartActions()
+        LogHandler.Log(sender.name +" RollInitative_Click")
         sender.rollInitiative()
     }
 
     btnAct_Click(sender: Participant) {
         UndoHandler.StartActions()
+        LogHandler.Log(sender.name +" Act_Click")
         this.act(sender)
     }
 
     btnDelay_Click(sender: Participant) {
         UndoHandler.StartActions()
+        LogHandler.Log(sender.name +" Delay_Click")
         sender.status = StatusEnum.Delaying
         if (this.currentActors.remove(sender)) {
             if (this.currentActors.count == 0) {
@@ -280,6 +288,7 @@ export class BattleTrackerComponent implements OnInit {
 
     btnStartRound_Click() {
         UndoHandler.StartActions()
+        LogHandler.Log("StartRound_Click")
         this.started = true
         this.passEnded = false
         this.goToNextActors()
@@ -287,29 +296,37 @@ export class BattleTrackerComponent implements OnInit {
 
     btnNextPass_Click() {
         UndoHandler.StartActions()
+        LogHandler.Log("NextPass_Click")
         this.nextIniPass()
         this.goToNextActors()
     }
 
     btnDelete_Click(sender: Participant) {
+        LogHandler.Log(sender.name +" Delete_Click")
         if (sender.name != "") {
             if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
+                LogHandler.Log(sender.name +" Delete_Cancel")
                 return
             }
         }
-        UndoHandler.StartActions()
+        LogHandler.Log(sender.name +" Delete_Confirm")
+        UndoHandler.StartActions()        
         this.removeParticipant(sender)
     }
 
-    btnDuplicate_Click(p) {        
+    btnDuplicate_Click(sender: Participant) {        
+        LogHandler.Log(sender.name +" Duplicate_Click")
         UndoHandler.StartActions()
-        this.copyParticipant(p)
+        this.copyParticipant(sender)
     }
 
-    btnReset_Click() {
+    btnReset_Click() {        
+        LogHandler.Log("Reset_Click")
         if (!confirm("Are you sure you want to reset the BattleTracker?")) {
+            LogHandler.Log("Reset_Cancel")
             return
         }
+        LogHandler.Log("Reset_Confirm")
         UndoHandler.StartActions()
         this.combatTurn = 1
         this.currentActors.clear()
@@ -323,6 +340,7 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnLeaveCombat_Click(sender: Participant) {
+        LogHandler.Log(sender.name +" LeaveCombat_Click")
         UndoHandler.StartActions()
         sender.leaveCombat()
         if (this.currentActors.contains(sender)) {
@@ -332,22 +350,26 @@ export class BattleTrackerComponent implements OnInit {
     }
 
     btnEnterCombat_Click(sender: Participant) {
+        LogHandler.Log(sender.name +" EnterCombat_Click")
         UndoHandler.StartActions()
         sender.enterCombat()
     }
 
-    actnBtn_Click(p?: Participant, action?: Action) {
+    btnAction_Click(p: Participant, action: Action, persistent: boolean) {
+        LogHandler.Log(p.name +" Action_Click: " + action.key)
         UndoHandler.StartActions()
-        if (action && p) {
+        if (!persistent) {
             p.actions.doAction(this.getInitiative(p), action)
         }
     }
 
     btnUndo_Click() {
+        LogHandler.Log("Undo_Click")
         UndoHandler.Undo()
     }
 
     btnRedo_Click() {
+        LogHandler.Log("Redo_Click")
         UndoHandler.Redo()
     }
 
@@ -367,6 +389,7 @@ export class BattleTrackerComponent implements OnInit {
                     return
                 }
             }
+            LogHandler.Log("TabAddParticipant")
             UndoHandler.StartActions() 
             this.addParticipant()
             this.indexToSelect = 1 + $(row).data("indexnr")

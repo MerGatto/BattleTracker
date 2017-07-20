@@ -23,7 +23,7 @@ export module UndoHandler {
     var halted: boolean = true
     var recording: boolean = false
 
-    export function Inizialize() {
+    export function Initialize() {
         pastHistory = []
         futureHistory = []
 
