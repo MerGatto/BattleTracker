@@ -175,6 +175,7 @@ export class Participant
         clone._baseIni = this._baseIni
         clone._diceIni = this._diceIni
         clone._dices = this._dices
+        clone._edge = this._edge
         clone._finished = this._finished
         clone._name = this._name
         clone._ooc = this._ooc

@@ -168,6 +168,10 @@ export class BattleTrackerComponent implements OnInit {
 
     copyParticipant(p : Participant) {
         var copy = p.clone()
+        copy.edge = false
+        copy.active = false
+        copy.status = StatusEnum.Waiting
+        copy.waiting = false
 
         var regexresult = p.name.match("\\d*$")
         var number = regexresult[0]
