@@ -134,7 +134,7 @@ export class Participant
 
     private _physicalDamage: number
     get physicalDamage(): number {
-        console.log(this._physicalDamage);
+        console.log(this._name + ": " + this._physicalDamage);
         
         return this._physicalDamage
     }
@@ -171,8 +171,24 @@ export class Participant
         this.physicalDamage = 0
     }
 
-    clone(): any {
-        return jQuery.extend(true, {}, this)
+    clone(): Participant {
+        var clone: Participant = new Participant()
+        clone._active = this._active
+        clone._baseIni = this._baseIni
+        clone._diceIni = this._diceIni
+        clone._dices = this._dices
+        clone._finished = this._finished
+        clone._name = this._name
+        clone._ooc = this._ooc
+        clone._overflowHealth = this._overflowHealth
+        clone._painTolerance = this._painTolerance
+        clone._physicalDamage = this._physicalDamage
+        clone._physicalHealth = this._physicalHealth
+        clone._status = this._status
+        clone._stunDamage = this._stunDamage
+        clone._stunHealth = this._stunHealth
+        clone._waiting = this._waiting
+        return clone
     }
 
     seizeInitiative() 
