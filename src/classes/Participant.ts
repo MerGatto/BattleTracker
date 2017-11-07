@@ -134,6 +134,8 @@ export class Participant
 
     private _physicalDamage: number
     get physicalDamage(): number {
+        console.log(this._physicalDamage);
+        
         return this._physicalDamage
     }
     set physicalDamage(val: number) {

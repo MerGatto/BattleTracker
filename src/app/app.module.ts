@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { CustomFormsModule } from 'ng2-validation'
-import { DropdownModule } from 'ng2-bootstrap';
+import { BsDropdownModule } from 'ngx-bootstrap';
 import { TranslatePipe, TranslateService }   from './translate';
 import { Auth }   from './auth';
 
@@ -27,7 +27,7 @@ import { RangeSliderComponent } from './range-slider/range-slider.component';
     FormsModule,
     HttpModule, 
     CustomFormsModule,
-    DropdownModule.forRoot()
+    BsDropdownModule.forRoot()
   ],
   providers: [ TranslateService, Auth ],
   bootstrap: [AppComponent]
