@@ -83,12 +83,18 @@ export class Participant
 
     private _ooc: boolean
     get ooc(): boolean {
+        // Handle Manual out of Combat
+        // TODO maybe make manual out of combat an extra property and style it accordingly
+        if (this._ooc) {
+            return true
+        }
+
         // Pain Editor Exception
         if (this.hasPainEditor) {
             return this.physicalDamage > this.physicalHealth + this.overflowHealth
         }
 
-        return this._ooc || this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.stunHealth
+        return this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.stunHealth
     }
     set ooc(val: boolean) {
         UndoHandler.HandleProperty(this, "ooc", val)
