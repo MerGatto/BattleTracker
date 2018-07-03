@@ -134,13 +134,19 @@
                   <app-condition-monitor 
                     [health]="selectedActor.physicalHealth" 
                     [overflow]="selectedActor.overflowHealth" 
-                    [painPolerance]="selectedActor.painTolerance" 
+                    [painTolerance]="selectedActor.painTolerance"
+                    [hasPainEditor]="selectedActor.hasPainEditor" 
                     [(ngModel)]="selectedActor.physicalDamage">
                   </app-condition-monitor>
                 </div>
                 <div class="col-lg-6">
                   <h4>Stun</h4>
-                  <app-condition-monitor [health]="selectedActor.stunHealth" [painPolerance]="selectedActor.painTolerance" [(ngModel)]="selectedActor.stunDamage"></app-condition-monitor>
+                  <app-condition-monitor 
+                    [health]="selectedActor.stunHealth" 
+                    [painTolerance]="selectedActor.painTolerance"
+                    [hasPainEditor]="selectedActor.hasPainEditor"
+                    [(ngModel)]="selectedActor.stunDamage">
+                  </app-condition-monitor>
                 </div>
               </div>
             </div>

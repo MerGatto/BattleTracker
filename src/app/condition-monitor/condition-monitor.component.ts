@@ -45,13 +45,22 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
     return this._overflow
   }
 
-  private _painPolerance: number
+  private _painTolerance: number
   @Input()
-  set painPolerance(value: number) {
-    this._painPolerance = value
+  set painTolerance(value: number) {
+    this._painTolerance = value
   }
-  get painPolerance(): number {
-    return this._painPolerance
+  get painTolerance(): number {
+    return this._painTolerance
+  }
+
+  private _hasPainEditor: boolean
+  @Input()
+  set hasPainEditor(value: boolean) {
+    this._hasPainEditor = value
+  }
+  get hasPainEditor(): boolean {
+    return this._hasPainEditor
   }
 
   get rows(): number {
@@ -69,8 +78,9 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   constructor() { 
     this.health = 10
     this.overflow = 0
-    this.painPolerance = 0
+    this.painTolerance = 0
     this.damage = 0
+    this.hasPainEditor = false
   }
 
   ngOnInit() {
@@ -113,8 +123,13 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
 
   getCellText(n: number): string {
     var result: string = ""
-    if ((n > this.painPolerance) && (n - this.painPolerance) % 3 == 0 && n <= this.health) {
-      result = '-' + ((n - this.painPolerance) / 3)
+
+    if (this.hasPainEditor) {
+      return result
+    }
+
+    if ((n > this.painTolerance) && (n - this.painTolerance) % 3 == 0 && n <= this.health) {
+      result = '-' + ((n - this.painTolerance) / 3)
     }
     return result
   }
