@@ -60,7 +60,20 @@ export class Participant
         UndoHandler.HandleProperty(this, "dices", val)
     }
 
+    private _hasPainEditor: boolean
+    get hasPainEditor():boolean {
+        return this._hasPainEditor
+    }
+    set hasPainEditor(val: boolean) {
+        UndoHandler.HandleProperty(this, "hasPainEditor", val)
+    }
+
     get wm(): number {
+        // Pain Editor Exception
+        if (this.hasPainEditor) {
+            return 0;
+        }
+
         var physicalWM = Math.floor((this.physicalDamage - this.painTolerance) / 3)
         if (physicalWM < 0) physicalWM = 0
         var stunWM = Math.floor((this.stunDamage - this.painTolerance) / 3)
@@ -70,7 +83,12 @@ export class Participant
 
     private _ooc: boolean
     get ooc(): boolean {
-        return this._ooc || this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.physicalHealth
+        // Pain Editor Exception
+        if (this.hasPainEditor) {
+            return this.physicalDamage > this.physicalHealth + this.overflowHealth
+        }
+
+        return this._ooc || this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.stunHealth
     }
     set ooc(val: boolean) {
         UndoHandler.HandleProperty(this, "ooc", val)
@@ -167,6 +185,7 @@ export class Participant
         this.stunHealth = 10
         this.stunDamage = 0
         this.physicalDamage = 0
+        this.hasPainEditor = false
     }
 
     clone(): Participant {
@@ -187,6 +206,7 @@ export class Participant
         clone._stunDamage = this._stunDamage
         clone._stunHealth = this._stunHealth
         clone._waiting = this._waiting
+        clone._hasPainEditor = this._hasPainEditor
         return clone
     }
 

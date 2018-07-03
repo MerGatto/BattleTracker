@@ -180,6 +180,17 @@
               </div>
               <div class="row">
                 <div class="col-xs-12">
+                  <label>{{"Pain Editor" | translate}}</label>
+                </div>
+                <div class="col-xs-12">
+                    <label class="switch">
+                      <input type="checkbox" [(ngModel)]="selectedActor.hasPainEditor" />
+                      <span class="slider round"></span>
+                    </label>                  
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
                   <label>{{"Dices" | translate}}</label>
                 </div>
                 <div class="col-xs-12">

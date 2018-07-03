@@ -134,5 +134,10 @@
     "Next Pass": {
         "en": "Next Pass",
         "de": "Nächster Durchgang"
+    },
+    "Pain Editor": {
+        "en": "Pain Editor",
+        "de": "Schmerzeditor"
     }
+    
 }
