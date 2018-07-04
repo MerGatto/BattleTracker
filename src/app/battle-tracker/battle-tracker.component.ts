@@ -6,7 +6,8 @@ import {Action} from "../../Interfaces/Action"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
 import {UndoHandler} from "../../classes/UndoHandler" 
-import {LogHandler} from "../../classes/LogHandler" 
+import { LogHandler } from "../../classes/LogHandler"
+import * as $ from 'jquery';
 
 var bt: any;
 

@@ -44,3 +44,4 @@ Thumbs.db
 bin/
 
 obj/Debug/
+/BattleTracker.sln.DotSettings.user

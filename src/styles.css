@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.content {
+  min-height: 100%;
+  margin: 0 auto -50px;
+}
+
+.footer,
+.push {
+  height: 50px;
+}
+
+.footer {
+  text-align: right;
+  margin-right: 20px;
+}
