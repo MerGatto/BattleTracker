@@ -1,2 +1,2 @@
 ng build --prod --base-href "/BattleTracker/"
-angular-cli-ghpages
+ngh --no-silent --repo=https://GH_TOKEN@github.com/MerGatto/BattleTracker.git
