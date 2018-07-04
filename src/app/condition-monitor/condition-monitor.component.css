@@ -1,58 +1,49 @@
 .cmCell {
-    width: 32px;
-    height: 32px;
-    position: relative;
-    background: rgba(0, 255, 0, 0.9);
-    border-radius: 5px;
-    cursor: pointer;
+  width: 32px;
+  height: 32px;
+  position: relative;
+  background: rgba(0, 255, 0, 0.9);
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.cmTd {
-    padding: 2px;}
+.cmTd { padding: 2px; }
 
-.damage {
-    background: rgba(255, 0, 0, 0.7);
-}
+.damage { background: rgba(255, 0, 0, 0.7); }
 
-.overflow {
-    background: rgba(0, 0, 0, 0.5);
-}
+.overflow { background: rgba(0, 0, 0, 0.5); }
 
-.damage.overflow {
-    background: rgba(128, 0, 0, 0.9);
-}
+.damage.overflow { background: rgba(128, 0, 0, 0.9); }
 
 .filled {
-    background-color: rgba(0, 0, 0, 1);
-    background-image: url(../../assets/skull.svg);
-    background-size: 80%, auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    fill: red;
+  background-color: rgba(0, 0, 0, 1);
+  background-image: url(../../assets/skull.svg);
+  background-size: 80%, auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  fill: red;
 }
 
 .damage.filled {
-    background-color: rgba(0, 0, 0, 1);
-    background-image: url(../../assets/skull_red.svg);
-    background-size: 80%, auto;
-    background-repeat: no-repeat;
-    background-position: center;
+  background-color: rgba(0, 0, 0, 1);
+  background-image: url(../../assets/skull_red.svg);
+  background-size: 80%, auto;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .cmCellContent {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    font-weight: bold;
-    vertical-align: text-bottom;
-    padding: 5px;
-    padding-left: 10px;
-    display: flex;
-    align-items: flex-end;
-    user-select: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-weight: bold;
+  vertical-align: text-bottom;
+  padding: 5px;
+  padding-left: 10px;
+  display: flex;
+  align-items: flex-end;
+  user-select: none;
 }
 
-.table, .table * {
-    border: none;
-}
+.table, .table * { border: none; }

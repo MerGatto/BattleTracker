@@ -5,24 +5,30 @@ import { DebugElement } from '@angular/core';
 
 import { RangeSliderComponent } from './range-slider.component';
 
-describe('RangeSliderComponent', () => {
-  let component: RangeSliderComponent;
-  let fixture: ComponentFixture<RangeSliderComponent>;
+describe('RangeSliderComponent',
+  () =>
+  {
+    let component: RangeSliderComponent;
+    let fixture: ComponentFixture<RangeSliderComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ RangeSliderComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() =>
+    {
+      TestBed.configureTestingModule({
+          declarations: [RangeSliderComponent]
+        })
+        .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(RangeSliderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    beforeEach(() =>
+    {
+      fixture = TestBed.createComponent(RangeSliderComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create',
+      () =>
+      {
+        expect(component).toBeTruthy();
+      });
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});

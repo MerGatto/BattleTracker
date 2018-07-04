@@ -1,143 +1,143 @@
 {
-    "key": {
-        "en": "english",
-        "de": "german"
-    },
-    "fullDefense": {
-        "en": "Full Defense",
-        "de": "Volle Abwehr"
-    },
-    "intercept": {
-        "en": "Intercept",
-        "de": "Abfangen"
-    },
-    "block": {
-        "en": "Block",
-        "de": "Blocken"
-    },
-    "counterstrike": {
-        "en": "Counterstrike",
-        "de": "Gegenschlag"
-    },
-    "diveForCover": {
-        "en": "Dive For Cover",
-        "de": "In Deckung werfen"
-    },
-    "dodge": {
-        "en": "Dodge",
-        "de": "Ausweichen"
-    },
-    "parry": {
-        "en": "Parry",
-        "de": "Parieren"
-    },
-    "reversal": {
-        "en": "Reversal",
-        "de": "Umkehrgriff"
-    },
-    "rightBackAtYa": {
-        "en": "Right Back At Ya!",
-        "de": "Zurück an den Absender"
-    },
-    "runForYourLife": {
-        "en": "Run for Your Life",
-        "de": "Lauf um dein Leben"
-    },
-    "diveOnTheGrenade": {
-        "en": "Dive on the Grenade",
-        "de": "Auf die Granate werfen"
-    },
-    "sacrificeThrow": {
-        "en": "Sacrifice Throw",
-        "de": "Rücksichtsloser Wurf"
-    },
-    "riposte": {
-        "en": "Riposte",
-        "de": "Riposte"
-    },
-    "protectingThePrinciple": {
-        "en": "Protecting the Principle",
-        "de": "Dazwischengehen"
-    },
-    "shadowBlock": {
-        "en": "Shadow Block",
-        "de": "Schattenblock"
-    },
-    "Seize Initiative": {
-        "en": "Seize Initiative",
-        "de": "Iniative ergreifen"
-    },
-    "Leave Combat": {
-        "en": "Leave Combat",
-        "de": "Kampf verlassen"
-    },
-    "Start Round": {
-        "en": "Start Round",
-        "de": "Runde Starten"
-    },
-    "Name": {
-        "en": "Name",
-        "de": "Name"
-    },
-    "INI": {
-        "en": "INI",
-        "de": "INI"
-    },
-    "Input": {
-        "en": "Input",
-        "de": "Eingabe"
-    },
-    "WM": {
-        "en": "WM",
-        "de": "VM"
-    },
-    "Temp": {
-        "en": "Temp.",
-        "de": "Temp."
-    },
-    "Actions": {
-        "en": "Actions",
-        "de": "Handlungen"
-    },
-    "Turn": {
-        "en": "Combat Turn",
-        "de": "Kampfrunde"
-    },
-    "Pass": {
-        "en": "Pass",
-        "de": "Durchgang"
-    },
-    "Reset": {
-        "en": "Reset",
-        "de": "Reset"
-    },
-    "Undo": {
-        "en": "Undo",
-        "de": "Zurück"
-    },
-    "Redo": {
-        "en": "Redo",
-        "de": "Vor"
-    },
-    "Action": {
-        "en": "Action",
-        "de": "Handlung"
-    },
-    "Delay": {
-        "en": "Delay",
-        "de": "Abwarten"
-    },
-    "Interrupts": {
-        "en": "Interrupts",
-        "de": "Unterbrechungen"
-    },
-    "Next Pass": {
-        "en": "Next Pass",
-        "de": "Nächster Durchgang"
-    },
-    "Pain Editor": {
-        "en": "Pain Editor",
-        "de": "Schmerzeditor"
-    }
-    
+  "key": {
+    "en": "english",
+    "de": "german"
+  },
+  "fullDefense": {
+    "en": "Full Defense",
+    "de": "Volle Abwehr"
+  },
+  "intercept": {
+    "en": "Intercept",
+    "de": "Abfangen"
+  },
+  "block": {
+    "en": "Block",
+    "de": "Blocken"
+  },
+  "counterstrike": {
+    "en": "Counterstrike",
+    "de": "Gegenschlag"
+  },
+  "diveForCover": {
+    "en": "Dive For Cover",
+    "de": "In Deckung werfen"
+  },
+  "dodge": {
+    "en": "Dodge",
+    "de": "Ausweichen"
+  },
+  "parry": {
+    "en": "Parry",
+    "de": "Parieren"
+  },
+  "reversal": {
+    "en": "Reversal",
+    "de": "Umkehrgriff"
+  },
+  "rightBackAtYa": {
+    "en": "Right Back At Ya!",
+    "de": "Zurück an den Absender"
+  },
+  "runForYourLife": {
+    "en": "Run for Your Life",
+    "de": "Lauf um dein Leben"
+  },
+  "diveOnTheGrenade": {
+    "en": "Dive on the Grenade",
+    "de": "Auf die Granate werfen"
+  },
+  "sacrificeThrow": {
+    "en": "Sacrifice Throw",
+    "de": "Rücksichtsloser Wurf"
+  },
+  "riposte": {
+    "en": "Riposte",
+    "de": "Riposte"
+  },
+  "protectingThePrinciple": {
+    "en": "Protecting the Principle",
+    "de": "Dazwischengehen"
+  },
+  "shadowBlock": {
+    "en": "Shadow Block",
+    "de": "Schattenblock"
+  },
+  "Seize Initiative": {
+    "en": "Seize Initiative",
+    "de": "Iniative ergreifen"
+  },
+  "Leave Combat": {
+    "en": "Leave Combat",
+    "de": "Kampf verlassen"
+  },
+  "Start Round": {
+    "en": "Start Round",
+    "de": "Runde Starten"
+  },
+  "Name": {
+    "en": "Name",
+    "de": "Name"
+  },
+  "INI": {
+    "en": "INI",
+    "de": "INI"
+  },
+  "Input": {
+    "en": "Input",
+    "de": "Eingabe"
+  },
+  "WM": {
+    "en": "WM",
+    "de": "VM"
+  },
+  "Temp": {
+    "en": "Temp.",
+    "de": "Temp."
+  },
+  "Actions": {
+    "en": "Actions",
+    "de": "Handlungen"
+  },
+  "Turn": {
+    "en": "Combat Turn",
+    "de": "Kampfrunde"
+  },
+  "Pass": {
+    "en": "Pass",
+    "de": "Durchgang"
+  },
+  "Reset": {
+    "en": "Reset",
+    "de": "Reset"
+  },
+  "Undo": {
+    "en": "Undo",
+    "de": "Zurück"
+  },
+  "Redo": {
+    "en": "Redo",
+    "de": "Vor"
+  },
+  "Action": {
+    "en": "Action",
+    "de": "Handlung"
+  },
+  "Delay": {
+    "en": "Delay",
+    "de": "Abwarten"
+  },
+  "Interrupts": {
+    "en": "Interrupts",
+    "de": "Unterbrechungen"
+  },
+  "Next Pass": {
+    "en": "Next Pass",
+    "de": "Nächster Durchgang"
+  },
+  "Pain Editor": {
+    "en": "Pain Editor",
+    "de": "Schmerzeditor"
+  }
+
 }

@@ -5,15 +5,16 @@ import { ParticipantList } from "../../classes/ParticipantList"
 import {Action} from "../../Interfaces/Action"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
-import {UndoHandler} from "../../classes/UndoHandler" 
+import {UndoHandler} from "../../classes/UndoHandler"
 import { LogHandler } from "../../classes/LogHandler"
 import * as $ from 'jquery';
 
 var bt: any;
 
 //Debug stuff
-(<any>window).btdump = function btdump() {
-    console.log("===========");
+(<any>window).btdump = function btdump()
+{
+  console.log("===========");
   console.log("bt: ");
   console.log(bt);
   console.log("===========");
@@ -24,8 +25,8 @@ var bt: any;
   templateUrl: './battle-tracker.component.html',
   styleUrls: ['./battle-tracker.component.css']
 })
-export class BattleTrackerComponent implements OnInit {
-
+export class BattleTrackerComponent implements OnInit
+{
   participants: ParticipantList;
   currentActors: ParticipantList;
   indexToSelect: number = -1;
@@ -33,68 +34,81 @@ export class BattleTrackerComponent implements OnInit {
 
   private _started: boolean;
 
-  get started(): boolean {
+  get started(): boolean
+  {
     return this._started;
   }
 
-  set started(val: boolean) {
+  set started(val: boolean)
+  {
     UndoHandler.HandleProperty(this, "started", val);
   }
 
   private _passEnded: boolean;
 
-  get passEnded(): boolean {
+  get passEnded(): boolean
+  {
     return this._passEnded;
   }
 
-  set passEnded(val: boolean) {
+  set passEnded(val: boolean)
+  {
     UndoHandler.HandleProperty(this, "passEnded", val);
   }
 
   private _combatTurn: number;
 
-  get combatTurn(): number {
+  get combatTurn(): number
+  {
     return this._combatTurn;
   }
 
-  set combatTurn(val: number) {
+  set combatTurn(val: number)
+  {
     UndoHandler.HandleProperty(this, "combatTurn", val);
   }
 
   private _initiativeTurn: number;
 
-  get initiativeTurn(): number {
+  get initiativeTurn(): number
+  {
     return this._initiativeTurn;
   }
 
-  set initiativeTurn(val: number) {
+  set initiativeTurn(val: number)
+  {
     UndoHandler.HandleProperty(this, "initiativeTurn", val);
   }
 
   private _selectedActor: Participant;
 
-  get selectedActor(): Participant {
+  get selectedActor(): Participant
+  {
     return this._selectedActor;
   }
 
-  set selectedActor(val: Participant) {
+  set selectedActor(val: Participant)
+  {
     UndoHandler.HandleProperty(this, "selectedActor", val);
   }
 
-  constructor() {
+  constructor()
+  {
     this.initialize();
     this.addParticipant();
     this.selectedActor = this.participants.items[0];
     bt = this;
   }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     UndoHandler.Initialize();
     UndoHandler.StartActions();
     LogHandler.Initialize();
   }
 
-  initialize() {
+  initialize()
+  {
     this.participants = new ParticipantList();
     this.currentActors = new ParticipantList();
 
@@ -104,79 +118,98 @@ export class BattleTrackerComponent implements OnInit {
     this.initiativeTurn = 1;
   }
 
-  nextIniPass() {
+  nextIniPass()
+  {
     this.passEnded = false;
     this.initiativeTurn++;
-    for (let p of this.participants.items) {
-      if (!p.ooc && p.status !== StatusEnum.Delaying) {
+    for (let p of this.participants.items)
+    {
+      if (!p.ooc && p.status !== StatusEnum.Delaying)
+      {
         p.status = StatusEnum.Waiting;
       }
     }
   }
 
-  endCombatTurn() {
+  endCombatTurn()
+  {
     this.initiativeTurn = 1;
     this.combatTurn++;
-    for (let p of this.participants.items) {
+    for (let p of this.participants.items)
+    {
       p.softReset();
     }
     this.started = false;
   }
 
-  endInitiativePass() {
+  endInitiativePass()
+  {
     this.passEnded = true;
-    if (this.isOver()) {
+    if (this.isOver())
+    {
       this.endCombatTurn();
       return;
     }
   }
 
-  isOver() {
+  isOver()
+  {
     var over = true;
-    for (let p of this.participants.items) {
-      if (this.getInitiative(p) > 0 && !p.ooc) {
+    for (let p of this.participants.items)
+    {
+      if (this.getInitiative(p) > 0 && !p.ooc)
+      {
         over = false;
       }
     }
     return over;
   }
 
-  getNextActors() {
+  getNextActors()
+  {
     this.currentActors.clear();
     var max = 0;
     var i = 0;
     var edge = false;
     var over = true;
-    for (let p of this.participants.items) {
+    for (let p of this.participants.items)
+    {
       let effIni = this.getInitiative(p);
-      if (!p.ooc && p.status == StatusEnum.Waiting && p.diceIni > 0 && effIni > 0) {
-        if (effIni > max && (p.edge || !edge) || p.edge && !edge) {
+      if (!p.ooc && p.status == StatusEnum.Waiting && p.diceIni > 0 && effIni > 0)
+      {
+        if (effIni > max && (p.edge || !edge) || p.edge && !edge)
+        {
           this.currentActors.clear();
           this.currentActors.insert(p);
           max = effIni;
           edge = p.edge;
-        } else if (effIni == max && edge == p.edge) {
+        } else if (effIni == max && edge == p.edge)
+        {
           this.currentActors.insert(p);
         }
       }
     }
   }
 
-  getInitiative(p: Participant): number {
+  getInitiative(p: Participant): number
+  {
     return p.calculateInitiative(this.initiativeTurn);
   }
 
-  seizeInitiative(p: Participant) {
+  seizeInitiative(p: Participant)
+  {
     p.seizeInitiative();
   }
 
-  addParticipant() {
+  addParticipant()
+  {
     var p = new Participant();
     this.participants.insert(p);
     this.selectActor(p);
   }
 
-  copyParticipant(p: Participant) {
+  copyParticipant(p: Participant)
+  {
     var copy = p.clone();
     copy.edge = false;
     copy.active = false;
@@ -189,7 +222,8 @@ export class BattleTrackerComponent implements OnInit {
     var int;
 
     //  Extract name and numbner
-    if (number) {
+    if (number)
+    {
       name = p.name.substring(0, regexresult.index);
       console.log(name);
       int = Utility.convertToInt(number);
@@ -197,12 +231,16 @@ export class BattleTrackerComponent implements OnInit {
 
     // Check for other Participants with the same name
     var high = 0;
-    for (var participant of this.participants.items) {
-      if (participant.name.match(name)) {
+    for (var participant of this.participants.items)
+    {
+      if (participant.name.match(name))
+      {
         number = participant.name.match("\\d*$")[0];
-        if (number) {
+        if (number)
+        {
           int = Utility.convertToInt(number);
-          if (int > high) {
+          if (int > high)
+          {
             high = int;
           }
         }
@@ -214,41 +252,53 @@ export class BattleTrackerComponent implements OnInit {
     this.participants.insert(copy);
   }
 
-  selectActor(p: Participant) {
+  selectActor(p: Participant)
+  {
     this.selectedActor = p;
   }
 
-  removeParticipant(participant) {
+  removeParticipant(participant)
+  {
     this.participants.remove(participant);
   }
 
-  goToNextActors() {
-    if (this.currentActors.count > 0) {
-      for (let a of this.currentActors.items) {
+  goToNextActors()
+  {
+    if (this.currentActors.count > 0)
+    {
+      for (let a of this.currentActors.items)
+      {
         a.status = StatusEnum.Finished;
       }
     }
     this.getNextActors();
-    if (this.currentActors.count > 0) {
-      for (let a of this.currentActors.items) {
+    if (this.currentActors.count > 0)
+    {
+      for (let a of this.currentActors.items)
+      {
         a.status = StatusEnum.Active;
       }
-    } else {
+    } else
+    {
       this.endInitiativePass();
     }
   }
 
-  act(actor: Participant) {
+  act(actor: Participant)
+  {
     actor.status = StatusEnum.Finished;
-    if (this.currentActors.remove(actor)) {
-      if (this.currentActors.count == 0) {
+    if (this.currentActors.remove(actor))
+    {
+      if (this.currentActors.count == 0)
+      {
         this.goToNextActors();
       }
     }
   }
 
   /// Style Handler
-  getParticipantStyles(p: Participant) {
+  getParticipantStyles(p: Participant)
+  {
     var styles = {
       'acting': this.currentActors.contains(p),
       'ooc': p.ooc,
@@ -264,42 +314,50 @@ export class BattleTrackerComponent implements OnInit {
   }
 
   /// Button Handler
-  btnAddParticipant_Click() {
+  btnAddParticipant_Click()
+  {
     UndoHandler.StartActions();
     LogHandler.Log("AddParticipant_Click");
     this.addParticipant();
   }
 
-  btnEdge_Click(sender: Participant) {
+  btnEdge_Click(sender: Participant)
+  {
     UndoHandler.StartActions();
     LogHandler.Log(sender.name + " Edge_Click");
     sender.seizeInitiative();
   }
 
-  btnRollInitative_Click(sender: Participant) {
+  btnRollInitative_Click(sender: Participant)
+  {
     UndoHandler.StartActions();
     LogHandler.Log(sender.name + " RollInitative_Click");
     sender.rollInitiative();
   }
 
-  btnAct_Click(sender: Participant) {
+  btnAct_Click(sender: Participant)
+  {
     UndoHandler.StartActions();
     LogHandler.Log(sender.name + " Act_Click");
     this.act(sender);
   }
 
-  btnDelay_Click(sender: Participant) {
+  btnDelay_Click(sender: Participant)
+  {
     UndoHandler.StartActions();
     LogHandler.Log(sender.name + " Delay_Click");
     sender.status = StatusEnum.Delaying;
-    if (this.currentActors.remove(sender)) {
-      if (this.currentActors.count == 0) {
+    if (this.currentActors.remove(sender))
+    {
+      if (this.currentActors.count == 0)
+      {
         this.goToNextActors();
       }
     }
   }
 
-  btnStartRound_Click() {
+  btnStartRound_Click()
+  {
     UndoHandler.StartActions();
     LogHandler.Log("StartRound_Click");
     this.started = true;
@@ -307,17 +365,21 @@ export class BattleTrackerComponent implements OnInit {
     this.goToNextActors();
   }
 
-  btnNextPass_Click() {
+  btnNextPass_Click()
+  {
     UndoHandler.StartActions();
     LogHandler.Log("NextPass_Click");
     this.nextIniPass();
     this.goToNextActors();
   }
 
-  btnDelete_Click(sender: Participant) {
+  btnDelete_Click(sender: Participant)
+  {
     LogHandler.Log(sender.name + " Delete_Click");
-    if (sender.name != "") {
-      if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
+    if (sender.name != "")
+    {
+      if (!confirm("Are you sure you want to remove " + sender.name + "?"))
+      {
         LogHandler.Log(sender.name + " Delete_Cancel");
         return;
       }
@@ -327,15 +389,18 @@ export class BattleTrackerComponent implements OnInit {
     this.removeParticipant(sender);
   }
 
-  btnDuplicate_Click(sender: Participant) {
+  btnDuplicate_Click(sender: Participant)
+  {
     LogHandler.Log(sender.name + " Duplicate_Click");
     UndoHandler.StartActions();
     this.copyParticipant(sender);
   }
 
-  btnReset_Click() {
+  btnReset_Click()
+  {
     LogHandler.Log("Reset_Click");
-    if (!confirm("Are you sure you want to reset the BattleTracker?")) {
+    if (!confirm("Are you sure you want to reset the BattleTracker?"))
+    {
       LogHandler.Log("Reset_Cancel");
       return;
     }
@@ -343,40 +408,48 @@ export class BattleTrackerComponent implements OnInit {
     UndoHandler.StartActions();
     this.combatTurn = 1;
     this.currentActors.clear();
-    if (this.started) {
+    if (this.started)
+    {
       this.started = false;
     }
     this.initiativeTurn = 1;
-    for (let p of this.participants.items) {
+    for (let p of this.participants.items)
+    {
       p.softReset();
     }
   }
 
-  btnLeaveCombat_Click(sender: Participant) {
+  btnLeaveCombat_Click(sender: Participant)
+  {
     LogHandler.Log(sender.name + " LeaveCombat_Click");
     UndoHandler.StartActions();
     sender.leaveCombat();
-    if (this.currentActors.contains(sender)) {
+    if (this.currentActors.contains(sender))
+    {
       // Remove sender from active Actors
       this.act(sender);
     }
   }
 
-  btnEnterCombat_Click(sender: Participant) {
+  btnEnterCombat_Click(sender: Participant)
+  {
     LogHandler.Log(sender.name + " EnterCombat_Click");
     UndoHandler.StartActions();
     sender.enterCombat();
   }
 
-  btnAction_Click(p: Participant, action: Action, persistent: boolean) {
+  btnAction_Click(p: Participant, action: Action, persistent: boolean)
+  {
     LogHandler.Log(p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
-    if (!persistent) {
+    if (!persistent)
+    {
       p.actions.doAction(action);
     }
   }
 
-  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement) {
+  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
+  {
     LogHandler.Log(p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
     var action: Action = {
@@ -385,31 +458,37 @@ export class BattleTrackerComponent implements OnInit {
       key: "custom",
       martialArt: false,
       persist: false
-  }
+    }
     p.actions.doAction(action);
     inputElem.value = "-5";
   }
 
-  btnUndo_Click() {
+  btnUndo_Click()
+  {
     LogHandler.Log("Undo_Click");
     UndoHandler.Undo();
   }
 
-  btnRedo_Click() {
+  btnRedo_Click()
+  {
     LogHandler.Log("Redo_Click");
     UndoHandler.Redo();
   }
 
-  inpName_KeyDown(e) {
+  inpName_KeyDown(e)
+  {
     var keyCode = e.keyCode || e.which;
 
-    if (keyCode == 9 && !e.shiftKey) {
+    if (keyCode == 9 && !e.shiftKey)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var nextRow = $(row).next()[0];
-      if (nextRow != undefined) {
+      if (nextRow != undefined)
+      {
         var field: any = $(nextRow).find('input')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(nextRow).click();
           return;
@@ -419,13 +498,16 @@ export class BattleTrackerComponent implements OnInit {
       UndoHandler.StartActions();
       this.addParticipant();
       this.indexToSelect = 1 + $(row).data("indexnr");
-    } else if (keyCode == 9 && e.shiftKey) {
+    } else if (keyCode == 9 && e.shiftKey)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var prevRow = $(row).prev()[0];
-      if (prevRow != undefined) {
+      if (prevRow != undefined)
+      {
         var field: any = $(prevRow).find('input')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(prevRow).click();
           return;
@@ -434,28 +516,35 @@ export class BattleTrackerComponent implements OnInit {
     }
   }
 
-  inpDiceIni_KeyDown(e) {
+  inpDiceIni_KeyDown(e)
+  {
     var keyCode = e.keyCode || e.which;
 
-    if (keyCode == 9 && !e.shiftKey) {
+    if (keyCode == 9 && !e.shiftKey)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var nextRow = $(row).next()[0];
-      if (nextRow != undefined) {
+      if (nextRow != undefined)
+      {
         var field: any = $(nextRow).find('.inpDiceIni')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(nextRow).click();
           return;
         }
       }
-    } else if (keyCode == 9 && e.shiftKey) {
+    } else if (keyCode == 9 && e.shiftKey)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var prevRow = $(row).prev()[0];
-      if (prevRow != undefined) {
+      if (prevRow != undefined)
+      {
         var field: any = $(prevRow).find('.inpDiceIni')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(prevRow).click();
           return;
@@ -464,29 +553,36 @@ export class BattleTrackerComponent implements OnInit {
     }
   }
 
-  inpBaseIni_KeyDown(e) {
+  inpBaseIni_KeyDown(e)
+  {
     var keyCode = e.keyCode || e.which;
     var shift = e.shiftKey;
 
-    if (keyCode == 9 && !shift) {
+    if (keyCode == 9 && !shift)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var nextRow = $(row).next()[0];
-      if (nextRow != undefined) {
+      if (nextRow != undefined)
+      {
         var field: any = $(nextRow).find('.inpBaseIni')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(nextRow).click();
           return;
         }
       }
-    } else if (keyCode == 9 && shift) {
+    } else if (keyCode == 9 && shift)
+    {
       e.preventDefault();
       var row = $(e.target).closest('.participant');
       var prevRow = $(row).prev()[0];
-      if (prevRow != undefined) {
+      if (prevRow != undefined)
+      {
         var field: any = $(prevRow).find('.inpBaseIni')[0];
-        if (field) {
+        if (field)
+        {
           field.select();
           $(prevRow).click();
           return;
@@ -495,11 +591,14 @@ export class BattleTrackerComponent implements OnInit {
     }
   }
 
-  ngReady() {
+  ngReady()
+  {
     var row = document.getElementById("participant" + this.indexToSelect);
-    if (row) {
+    if (row)
+    {
       var field: any = $(row).find('input')[0];
-      if (field) {
+      if (field)
+      {
         this.indexToSelect = -1;
         field.select();
         $(row).click();
@@ -508,23 +607,28 @@ export class BattleTrackerComponent implements OnInit {
   }
 
   //Focus Handler
-  inp_Focus(e) {
+  inp_Focus(e)
+  {
     e.target.select();
   }
 
-  keepMenuOpen(e) {
+  keepMenuOpen(e)
+  {
     e.stopPropagation();
   }
 
-  iniChange(e, p: Participant) {
-    if (p.diceIni < 0) {
+  iniChange(e, p: Participant)
+  {
+    if (p.diceIni < 0)
+    {
       e.preventDefault();
       p.diceIni = 0;
       e.target.value = 0;
     }
   }
 
-  onChange(e) {
+  onChange(e)
+  {
     console.log(e);
   }
 }

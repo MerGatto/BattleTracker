@@ -4,7 +4,8 @@ import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
 import * as jQuery from 'jquery';
 
-if (environment.production) {
+if (environment.production)
+{
   enableProdMode();
 }
 

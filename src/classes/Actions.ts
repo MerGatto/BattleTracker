@@ -2,24 +2,32 @@ import {UndoHandler} from "./UndoHandler"
 import {Action} from "../Interfaces/Action"
 import {interruptTable} from "./InterruptTable"
 
-export class Actions {
-
+export class Actions
+{
   private _actionHistory: Array<Action> = [];
 
-  get actionHistory() {
+  get actionHistory()
+  {
     return this._actionHistory;
   }
 
-  get interrupts() {
+  get interrupts()
+  {
     return interruptTable;
   }
 
-  get modifier(): number {
+  get modifier(): number
+  {
     var sum: number = 0;
-    for (let action of this.persistentInterrupts) {
-      if (this[action.key] === true) sum += action.iniMod;
+    for (let action of this.persistentInterrupts)
+    {
+      if (this[action.key] === true)
+      {
+        sum += action.iniMod;
+      }
     }
-    for (let action of this.actionHistory) {
+    for (let action of this.actionHistory)
+    {
       sum += action.iniMod;
     }
 
@@ -29,12 +37,15 @@ export class Actions {
   readonly persistentInterrupts: Array<Action>;
   readonly normalInterrupts: Array<Action>;
 
-  constructor() {
+  constructor()
+  {
     this.persistentInterrupts = interruptTable.filter(action => { return action.persist });
-    this.normalInterrupts = interruptTable.filter(action => {
+    this.normalInterrupts = interruptTable.filter(action =>
+    {
       return !action.edge && !action.martialArt && !action.persist
     });
-    for (let action of this.persistentInterrupts) {
+    for (let action of this.persistentInterrupts)
+    {
       this["_" + action.key] = false;
       Object.defineProperty(this,
         action.key,
@@ -46,17 +57,22 @@ export class Actions {
     this.reset();
   }
 
-  doAction(action: Action) {
-    UndoHandler.DoAction(() => {
+  doAction(action: Action)
+  {
+    UndoHandler.DoAction(() =>
+      {
         this.actionHistory.push(action);
       },
-      () => {
+      () =>
+      {
         this.actionHistory.pop();
       });
   }
 
-  reset() {
-    for (var action of this.persistentInterrupts) {
+  reset()
+  {
+    for (var action of this.persistentInterrupts)
+    {
       this[action.key] = false;
     }
     var items = this.actionHistory;

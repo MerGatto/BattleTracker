@@ -21,12 +21,14 @@ exports.config = {
     print: function() {}
   },
   useAllAngular2AppRoots: true,
-  beforeLaunch: function() {
+  beforeLaunch: function()
+  {
     require('ts-node').register({
       project: 'e2e'
     });
   },
-  onPrepare: function() {
+  onPrepare: function()
+  {
     jasmine.getEnv().addReporter(new SpecReporter());
   }
 };

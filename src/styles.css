@@ -9,9 +9,7 @@ html, body {
 }
 
 .footer,
-.push {
-  height: 50px;
-}
+.push { height: 50px; }
 
 .footer {
   text-align: right;

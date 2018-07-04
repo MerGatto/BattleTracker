@@ -5,24 +5,30 @@ import { DebugElement } from '@angular/core';
 
 import { ConditionMonitorComponent } from './condition-monitor.component';
 
-describe('ConditionMonitorComponent', () => {
-  let component: ConditionMonitorComponent;
-  let fixture: ComponentFixture<ConditionMonitorComponent>;
+describe('ConditionMonitorComponent',
+  () =>
+  {
+    let component: ConditionMonitorComponent;
+    let fixture: ComponentFixture<ConditionMonitorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ConditionMonitorComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() =>
+    {
+      TestBed.configureTestingModule({
+          declarations: [ConditionMonitorComponent]
+        })
+        .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(ConditionMonitorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    beforeEach(() =>
+    {
+      fixture = TestBed.createComponent(ConditionMonitorComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create',
+      () =>
+      {
+        expect(component).toBeTruthy();
+      });
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});

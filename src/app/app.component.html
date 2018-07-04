@@ -11,19 +11,23 @@
       <li>
         <div class="btn-group" style="display: inline-block">
           <button *ngFor="let lang of supportedLanguages"
-            (click)="selectLang(lang.value)"
-            class="btn btn-default navbar-btn" [class.btn-primary]="isCurrentLang(lang.value)">
+                  (click)="selectLang(lang.value)"
+                  class="btn btn-default navbar-btn" [class.btn-primary]="isCurrentLang(lang.value)">
             {{ lang.display }}
           </button>
-        </div>  
+        </div>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <!--<li *ngIf="!auth.authenticated()"><a href="#" (click)="auth.login()"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      <li *ngIf="auth.authenticated()"> <a href="#" (click)="auth.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>-->
+      <!--<li *ngIf="!auth.authenticated()">
+        <a href="#" (click)="auth.login()"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+      </li>
+      <li *ngIf="auth.authenticated()">
+        <a href="#" (click)="auth.logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+      </li>-->
     </ul>
   </div>
 </nav>
 <div class="container-fluid">
-    <app-battle-tracker></app-battle-tracker>
+  <app-battle-tracker></app-battle-tracker>
 </div>

@@ -9,30 +9,34 @@ declare var Auth0Lock;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-    title = 'Battle Tracker';
-    
-    public translatedText: string;
-    public supportedLanguages: any[];
-  
-    constructor(private _translate: TranslateService, private auth: Auth) { }
+export class AppComponent
+{
+  title = 'Battle Tracker';
 
-    ngOnInit() {
-      // standing data
-      this.supportedLanguages = [
-        { display: 'English', value: 'en' },
-        { display: 'Deutsch', value: 'de' },
-      ];
-      
-      this.selectLang('en');        
-    }
-    
-    isCurrentLang(lang: string) {
-      return lang === this._translate.currentLang;
-    }
-    
-    selectLang(lang: string) {
-      // set default;
-      this._translate.use(lang);
-    }
+  public translatedText: string;
+  public supportedLanguages: any[];
+
+  constructor(private _translate: TranslateService, private auth: Auth) {}
+
+  ngOnInit()
+  {
+    // standing data
+    this.supportedLanguages = [
+      { display: 'English', value: 'en' },
+      { display: 'Deutsch', value: 'de' },
+    ];
+
+    this.selectLang('en');
+  }
+
+  isCurrentLang(lang: string)
+  {
+    return lang === this._translate.currentLang;
+  }
+
+  selectLang(lang: string)
+  {
+    // set default;
+    this._translate.use(lang);
+  }
 }

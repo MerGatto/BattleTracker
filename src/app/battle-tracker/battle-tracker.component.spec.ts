@@ -5,24 +5,30 @@ import { DebugElement } from '@angular/core';
 
 import { BattleTrackerComponent } from './battle-tracker.component';
 
-describe('BattleTrackerComponent', () => {
-  let component: BattleTrackerComponent;
-  let fixture: ComponentFixture<BattleTrackerComponent>;
+describe('BattleTrackerComponent',
+  () =>
+  {
+    let component: BattleTrackerComponent;
+    let fixture: ComponentFixture<BattleTrackerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ BattleTrackerComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() =>
+    {
+      TestBed.configureTestingModule({
+          declarations: [BattleTrackerComponent]
+        })
+        .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(BattleTrackerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    beforeEach(() =>
+    {
+      fixture = TestBed.createComponent(BattleTrackerComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should create',
+      () =>
+      {
+        expect(component).toBeTruthy();
+      });
   });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
