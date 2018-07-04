@@ -30,18 +30,10 @@
           "configurations": {
             "source": {
               "fileReplacements": [
-                {
-                  "replace": "src/undefined",
-                  "with": "src/environments/environment.ts"
-                }
               ]
             },
             "dev": {
               "fileReplacements": [
-                {
-                  "replace": "src/undefined",
-                  "with": "src/environments/environment.ts"
-                }
               ]
             },
             "production": {
@@ -55,10 +47,6 @@
               "vendorChunk": false,
               "buildOptimizer": true,
               "fileReplacements": [
-                {
-                  "replace": "src/undefined",
-                  "with": "src/environments/environment.prod.ts"
-                }
               ]
             }
           }
