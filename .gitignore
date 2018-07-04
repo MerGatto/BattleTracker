@@ -40,3 +40,7 @@ testem.log
 .DS_Store
 Thumbs.db
 /.vs
+
+bin/
+
+obj/Debug/

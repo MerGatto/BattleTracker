@@ -14,7 +14,7 @@
   "dependencies": {
     "@angular/animations": "^5.0.0",
     "@angular/common": "^5.0.0",
-    "@angular/compiler": "^5.0.0",
+    "@angular/compiler": "^5.2.11",
     "@angular/compiler-cli": "^5.0.0",
     "@angular/core": "^5.0.0",
     "@angular/forms": "^5.0.0",
@@ -23,11 +23,19 @@
     "@angular/platform-browser-dynamic": "^5.0.0",
     "@angular/platform-server": "^5.0.0",
     "@angular/router": "^5.0.0",
-    "core-js": "^2.4.1",
+    "@types/node": "^6.0.113",
+    "angular2-jwt": "^0.2.3",
+    "codelyzer": "^2.1.1",
+    "core-js": "^2.5.7",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.2",
+    "ng2-validation": "^4.2.0",
     "ngx-bootstrap": "^2.0.0-beta.8",
+    "rxjs": "^5.5.11",
     "ts-helpers": "^1.1.1",
-    "typescript": "^2.6.1",
-    "zone.js": "^0.7.2"
+    "tslint": "^4.5.1",
+    "typescript": "^2.9.2",
+    "zone.js": "^0.7.8"
   },
   "devDependencies": {
     "@angular/compiler-cli": "^2.3.1",
