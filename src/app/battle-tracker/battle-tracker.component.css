@@ -23,7 +23,7 @@ div {
 }
 
 #btnRedo {
-    background-image: url("assets/undo.svg");
+    background-image: url("../../assets/undo.svg");
     -moz-transform: scaleX(-1);
     -o-transform: scaleX(-1);
     -webkit-transform: scaleX(-1);
@@ -33,7 +33,7 @@ div {
 }
 
 #btnUndo {
-    background-image: url("assets/undo.svg");
+  background-image: url("../../assets/undo.svg");
 }
 
 #btnUndo, #btnRedo {
@@ -48,7 +48,7 @@ div {
 }
 
 .btn-duplicate {
-    background-image: url("assets/duplicate.svg");
+    background-image: url("../../assets/duplicate.svg");
     background-size: 60%;
     background-repeat: no-repeat;
     background-position: center;

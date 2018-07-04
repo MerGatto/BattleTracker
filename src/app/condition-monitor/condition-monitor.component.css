@@ -24,7 +24,7 @@
 
 .filled {
     background-color: rgba(0, 0, 0, 1);
-    background-image: url(assets/skull.svg);
+    background-image: url(../../assets/skull.svg);
     background-size: 80%, auto;
     background-repeat: no-repeat;
     background-position: center;
@@ -33,7 +33,7 @@
 
 .damage.filled {
     background-color: rgba(0, 0, 0, 1);
-    background-image: url(assets/skull_red.svg);
+    background-image: url(../../assets/skull_red.svg);
     background-size: 80%, auto;
     background-repeat: no-repeat;
     background-position: center;
