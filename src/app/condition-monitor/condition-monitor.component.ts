@@ -18,69 +18,74 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
   private onTouchedCallback: () => void = () => { };
   private onChangeCallback: (_: any) => void = () => { };
 
-  private _damage: number
+  private _damage: number;
+
   get damage(): number {
-    return this._damage
+    return this._damage;
   }
   set damage(val: number) {
-    this._damage = val
+    this._damage = val;
     this.onChangeCallback(val);
   }
 
-  private _health: number
+  private _health: number;
+
   @Input()
   set health(value: number) {
-    this._health = value
+    this._health = value;
   }
   get health(): number {
-    return this._health
+    return this._health;
   }
 
-  private _overflow: number
+  private _overflow: number;
+
   @Input()
   set overflow(value: number) {
-    this._overflow = value
+    this._overflow = value;
   }
   get overflow(): number {
-    return this._overflow
+    return this._overflow;
   }
 
-  private _painTolerance: number
+  private _painTolerance: number;
+
   @Input()
   set painTolerance(value: number) {
-    this._painTolerance = value
+    this._painTolerance = value;
   }
   get painTolerance(): number {
-    return this._painTolerance
+    return this._painTolerance;
   }
 
-  private _hasPainEditor: boolean
+  private _hasPainEditor: boolean;
+
   @Input()
   set hasPainEditor(value: boolean) {
-    this._hasPainEditor = value
+    this._hasPainEditor = value;
   }
   get hasPainEditor(): boolean {
-    return this._hasPainEditor
+    return this._hasPainEditor;
   }
 
   get rows(): number {
-    return Math.ceil(this.cellCount / 3)
+    return Math.ceil(this.cellCount / 3);
   }
 
   get cellCount(): number {
-    var overflow = 0
+    var overflow = 0;
     if (this.overflow > 0) {
-      overflow = this.overflow+1
+      overflow = this.overflow+1;
     }
-    return this.health+overflow
+    return this.health+overflow;
   }
 
   constructor() { 
-    this.health = 10
-    this.overflow = 0
-    this.painTolerance = 0
-    this.damage = 0
-    this.hasPainEditor = false
+    this.health = 10;
+    this.overflow = 0;
+    this.painTolerance = 0;
+    this.damage = 0;
+    this.hasPainEditor = false;
   }
 
   ngOnInit() {
@@ -96,7 +101,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
 
   getCols(row: number) {
     if (this.cellCount / (row * 3) >= 1) {
-      return 3
+      return 3;
     }
     else {
       return this.cellCount % 3;
@@ -105,7 +110,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
 
   OnCellClick(n: number) {
     if (this.damage == n) {
-      this.damage = 0
+      this.damage = 0;
     }
     else {
       this.damage = n;
@@ -117,35 +122,35 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor {
       'damage': this.damage >= n,
       'overflow': n > this.health,
       'filled': n == this.cellCount && this.overflow > 0
-    }
-    return styles
+    };
+    return styles;
   }
 
   getCellText(n: number): string {
-    var result: string = ""
+    var result: string = "";
 
     if (this.hasPainEditor) {
-      return result
+      return result;
     }
 
     if ((n > this.painTolerance) && (n - this.painTolerance) % 3 == 0 && n <= this.health) {
-      result = '-' + ((n - this.painTolerance) / 3)
+      result = '-' + ((n - this.painTolerance) / 3);
     }
-    return result
+    return result;
   }
 
 
 
   writeValue(val: number): void {
     if (val != this.damage) {
-      this.damage = val
+      this.damage = val;
     }
   }
   registerOnChange(fn: any): void {
-    this.onChangeCallback = fn
+    this.onChangeCallback = fn;
   }
   registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn
+    this.onTouchedCallback = fn;
   }
   setDisabledState(isDisabled: boolean): void {
 

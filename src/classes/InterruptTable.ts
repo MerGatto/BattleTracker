@@ -68,4 +68,4 @@ export var interruptTable: Array<Action> = [
         iniMod: -5,
         martialArt: true
     }
-]
+];

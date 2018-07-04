@@ -3,11 +3,11 @@ import {Injectable, Inject} from '@angular/core';
 @Injectable()
 export class TranslateService {
 	private _currentLang: string;
-	private _translations = require("./dictionary.json")
-	
-	private _logMissingTranslations: boolean = false
-	
-	public get currentLang() {
+	private _translations = require("./dictionary.json");
+
+  private _logMissingTranslations: boolean = false;
+
+  public get currentLang() {
 	  return this._currentLang;
 	}
 
@@ -25,7 +25,7 @@ export class TranslateService {
 		}
 		else {
 			if (this._logMissingTranslations) {
-				console.log("no translation for "+key)
+				console.log("no translation for "+key);
 			}
 		}
 

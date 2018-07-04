@@ -1,6 +1,6 @@
 interface AuthConfiguration {
     clientID: string,
-    domain: string
+    domain: string;
 }
 
 export const myConfig: AuthConfiguration = {

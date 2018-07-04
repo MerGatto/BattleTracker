@@ -17,49 +17,53 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
   private onTouchedCallback: () => void = () => { };
   private onChangeCallback: (_: any) => void = () => { };
 
-  private _value: number
+  private _value: number;
+
   get value(): number {
-    return this._value
+    return this._value;
   }
   set value(val: number) {
-    this._value = val
+    this._value = val;
     this.onChangeCallback(val);
   }
   
-  private _max: number
+  private _max: number;
+
   @Input()
   set max(value: number) {
-    this._max = value
+    this._max = value;
   }
   get max(): number {
-    return this._max
+    return this._max;
   }  
 
-  private _min: number
+  private _min: number;
+
   @Input()
   set min(value: number) {
-    this._min = value
+    this._min = value;
   }
   get min(): number {
-    return this._min
+    return this._min;
   }
 
-  private _step: number
+  private _step: number;
+
   @Input()
   set step(value: number) {
-    this._step = value
+    this._step = value;
   }
   get step(): number {
-    return this._step
+    return this._step;
   }
 
 
   constructor() {
-    this._max = 10
-    this._min = 0
-    this._step = 1
-    this._value = 1
-   }
+    this._max = 10;
+    this._min = 0;
+    this._step = 1;
+    this._value = 1;
+  }
 
   ngOnInit() {
   }
@@ -67,33 +71,33 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor {
 
   writeValue(val: number): void {
     if (val != this.value) {
-      this.value = val
+      this.value = val;
     }
   }
   registerOnChange(fn: any): void {
-    this.onChangeCallback = fn
+    this.onChangeCallback = fn;
   }
   registerOnTouched(fn: any): void {
-    this.onTouchedCallback = fn
+    this.onTouchedCallback = fn;
   }
   setDisabledState(isDisabled: boolean): void {
 
   }
 
   onInput(e) {
-    let val = $(e.target).val()
+    let val = $(e.target).val();
     if (val > this.max) {
-      this.value = this.max
-      $(e.target).val(this.max)
+      this.value = this.max;
+      $(e.target).val(this.max);
     }
     if (val < this.min) {
-      this.value = this.min
-      $(e.target).val(this.min)
+      this.value = this.min;
+      $(e.target).val(this.min);
     }
   }
 
   inp_Focus(e) { 
-    e.target.select()
+    e.target.select();
   }
 
 }
