@@ -176,3 +176,7 @@ div {
   .slider.round:before {
     border-radius: 50%;
   }
+
+.btn-toolbar-right .btn, .btn-toolbar-right .btn-group, .btn-toolbar-right .input-group {
+  float: right;
+}

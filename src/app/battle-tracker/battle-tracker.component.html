@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xs-9 col-xl-10">
       <div class="col-xs-6" style="padding-left: 0">
-        <div class="left">
+        <div class="left btn-toolbar">
           <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
             {{"Start Round" | translate}}
           </button>
@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="col-xs-6">
-        <div class="right">
+        <div class="right btn-toolbar">
           <button id="btnUndo" type="button" class="btn btn-warning" (click)="btnUndo_Click(p)" title="Undo">
             B
           </button> 
@@ -52,7 +52,7 @@
         <div class="col-xs-3 col-lg-1 text-center">
           <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)"  (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
         </div>
-        <div class="col-xs-9 col-lg-4"><!--action-->
+        <div class="col-xs-9 col-lg-4 btn-toolbar"><!--action-->
           <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
             {{"Roll Initiative" | translate}}
           </button>
@@ -84,7 +84,7 @@
             </ul>
           </div>
         </div><!--action bar-->
-        <div class="col-xs-3 col-lg-3 text-right">
+        <div class="col-xs-3 col-lg-3 text-right btn-toolbar btn-toolbar-right">
           <button type="button" class="btn btn-primary btn-duplicate" (click)="btnDuplicate_Click(p)">
           </button>
           <button type="button" class="btn btn-primary" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
@@ -114,16 +114,8 @@
         <div class="panel-heading"><h3>{{selectedActor.name || "Selected Actor" | translate}}</h3></div>
         <div class="panel-body">
           <ul class="nav nav-tabs text-right">
-            <li role="presentation" class="dropdown">
-              <a class="button dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                Details <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a data-toggle="tab" href="#conditionMonitor">{{"Condition Monitor" | translate}}</a></li>
-                <li><a data-toggle="tab" href="#options">{{"Options" | translate}}</a></li>
-                <!--<li><a data-toggle="tab" href="#log">{{"Log" | translate}}</a></li>-->
-              </ul>
-            </li>
+            <li class="active"><a data-toggle="tab" href="#conditionMonitor">{{"Condition Monitor" | translate}}</a></li>
+            <li><a data-toggle="tab" href="#options">{{"Options" | translate}}</a></li>
           </ul>
           <div class="tab-content">
             <div id="conditionMonitor" class="tab-pane fade active in">
