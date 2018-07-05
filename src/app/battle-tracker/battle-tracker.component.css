@@ -155,3 +155,7 @@ input:checked + .slider:before {
   min-width: 10vw;
   padding: 1px;
 }
+
+.cm {
+  text-align: center;
+}

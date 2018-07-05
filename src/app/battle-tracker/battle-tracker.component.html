@@ -161,7 +161,7 @@
         <div id="conditionMonitor" class="tab-pane fade active in">
           <h4>{{"Condition Monitor" | translate}}</h4>
           <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 cm">
               <h4>Physical</h4>
               <app-condition-monitor
                 [health]="selectedActor.physicalHealth"
@@ -171,7 +171,7 @@
                 [(ngModel)]="selectedActor.physicalDamage">
               </app-condition-monitor>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 cm">
               <h4>Stun</h4>
               <app-condition-monitor
                 [health]="selectedActor.stunHealth"

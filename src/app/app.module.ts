@@ -15,6 +15,7 @@ import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.componen
 import { ConditionMonitorComponent } from "./condition-monitor/condition-monitor.component";
 import { RangeSliderComponent } from "./range-slider/range-slider.component";
 
+
 @NgModule({
   declarations: [
     AppComponent,

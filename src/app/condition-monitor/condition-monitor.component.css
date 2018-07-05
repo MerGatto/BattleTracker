@@ -1,3 +1,11 @@
+.cmWrapper {
+  text-align: center;
+}
+
+.cmTable {
+  display: inline-block;
+}
+
 .cmCell {
   width: 32px;
   height: 32px;
