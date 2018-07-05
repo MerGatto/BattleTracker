@@ -4,10 +4,10 @@ BattleTracker is an initiative tracker for Shadowrun 5th edition that makes your
 
 ## Features
  - Tracking Initiative in Combat Rounds and Initative Passes
- - Automated Dice Rolls available per click
-   - Remembering of Base Initiative
+   - Enter your Dice Roll or let the App roll for you
+   - Supports "Seize Initiative"
  - Tracking Condition monitors
-   - Tracks Wound Modificators
+   - Tracks Wound Modificators and adjusts initiative accordingly
    - Support for Pain Tolerance and Pain Editor
  - Make Interrupt Actions like Full Defense and Block
    - Also supports Custom Interrupt Actions to increase or decrease Initiative at will without changing base or dice initiative
