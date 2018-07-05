@@ -54,6 +54,16 @@ export class ParticipantList
     return false;
   }
 
+  move(p: Participant, n: number)
+  {
+    var i = this.items.indexOf(p);
+    if (i !== -1 && i + n !== -1 && i + n < this.items.length)
+    {
+      this.remove(p);
+      this.insertAt(p, i + n);
+    }
+  }
+
   clear(log: boolean = true)
   {
     if (log)

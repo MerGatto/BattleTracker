@@ -28,6 +28,7 @@
 </div>
 <br>
 <div class="row">
+<!--PARTICIPANT TABLE-->
 <div class="col-xs-9 col-xl-10">
   <div class="row bg-info">
     <div class="col-xs-4 col-lg-2">
@@ -53,79 +54,80 @@
   </div>
 
   <!--PARTICIPANT ROWS-->
-  <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
-       (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items let i = index let last = last">
-    <div class="col-xs-4 col-lg-2">
-      <input id="name" name="name" type="text" placeholder="Name" class="form-control" (keydown)="inpName_KeyDown($event)"
-             [(ngModel)]="p.name">
-    </div>
-    <div class="col-xs-2 col-lg-1 text-center">
-      <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
-    </div>
-    <div class="col-xs-3 col-lg-1 text-center">
-      <input class="form-control inpDiceIni text-center" name="diceIni" type="number" (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)"
-             (input)="iniChange($event, p)" [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
-    </div>
-    <div class="col-xs-3 col-lg-1 text-center">
-      <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)" (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
-    </div>
-    <div class="col-xs-9 col-lg-4 btn-toolbar">
-      <!--action-->
-      <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
-        {{"Roll Initiative" | translate}}
-      </button>
-      <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
-        {{"Seize Initiative" | translate}}
-      </button>
-      <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
-        {{"Action" | translate}}
-      </button>
-      <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
-        {{"Delay" | translate}}
-      </button>
-      <div class="btn-group" dropdown *ngIf="started && getInitiative(p) >= 1">
-        <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
-          {{"Interrupts" | translate}} <span class="caret"></span>
-        </button>
-        <ul *dropdownMenu role="menu" class="dropdown-menu" aria-labelledby="single-button">
-          <li role="menuitem" class="dropdown-item">
-            <div class="col-xs-8 no-padding">
-              <button type="button" class="btn btn-default btn-block no-border-radius" (click)="btnCustomAction_Click(p, custominterrupt)">
-                {{"Custom" | translate}}
-              </button>
-            </div>
-            <div class="col-xs-4 no-padding">
-              <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius" name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)" (focus)="inp_Focus($event)">
-            </div>
-          </li>
-          <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
-            <label class="dropdown-item btn btn-default btn-block no-border-radius" [class.active]="p.actions[action.key]">
-              <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="btnAction_Click(p, action, true)" [disabled]="started && p.actions[action.key]">
-              {{action.key | translate}}
-            </label>
-          </li>
-          <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
-            <button type="button" class="dropdown-item btn btn-default btn-block no-border-radius" (click)="btnAction_Click(p, action, false)">
-              {{action.key | translate}}
-            </button>
-          </li>
-        </ul>
+  <div [sortablejs]="participants.items">
+    <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
+         (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items let i = index let last = last">
+      <div class="col-xs-4 col-lg-2">
+        <input id="name" name="name" type="text" placeholder="Name" class="form-control" (keydown)="inpName_KeyDown($event)"
+               [(ngModel)]="p.name">
       </div>
+      <div class="col-xs-2 col-lg-1 text-center">
+        <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
+      </div>
+      <div class="col-xs-3 col-lg-1 text-center">
+        <input class="form-control inpDiceIni text-center" name="diceIni" type="number" (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)"
+               (input)="iniChange($event, p)" [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
+      </div>
+      <div class="col-xs-3 col-lg-1 text-center">
+        <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)" (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
+      </div>
+      <div class="col-xs-9 col-lg-4 btn-toolbar">
+        <!--action-->
+        <button type="button" class="btn btn-default" (click)="btnRollInitative_Click(p)" *ngIf="!started">
+          {{"Roll Initiative" | translate}}
+        </button>
+        <button type="button" class="btn btn-default" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
+          {{"Seize Initiative" | translate}}
+        </button>
+        <button type="button" class="btn btn-default" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
+          {{"Action" | translate}}
+        </button>
+        <button type="button" class="btn btn-default" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
+          {{"Delay" | translate}}
+        </button>
+        <div class="btn-group" dropdown *ngIf="started && getInitiative(p) >= 1">
+          <button id="single-button" type="button" class="btn btn-primary" dropdownToggle>
+            {{"Interrupts" | translate}} <span class="caret"></span>
+          </button>
+          <ul *dropdownMenu role="menu" class="dropdown-menu" aria-labelledby="single-button">
+            <li role="menuitem" class="dropdown-item">
+              <div class="col-xs-8 no-padding">
+                <button type="button" class="btn btn-default btn-block no-border-radius" (click)="btnCustomAction_Click(p, custominterrupt)">
+                  {{"Custom" | translate}}
+                </button>
+              </div>
+              <div class="col-xs-4 no-padding">
+                <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius" name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)" (focus)="inp_Focus($event)">
+              </div>
+            </li>
+            <li role="menuitem" class="buffer" *ngFor="let action of p.actions.persistentInterrupts">
+              <label class="dropdown-item btn btn-default btn-block no-border-radius" [class.active]="p.actions[action.key]">
+                <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="btnAction_Click(p, action, true)" [disabled]="started && p.actions[action.key]">
+                {{action.key | translate}}
+              </label>
+            </li>
+            <li role="menuitem" class="buffer" *ngFor="let action of p.actions.normalInterrupts">
+              <button type="button" class="dropdown-item btn btn-default btn-block no-border-radius" (click)="btnAction_Click(p, action, false)">
+                {{action.key | translate}}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-3 col-lg-3 text-right btn-toolbar btn-toolbar-right">
+        <button type="button" class="btn btn-primary btn-duplicate" (click)="btnDuplicate_Click(p)"></button>
+        <button type="button" class="btn btn-primary" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
+          <span class="glyphicon glyphicon-log-in"></span>
+        </button>
+        <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
+          <span class="glyphicon glyphicon-log-out"></span>
+        </button>
+        <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
+          <span class="glyphicon glyphicon-remove"></span>
+        </button>
+      </div>
+      <span *ngIf="last">{{ngReady()}}</span>
     </div>
-    <div class="col-xs-3 col-lg-3 text-right btn-toolbar btn-toolbar-right">
-      <button type="button" class="btn btn-primary btn-duplicate" (click)="btnDuplicate_Click(p)">
-      </button>
-      <button type="button" class="btn btn-primary" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
-        <span class="glyphicon glyphicon-log-in"></span>
-      </button>
-      <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
-        <span class="glyphicon glyphicon-log-out"></span>
-      </button>
-      <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
-        <span class="glyphicon glyphicon-remove"></span>
-      </button>
-    </div>
-    <span *ngIf="last">{{ngReady()}}</span>
   </div>
 
   <div>

@@ -8,6 +8,8 @@ import { BsDropdownModule } from "ngx-bootstrap";
 import { TranslatePipe, TranslateService } from "./translate";
 import { Auth } from "./auth";
 
+import { SortablejsModule } from "angular-sortablejs";
+
 import { AppComponent } from "./app.component";
 import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.component";
 import { ConditionMonitorComponent } from "./condition-monitor/condition-monitor.component";
@@ -26,7 +28,8 @@ import { RangeSliderComponent } from "./range-slider/range-slider.component";
     FormsModule,
     HttpModule,
     CustomFormsModule,
-    BsDropdownModule.forRoot()
+    BsDropdownModule.forRoot(),
+    SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [TranslateService, Auth],
   bootstrap: [AppComponent]

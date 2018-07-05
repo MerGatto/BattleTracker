@@ -25,6 +25,8 @@
     "@angular/router": "^6.0.7",
     "@auth0/angular-jwt": "^2.0.0",
     "@types/node": "^6.0.113",
+    "angular-sortablejs": "^2.5.2",
+    "sortablejs": "^1.7.0",
     "codelyzer": "^4.4.2",
     "core-js": "^2.5.7",
     "jquery": "^3.3.1",
@@ -35,7 +37,7 @@
     "rxjs": "^6.2.1",
     "ts-helpers": "^1.1.1",
     "tslint": "^5.0.0",
-    "typescript": "^2.7.2",
+    "typescript": "2.7.2",
     "zone.js": "^0.8.26"
   },
   "devDependencies": {
