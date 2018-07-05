@@ -17,4 +17,7 @@ BattleTracker is an initiative tracker for Shadowrun 5th edition that makes your
  - Alerts
    - eg Remind you that at beginning of Combat Round 2 something is happening
  - and MORE check Issues to get an idea of what I am working on
+ 
+ ## Where can I find it?
+ Right here! https://mergatto.github.io/BattleTracker/
 
