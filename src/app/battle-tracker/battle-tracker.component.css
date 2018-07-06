@@ -146,8 +146,6 @@ input:checked + .slider:before {
 
 .btn-toolbar-right .btn, .btn-toolbar-right .btn-group, .btn-toolbar-right .input-group { float: right; }
 
-.no-padding { padding: 0; }
-
 .no-border-radius { border-radius: 0; }
 
 .dropdown-menu {
