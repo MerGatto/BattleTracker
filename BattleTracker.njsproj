@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{af8207af-eb03-422f-b5f6-a679472986d4}</ProjectGuid>
     <ProjectHome />
-    <ProjectView>ProjectFiles</ProjectView>
+    <ProjectView>ShowAllFiles</ProjectView>
     <StartupFile>protractor.conf.js</StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -25,6 +25,8 @@
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
+    <Content Include="src\assets\dices.svg" />
+    <Content Include="src\assets\dices_white.svg" />
     <Content Include="tslint.json" />
     <Content Include="README.md" />
     <Compile Include="karma.conf.js" />

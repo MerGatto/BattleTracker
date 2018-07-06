@@ -48,6 +48,14 @@ div {
   width: 40px;
 }
 
+.btn-diceroll {
+  height: 34px;
+  width: 40px;
+  padding: 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .participant {
   border: 3px solid white;
   border-radius: 5px;
