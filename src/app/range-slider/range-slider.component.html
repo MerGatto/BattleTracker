@@ -1,6 +1,12 @@
 <div class="range-slider">
-  <input class="range-slider__range" type="range" [(ngModel)]="value" attr.min="{{min}}" attr.max="{{max}}" [(step)]="step">
+  <!--<input class="range-slider__range" type="range" [(ngModel)]="value" attr.min="{{min}}" attr.max="{{max}}" [(step)]="step" list="tickmarks">-->
+  <input #sliderino type="number"
+         attr.data-slider-min="{{min}}"
+         attr.data-slider-max="{{max}}"
+         data-slider-step="1"
+         data-slider-tooltip="hide"
+         [(ngModel)]="value">
   <span class="range-slider__value">
-    <input class="range-slider__input" name="dices" type="number" (input)="onInput($event)" (focus)="inp_Focus($event)" [(ngModel)]="value">
+    <input class="range-slider__input text-light" name="dices" type="number" (focus)="inp_Focus($event)" [(ngModel)]="value">
   </span>
 </div>

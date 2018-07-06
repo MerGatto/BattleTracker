@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, forwardRef } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import * as $ from 'jquery';
+//import { Slider } from 'bootstrap-slider';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -14,8 +15,22 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   styleUrls: ['./range-slider.component.css'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class RangeSliderComponent implements OnInit, ControlValueAccessor
+export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValueAccessor
 {
+  _slider;
+
+  @ViewChild('sliderino')
+  sliderino: ElementRef;
+
+  ngAfterViewInit()
+  {
+    this._slider = new Slider(this.sliderino.nativeElement, { ticks: this.ticks, ticks_labels: this.ticks});
+    this._slider.on('change', (e) =>
+    {
+      this.value = Number(e.newValue);
+    });
+  }
+
   private onTouchedCallback: () => void = () => {};
   private onChangeCallback: (_: any) => void = () => {};
 
@@ -30,6 +45,10 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor
   {
     this._value = val;
     this.onChangeCallback(val);
+
+    if (this._slider) {
+      this._slider.setValue(val);
+    }
   }
 
   private _max: number;
@@ -64,11 +83,37 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor
   set step(value: number)
   {
     this._step = value;
+    var ticks: number[] = [];
+    if (value <= 0)
+    {
+      return;
+    }
+    for (var i = Number(this._min); i <= Number(this._max); i += Number(this._step))
+    {
+      ticks.push(i);
+    }
+    this.ticks = ticks;
+    if (this._slider)
+    {
+      console.log("ticks");
+    }
   }
 
   get step(): number
   {
     return this._step;
+  }
+
+  private _ticks: number[];
+
+  set ticks(value: number[])
+  {
+    this._ticks = value;
+  }
+
+  get ticks(): number[]
+  {
+    return this._ticks;
   }
 
   constructor()
@@ -77,6 +122,7 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor
     this._min = 0;
     this._step = 1;
     this._value = 1;
+    this._ticks = [];
   }
 
   ngOnInit() {}
@@ -100,21 +146,6 @@ export class RangeSliderComponent implements OnInit, ControlValueAccessor
   }
 
   setDisabledState(isDisabled: boolean): void {}
-
-  onInput(e)
-  {
-    let val = $(e.target).val();
-    if (val > this.max)
-    {
-      this.value = this.max;
-      $(e.target).val(this.max);
-    }
-    if (val < this.min)
-    {
-      this.value = this.min;
-      $(e.target).val(this.min);
-    }
-  }
 
   inp_Focus(e)
   {

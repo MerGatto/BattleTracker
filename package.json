@@ -31,6 +31,7 @@
     "@fortawesome/fontawesome-free": "^5.1.0",
     "@fortawesome/fontawesome-free-solid": "^5.0.13",
     "bootstrap": "^4.1.1",
+    "bootstrap-slider": "10.0.2",
     "popper.js": "1.14.3",
     "sortablejs": "^1.7.0",
     "codelyzer": "^4.4.2",
