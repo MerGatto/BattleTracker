@@ -39,15 +39,6 @@ div {
   user-select: none;
 }
 
-.btn-duplicate {
-  background-image: url("../../assets/duplicate.svg");
-  background-size: 60%;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 34px;
-  width: 40px;
-}
-
 .btn-diceroll {
   height: 34px;
   width: 40px;
