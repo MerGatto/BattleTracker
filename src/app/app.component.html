@@ -12,7 +12,7 @@
         <div class="btn-group" style="display: inline-block">
           <button *ngFor="let lang of supportedLanguages"
                   (click)="selectLang(lang.value)"
-                  class="btn btn-default navbar-btn" [class.btn-primary]="isCurrentLang(lang.value)">
+                  class="btn btn-secondary navbar-btn" [class.btn-primary]="isCurrentLang(lang.value)">
             {{ lang.display }}
           </button>
         </div>
