@@ -22,7 +22,6 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
-    <Compile Include="src\viewport-min-width.js" />
     <Content Include="angular.json" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
