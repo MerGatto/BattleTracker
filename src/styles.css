@@ -15,3 +15,12 @@ html, body {
   text-align: right;
   margin-right: 20px;
 }
+
+.slider.slider-horizontal {
+  width: 100% !important;
+}
+
+.tooltip.in {
+  filter: alpha(opacity=90);
+  opacity: .9;
+}

@@ -188,7 +188,7 @@
                     <label>{{"Overflow" | translate}}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1"></range-slider>
+                    <range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -196,7 +196,7 @@
                     <label>{{"Physical Health" | translate}}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.physicalHealth" min="1" max="20" step="1"></range-slider>
+                    <range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -204,7 +204,7 @@
                     <label>{{"Stun Health" | translate}}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.stunHealth" min="1" max="20" step="1"></range-slider>
+                    <range-slider [(ngModel)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -212,7 +212,7 @@
                     <label>{{"Pain Tolerance" | translate}}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="20" step="1"></range-slider>
+                    <range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5"></range-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -231,7 +231,7 @@
                     <label>{{"Dices" | translate}}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1"></range-slider>
+                    <range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1"></range-slider>
                   </div>
                 </div>
               </ng-template>
