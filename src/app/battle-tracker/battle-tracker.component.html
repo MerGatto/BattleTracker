@@ -86,29 +86,33 @@
           <button type="button" class="btn btn-primary" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
             {{"Delay" | translate}}
           </button>
-          <div class="btn-group" ngbDropdown *ngIf="started && getInitiative(p) >= 1">
+          <div class="btn-group p-0" ngbDropdown *ngIf="started && getInitiative(p) >= 1">
             <button ngbDropdownToggle id="interruptDropdown" type="button" class="btn btn-primary" dropdownToggle>
               {{"Interrupts" | translate}} <span class="caret"></span>
             </button>
             <div ngbDropdownMenu aria-labelledby="interruptDropdown">
               <div class="dropdown-item">
-                <div class="col-8 p-0">
-                  <button type="button" class="btn btn-secondary btn-block no-border-radius" (click)="btnCustomAction_Click(p, custominterrupt)">
-                    {{"Custom" | translate}}
-                  </button>
-                </div>
-                <div class="col-4 p-0">
-                  <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius" name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)" (focus)="inp_Focus($event)">
+                <div class="row mx-0 input-group">
+                  <div class="col-8 p-0 input-group-prepend">
+                    <button type="button" class="btn btn-secondary btn-block" (click)="btnCustomAction_Click(p, custominterrupt)">
+                      {{"Custom" | translate}}
+                    </button>
+                  </div>
+                  <div class="col-4 p-0">
+                    <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius" name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)" (focus)="inp_Focus($event)">
+                  </div>
                 </div>
               </div>
-              <div class="dropdown-item buffer" *ngFor="let action of p.actions.persistentInterrupts">
-                <label class=" btn btn-secondary btn-block no-border-radius" [class.active]="p.actions[action.key]">
-                  <input type="checkbox" class="hide" [(ngModel)]="p.actions[action.key]" (click)="btnAction_Click(p, action, true)" [disabled]="started && p.actions[action.key]">
-                  {{action.key | translate}}
-                </label>
+              <div class="dropdown-item" *ngFor="let action of p.actions.persistentInterrupts">
+                <div class="btn-group-toggle" [class.disabled]="p.actions[action.key]" data-toggle="buttons" >
+                  <label class=" btn btn-secondary btn-block" [class.disabled]="p.actions[action.key]" (click)="btnAction_Click(p, action, true)">
+                    <input type="checkbox" [disabled]="p.actions[action.key]">
+                    {{action.key | translate}}
+                  </label>
+                </div>
               </div>
-              <div class="dropdown-item buffer" *ngFor="let action of p.actions.normalInterrupts">
-                <button type="button" class="dropdown-item btn btn-secondary btn-block no-border-radius" (click)="btnAction_Click(p, action, false)">
+              <div class="dropdown-item" *ngFor="let action of p.actions.normalInterrupts">
+                <button type="button" class="btn btn-secondary btn-block" (click)="btnAction_Click(p, action, false)">
                   {{action.key | translate}}
                 </button>
               </div>

@@ -445,6 +445,12 @@ export class BattleTrackerComponent implements OnInit
     if (!persistent)
     {
       p.actions.doAction(action);
+    } else
+    {
+      if (!p.actions[action.key])
+      {
+        p.actions[action.key] = !p.actions[action.key];
+      }
     }
   }
 
