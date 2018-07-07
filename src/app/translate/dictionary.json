@@ -186,5 +186,9 @@
   "Overflow": {
     "en": "Overflow",
     "de": "Überzähliger"
-  }
+  },
+  "Sort by Initiative": {
+    "en": "Sort by Initiative",
+    "de":  "Nach Initiative sortieren" 
+  } 
 }

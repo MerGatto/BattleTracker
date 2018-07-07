@@ -85,4 +85,23 @@ export class ParticipantList
   {
     return this.items.length;
   }
+
+  sortByInitiative()
+  {
+    this.items.sort(this.initiativeComparator);
+  }
+
+  initiativeComparator(p1: Participant, p2: Participant): number
+  {
+    var p1CompValue = p1.calculateInitiative(1);
+    var p2CompValue = p2.calculateInitiative(1);
+    if (p2.ooc)
+    {
+      p2CompValue -= 100;
+    }
+    if (p1.ooc) {
+      p1CompValue -= 100;
+    }
+    return p2CompValue - p1CompValue;
+  }
 }

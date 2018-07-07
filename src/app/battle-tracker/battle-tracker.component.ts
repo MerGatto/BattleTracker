@@ -44,6 +44,16 @@ export class BattleTrackerComponent implements OnInit
     UndoHandler.HandleProperty(this, "started", val);
   }
 
+  private _sortByInitiative: boolean;
+
+  get sortByInitiative(): boolean {
+    return this._sortByInitiative;
+  }
+
+  set sortByInitiative(val: boolean) {
+    UndoHandler.HandleProperty(this, "sortByInitiative", val);
+  }
+
   private _passEnded: boolean;
 
   get passEnded(): boolean
@@ -116,6 +126,7 @@ export class BattleTrackerComponent implements OnInit
     this.passEnded = false;
     this.combatTurn = 1;
     this.initiativeTurn = 1;
+    this.sortByInitiative = true;
   }
 
   nextIniPass()
@@ -281,6 +292,9 @@ export class BattleTrackerComponent implements OnInit
     } else
     {
       this.endInitiativePass();
+    }
+    if (this.sortByInitiative) {
+      this.participants.sortByInitiative();
     }
   }
 

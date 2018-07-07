@@ -14,6 +14,18 @@
               {{"Reset" | translate}}
             </button>
           </div>
+          <div class="btn-group ml-2">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                <label for="chkbSortIni" class="input-group-text disable-selection">{{"Sort by Initiative" | translate}}</label>
+              </div>
+              <div class="input-group-append">
+                <div class="input-group-text">
+                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="this.sortByInitiative"/>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-6">
           <div class="right btn-group" role="group">
@@ -76,7 +88,7 @@
 
           </div>
         </div>
-        <div class="col-9 col-xl-4 btn-group" role="group">
+        <div class="col-7 col-xl-4 btn-group" role="group">
           <!--action-->
           <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
             {{"Seize Initiative" | translate}}
@@ -120,7 +132,7 @@
             </div>
           </div>
         </div>
-        <div class="col-3 col-xl-3 text-right">
+        <div class="col-5 col-xl-3 text-right">
           <div class="btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="btnDuplicate_Click(p)">
               <i class="fas fa-clone fa-lg fa-flip-vertical"></i>
