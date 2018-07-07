@@ -6,7 +6,7 @@ export class TranslateService
   private _currentLang: string;
   private _translations = require("./dictionary.json");
 
-  private _logMissingTranslations: boolean = false;
+  private _logMissingTranslations: boolean = true;
 
   public get currentLang()
   {

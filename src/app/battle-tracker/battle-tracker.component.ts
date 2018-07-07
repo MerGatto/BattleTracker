@@ -175,7 +175,7 @@ export class BattleTrackerComponent implements OnInit
     for (let p of this.participants.items)
     {
       let effIni = this.getInitiative(p);
-      if (!p.ooc && p.status == StatusEnum.Waiting && p.diceIni > 0 && effIni > 0)
+      if (!p.ooc && p.status == StatusEnum.Waiting && effIni > 0)
       {
         if (effIni > max && (p.edge || !edge) || p.edge && !edge)
         {

@@ -123,6 +123,10 @@
     "en": "Action",
     "de": "Handlung"
   },
+  "Act": {
+    "en": "Act",
+    "de": "Handeln"
+  },
   "Delay": {
     "en": "Delay",
     "de": "Abwarten"
@@ -138,6 +142,49 @@
   "Pain Editor": {
     "en": "Pain Editor",
     "de": "Schmerzeditor"
+  },
+  "Dice Roll": {
+    "en": "Dice Roll",
+    "de": "Würfelwurf"
+  },
+  "Base Ini": {
+    "en": "Base Ini",
+    "de": "Basis Ini"
+  },
+  "Ini": {
+    "en": "Ini",
+    "de": "Ini"
+  },
+  "Selected Actor": {
+    "en": "Selected Actor",
+    "de": "Ausgewählter Teilnehmer"
+  },
+  "Condition Monitor": {
+    "en": "Condition Monitor",
+    "de": "Zustandmonitor"
+  },
+  "Stats": {
+    "en": "Stats",
+    "de": "Stats"
+  },
+  "Initiative Dices": {
+    "en": "Initiative Dices",
+    "de": "Initiative Würfel"
+  },
+  "Stun Health": {
+    "en": "Stun Health",
+    "de": "Geistiger Zustandmonitor"
+  },
+  "Physical Health": {
+    "en": "Physical Health",
+    "de": "Körperlicher Zustandmonitor"
+  },
+  "Pain Tolerance": {
+    "en": "Pain Tolerance",
+    "de": "Schmerztoleranz"
+  },
+  "Overflow": {
+    "en": "Overflow",
+    "de": "Überzähliger"
   }
-
 }
