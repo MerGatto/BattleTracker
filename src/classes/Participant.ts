@@ -135,7 +135,7 @@ export class Participant
     // Pain Editor Exception
     if (this.hasPainEditor)
     {
-      return this.physicalDamage > this.physicalHealth + this.overflowHealth;
+      return this.physicalDamage >= this.physicalHealth;
     }
 
     return this.physicalDamage >= this.physicalHealth || this.stunDamage >= this.stunHealth;
