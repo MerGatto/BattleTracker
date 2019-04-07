@@ -85,16 +85,27 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.Set("combatTurn", val);
   }
 
-  private _initiativeTurn: number;
+  private _initiativePass: number;
 
-  get initiativeTurn(): number
+  get initiativePass(): number
   {
-    return this._initiativeTurn;
+    return this._initiativePass;
   }
 
-  set initiativeTurn(val: number)
+  set initiativePass(val: number)
   {
-    this.Set("initiativeTurn", val);
+    this.Set("initiativePass", val);
+  }
+
+  private _currentInitiative: number;
+  get currentInitiative(): number
+  {
+    return this._currentInitiative;
+  }
+
+  set currentInitiative(val: number)
+  {
+    this.Set("currentInitiative", val);
   }
 
   private _selectedActor: Participant;
@@ -115,7 +126,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.initialize();
     this.addParticipant();
     this.selectedActor = this.participants.items[0];
-    this.sortByInitiative = false;
     bt = this;
 
     this.options =
@@ -153,14 +163,15 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.started = false;
     this.passEnded = true;
     this.combatTurn = 1;
-    this.initiativeTurn = 1;
+    this.initiativePass = 1;
+    this.currentInitiative = NaN;
     this.sortByInitiative = true;
   }
 
   nextIniPass()
   {
     this.passEnded = false;
-    this.initiativeTurn++;
+    this.initiativePass++;
     for (let p of this.participants.items)
     {
       if (!p.ooc && p.status !== StatusEnum.Delaying)
@@ -173,8 +184,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   endCombatTurn()
   {
     this.participants.sortBySortOrder();
-    this.initiativeTurn = 1;
+    this.initiativePass = 1;
     this.combatTurn++;
+    this.currentInitiative = NaN;
     for (let p of this.participants.items)
     {
       p.softReset();
@@ -212,17 +224,24 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     var i = 0;
     var edge = false;
     var over = true;
+    this.currentInitiative = 0;
+
     for (let p of this.participants.items)
     {
       let effIni = this.getInitiative(p);
       if (!p.ooc && p.status == StatusEnum.Waiting && effIni > 0)
       {
+        if (effIni > this.currentInitiative)
+        {
+          this.currentInitiative = effIni;
+        }
+
         if (effIni > max && (p.edge || !edge) || p.edge && !edge)
         {
           this.currentActors.clear();
           this.currentActors.insert(p);
-          max = effIni;
           edge = p.edge;
+          max = effIni;
         } else if (effIni == max && edge == p.edge)
         {
           this.currentActors.insert(p);
@@ -233,7 +252,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   getInitiative(p: Participant): number
   {
-    return p.calculateInitiative(this.initiativeTurn);
+    return p.calculateInitiative(this.initiativePass);
   }
 
   seizeInitiative(p: Participant)
@@ -241,12 +260,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     p.seizeInitiative();
   }
 
-  addParticipant()
+  addParticipant(): Participant
   {
     var p = new Participant();
     p.sortOrder = this.nextSortOrder++;
     this.participants.insert(p);
     this.selectActor(p);
+    return p;
   }
 
   copyParticipant(p: Participant)
@@ -478,7 +498,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     {
       this.started = false;
     }
-    this.initiativeTurn = 1;
+    this.initiativePass = 1;
     for (let p of this.participants.items)
     {
       p.softReset();

@@ -159,7 +159,8 @@
       </div>
     </div>
     <div>
-      <div colspan="8">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativeTurn}}</div>
+      <div *ngIf="started,else startedContent" colspan="8">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativePass}}, {{"Initative" | translate}} {{currentInitiative}}</div>
+      <ng-template #startedContent>{{"Turn" | translate}} {{combatTurn}}</ng-template>
     </div>
   </div>
 

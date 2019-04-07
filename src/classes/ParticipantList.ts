@@ -107,12 +107,21 @@ export class ParticipantList
     var p2CompValue = p2.calculateInitiative(1);
     if (p2.ooc)
     {
-      p2CompValue -= 100;
+      p2CompValue -= 1000;
     }
 
     if (p1.ooc)
     {
-      p1CompValue -= 100;
+      p1CompValue -= 1000;
+    }
+
+    if (p1.edge)
+    {
+      p1CompValue += 100;
+    }
+
+    if (p2.edge) {
+      p2CompValue += 100;
     }
 
     if (p2CompValue == p1CompValue)
