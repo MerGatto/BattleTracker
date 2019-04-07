@@ -1,6 +1,6 @@
-import {UndoHandler} from "./UndoHandler"
-import {Action} from "../Interfaces/Action"
-import {interruptTable} from "./InterruptTable"
+import { UndoHandler } from "./UndoHandler"
+import { Action } from "../Interfaces/Action"
+import { interruptTable } from "./InterruptTable"
 
 export class Actions
 {
@@ -60,9 +60,9 @@ export class Actions
   doAction(action: Action)
   {
     UndoHandler.DoAction(() =>
-      {
-        this.actionHistory.push(action);
-      },
+    {
+      this.actionHistory.push(action);
+    },
       () =>
       {
         this.actionHistory.pop();

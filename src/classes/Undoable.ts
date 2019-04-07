@@ -1,5 +1,5 @@
 
-import {UndoHandler} from "./UndoHandler"
+import { UndoHandler } from "./UndoHandler"
 
 export class Undoable
 {

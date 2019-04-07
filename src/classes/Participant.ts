@@ -1,8 +1,6 @@
-import {StatusEnum} from "./StatusEnum"
-import {UndoHandler} from "./UndoHandler"
-import {Actions} from "./Actions"
+import { StatusEnum } from "./StatusEnum"
+import { Actions } from "./Actions"
 import { Undoable } from "./Undoable";
-import { inherits } from "util";
 
 export class Participant extends Undoable
 {
