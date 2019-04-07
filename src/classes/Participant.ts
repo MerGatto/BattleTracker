@@ -1,8 +1,10 @@
 import {StatusEnum} from "./StatusEnum"
 import {UndoHandler} from "./UndoHandler"
 import {Actions} from "./Actions"
+import { Undoable } from "./Undoable";
+import { inherits } from "util";
 
-export class Participant
+export class Participant extends Undoable
 {
   private _name: string;
 
@@ -13,7 +15,7 @@ export class Participant
 
   set name(val: string)
   {
-    UndoHandler.HandleProperty(this, "name", val);
+    this.Set("name", val);
   }
 
   private _waiting: boolean;
@@ -25,7 +27,7 @@ export class Participant
 
   set waiting(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "waiting", val);
+    this.Set("waiting", val);
   }
 
   private _finished: boolean;
@@ -37,7 +39,7 @@ export class Participant
 
   set finished(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "finished", val);
+    this.Set("finished", val);
   }
 
   private _active: boolean;
@@ -49,7 +51,7 @@ export class Participant
 
   set active(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "active", val);
+    this.Set("active", val);
   }
 
   private _baseIni: number;
@@ -61,7 +63,7 @@ export class Participant
 
   set baseIni(val: number)
   {
-    UndoHandler.HandleProperty(this, "baseIni", val);
+    this.Set("baseIni", val);
   }
 
   private _diceIni: number;
@@ -73,7 +75,7 @@ export class Participant
 
   set diceIni(val: number)
   {
-    UndoHandler.HandleProperty(this, "diceIni", val);
+    this.Set("diceIni", val);
   }
 
   private _dices: number;
@@ -85,7 +87,7 @@ export class Participant
 
   set dices(val: number)
   {
-    UndoHandler.HandleProperty(this, "dices", val);
+    this.Set("dices", val);
   }
 
   private _hasPainEditor: boolean;
@@ -97,7 +99,7 @@ export class Participant
 
   set hasPainEditor(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "hasPainEditor", val);
+    this.Set("hasPainEditor", val);
   }
 
   get wm(): number
@@ -143,7 +145,7 @@ export class Participant
 
   set ooc(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "ooc", val);
+    this.Set("ooc", val);
   }
 
   private _edge: boolean;
@@ -155,7 +157,7 @@ export class Participant
 
   set edge(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "edge", val);
+    this.Set("edge", val);
   }
 
   private _status: StatusEnum;
@@ -167,7 +169,7 @@ export class Participant
 
   set status(val: StatusEnum)
   {
-    UndoHandler.HandleProperty(this, "status", val);
+    this.Set("status", val);
   }
 
   private _actions: Actions;
@@ -179,7 +181,7 @@ export class Participant
 
   set actions(val: Actions)
   {
-    UndoHandler.HandleProperty(this, "actions", val);
+    this.Set("actions", val);
   }
 
   private _painTolerance: number;
@@ -191,7 +193,7 @@ export class Participant
 
   set painTolerance(val: number)
   {
-    UndoHandler.HandleProperty(this, "painTolerance", val);
+    this.Set("painTolerance", val);
   }
 
   private _overflowHealth: number;
@@ -203,7 +205,7 @@ export class Participant
 
   set overflowHealth(val: number)
   {
-    UndoHandler.HandleProperty(this, "overflowHealth", val);
+    this.Set("overflowHealth", val);
   }
 
   private _physicalHealth: number;
@@ -215,7 +217,7 @@ export class Participant
 
   set physicalHealth(val: number)
   {
-    UndoHandler.HandleProperty(this, "physicalHealth", val);
+    this.Set("physicalHealth", val);
   }
 
   private _stunHealth: number;
@@ -227,7 +229,7 @@ export class Participant
 
   set stunHealth(val: number)
   {
-    UndoHandler.HandleProperty(this, "stunHealth", val);
+    this.Set("stunHealth", val);
   }
 
   private _physicalDamage: number;
@@ -239,7 +241,7 @@ export class Participant
 
   set physicalDamage(val: number)
   {
-    UndoHandler.HandleProperty(this, "physicalDamage", val);
+    this.Set("physicalDamage", val);
   }
 
   private _stunDamage: number;
@@ -251,11 +253,24 @@ export class Participant
 
   set stunDamage(val: number)
   {
-    UndoHandler.HandleProperty(this, "stunDamage", val);
+    this.Set("stunDamage", val);
+  }
+
+  private _sortOrder: number;
+
+  get sortOrder(): number
+  {
+    return this._sortOrder;
+  }
+
+  set sortOrder(val: number)
+  {
+    this.Set("sortOrder", val);
   }
 
   constructor()
   {
+    super();
     this.status = StatusEnum.Waiting;
     this.waiting = false;
     this.finished = false;
@@ -274,6 +289,7 @@ export class Participant
     this.stunDamage = 0;
     this.physicalDamage = 0;
     this.hasPainEditor = false;
+    this.sortOrder = 0;
   }
 
   clone(): Participant
@@ -296,6 +312,7 @@ export class Participant
     clone._stunHealth = this._stunHealth;
     clone._waiting = this._waiting;
     clone._hasPainEditor = this._hasPainEditor;
+    clone._sortOrder = this._sortOrder;
     return clone;
   }
 

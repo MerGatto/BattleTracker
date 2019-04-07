@@ -1,5 +1,5 @@
-import {UndoHandler} from "./UndoHandler"
-import {Participant} from "./Participant"
+import { UndoHandler } from "./UndoHandler"
+import { Participant } from "./Participant"
 
 export class ParticipantList
 {
@@ -91,6 +91,16 @@ export class ParticipantList
     this.items.sort(this.initiativeComparator);
   }
 
+  sortBySortOrder()
+  {
+    this.items.sort(this.sortOrderComparator);
+  }
+
+  sortOrderComparator(p1: Participant, p2: Participant): number
+  {
+    return p1.sortOrder - p2.sortOrder;
+  }
+
   initiativeComparator(p1: Participant, p2: Participant): number
   {
     var p1CompValue = p1.calculateInitiative(1);
@@ -99,9 +109,19 @@ export class ParticipantList
     {
       p2CompValue -= 100;
     }
-    if (p1.ooc) {
+
+    if (p1.ooc)
+    {
       p1CompValue -= 100;
     }
-    return p2CompValue - p1CompValue;
+
+    if (p2CompValue == p1CompValue)
+    {
+      return p1.sortOrder - p2.sortOrder;
+    }
+    else
+    {
+      return p2CompValue - p1CompValue;
+    }
   }
 }

@@ -64,7 +64,7 @@
     </div>
 
     <!--PARTICIPANT ROWS-->
-    <div [sortablejs]="participants.items">
+    <div [sortablejs]="participants.items" [sortablejsOptions]="options">
       <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
            (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items let i = index let last = last">
         <div class="col-4 col-xl-2">

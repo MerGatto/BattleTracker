@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core'
 
 import { Participant } from "../../classes/Participant"
 import { ParticipantList } from "../../classes/ParticipantList"
-import {Action} from "../../Interfaces/Action"
+import { Action } from "../../Interfaces/Action"
 import { StatusEnum } from "../../classes/StatusEnum"
 import * as Utility from "../../utility"
-import {UndoHandler} from "../../classes/UndoHandler"
+import { UndoHandler } from "../../classes/UndoHandler"
 import { LogHandler } from "../../classes/LogHandler"
 import * as $ from 'jquery';
+import { Undoable } from 'classes/Undoable';
+import { SortablejsOptions } from 'angular-sortablejs';
 
 var bt: any;
 
@@ -25,12 +27,14 @@ var bt: any;
   templateUrl: './battle-tracker.component.html',
   styleUrls: ['./battle-tracker.component.css']
 })
-export class BattleTrackerComponent implements OnInit
+export class BattleTrackerComponent extends Undoable implements OnInit
 {
   participants: ParticipantList;
   currentActors: ParticipantList;
   indexToSelect: number = -1;
   logHandler = LogHandler;
+  nextSortOrder = 0;
+  options: SortablejsOptions;
 
   private _started: boolean;
 
@@ -41,17 +45,20 @@ export class BattleTrackerComponent implements OnInit
 
   set started(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "started", val);
+    this.Set("started", val);
   }
 
   private _sortByInitiative: boolean;
 
-  get sortByInitiative(): boolean {
+  get sortByInitiative(): boolean
+  {
     return this._sortByInitiative;
   }
 
-  set sortByInitiative(val: boolean) {
-    UndoHandler.HandleProperty(this, "sortByInitiative", val);
+  set sortByInitiative(val: boolean)
+  {
+    this.Set("sortByInitiative", val);
+    UndoHandler.DoAction(() => this.sort(), () => this.sort());
   }
 
   private _passEnded: boolean;
@@ -63,7 +70,7 @@ export class BattleTrackerComponent implements OnInit
 
   set passEnded(val: boolean)
   {
-    UndoHandler.HandleProperty(this, "passEnded", val);
+    this.Set("passEnded", val);
   }
 
   private _combatTurn: number;
@@ -75,7 +82,7 @@ export class BattleTrackerComponent implements OnInit
 
   set combatTurn(val: number)
   {
-    UndoHandler.HandleProperty(this, "combatTurn", val);
+    this.Set("combatTurn", val);
   }
 
   private _initiativeTurn: number;
@@ -87,7 +94,7 @@ export class BattleTrackerComponent implements OnInit
 
   set initiativeTurn(val: number)
   {
-    UndoHandler.HandleProperty(this, "initiativeTurn", val);
+    this.Set("initiativeTurn", val);
   }
 
   private _selectedActor: Participant;
@@ -99,15 +106,36 @@ export class BattleTrackerComponent implements OnInit
 
   set selectedActor(val: Participant)
   {
-    UndoHandler.HandleProperty(this, "selectedActor", val);
+    this.Set("selectedActor", val);
   }
 
   constructor()
   {
+    super();
     this.initialize();
     this.addParticipant();
     this.selectedActor = this.participants.items[0];
+    this.sortByInitiative = false;
     bt = this;
+
+    this.options =
+    {
+      onUpdate: (event: CustomEvent) =>
+      {
+        this.onSortUpdate(event);
+      }
+    }
+  }
+
+  onSortUpdate(event: any)
+  {
+    if (!this.sortByInitiative)
+    {
+      for (var i = 0; i < this.participants.count; i++)
+      {
+        this.participants.items[i].sortOrder = i;
+      }
+    }
   }
 
   ngOnInit()
@@ -123,7 +151,7 @@ export class BattleTrackerComponent implements OnInit
     this.currentActors = new ParticipantList();
 
     this.started = false;
-    this.passEnded = false;
+    this.passEnded = true;
     this.combatTurn = 1;
     this.initiativeTurn = 1;
     this.sortByInitiative = true;
@@ -144,6 +172,7 @@ export class BattleTrackerComponent implements OnInit
 
   endCombatTurn()
   {
+    this.participants.sortBySortOrder();
     this.initiativeTurn = 1;
     this.combatTurn++;
     for (let p of this.participants.items)
@@ -215,6 +244,7 @@ export class BattleTrackerComponent implements OnInit
   addParticipant()
   {
     var p = new Participant();
+    p.sortOrder = this.nextSortOrder++;
     this.participants.insert(p);
     this.selectActor(p);
   }
@@ -226,6 +256,7 @@ export class BattleTrackerComponent implements OnInit
     copy.active = false;
     copy.status = StatusEnum.Waiting;
     copy.waiting = false;
+    copy.sortOrder = this.nextSortOrder++;
 
     var regexresult = p.name.match("\\d*$");
     var number = regexresult[0];
@@ -236,7 +267,6 @@ export class BattleTrackerComponent implements OnInit
     if (number)
     {
       name = p.name.substring(0, regexresult.index);
-      console.log(name);
       int = Utility.convertToInt(number);
     }
 
@@ -256,6 +286,12 @@ export class BattleTrackerComponent implements OnInit
           }
         }
       }
+    }
+
+    if (high == 0)
+    {
+      high++;
+      p.name = p.name + "1";
     }
 
     // Set the name for the Copy
@@ -293,7 +329,8 @@ export class BattleTrackerComponent implements OnInit
     {
       this.endInitiativePass();
     }
-    if (this.sortByInitiative) {
+    if (this.sortByInitiative)
+    {
       this.participants.sortByInitiative();
     }
   }
@@ -306,6 +343,21 @@ export class BattleTrackerComponent implements OnInit
       if (this.currentActors.count == 0)
       {
         this.goToNextActors();
+      }
+    }
+  }
+
+  sort()
+  {
+    if (!this.passEnded)
+    {
+      if (this.sortByInitiative)
+      {
+        this.participants.sortByInitiative();
+      }
+      else
+      {
+        this.participants.sortBySortOrder();
       }
     }
   }
