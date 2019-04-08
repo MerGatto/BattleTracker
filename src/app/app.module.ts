@@ -27,7 +27,6 @@ import { RangeSliderComponent } from "./range-slider/range-slider.component";
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     CustomFormsModule,
     NgbModule,
     SortablejsModule.forRoot({ animation: 150 })

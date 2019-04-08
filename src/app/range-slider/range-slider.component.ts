@@ -129,7 +129,9 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
       });
     this._slider.on("change", (e) =>
     {
+      console.log(e.newValue);
       this.value = Number(e.newValue);
+      console.log(this._slider.min);
     });
   }
 
