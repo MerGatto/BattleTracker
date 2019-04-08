@@ -1,10 +1,10 @@
 // app/translate/translate.pipe.ts
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { TranslateService } from './translate.service'; // our translate service
+import { Pipe, PipeTransform } from "@angular/core";
+import { TranslateService } from "./translate.service"; // our translate service
 
 @Pipe({
-  name: 'translate',
+  name: "translate",
   pure: false // impure pipe, update value when we change language
 })
 export class TranslatePipe implements PipeTransform

@@ -1,10 +1,9 @@
-import { StatusEnum } from "./StatusEnum"
-import { Actions } from "./Actions"
+import { StatusEnum } from "./StatusEnum";
+import { Actions } from "./Actions";
 import { Undoable } from "./Undoable";
 
 export class Participant extends Undoable
 {
-  private _name: string;
 
   get name(): string
   {
@@ -16,8 +15,6 @@ export class Participant extends Undoable
     this.Set("name", val);
   }
 
-  private _waiting: boolean;
-
   get waiting(): boolean
   {
     return this._waiting;
@@ -27,8 +24,6 @@ export class Participant extends Undoable
   {
     this.Set("waiting", val);
   }
-
-  private _finished: boolean;
 
   get finished(): boolean
   {
@@ -40,8 +35,6 @@ export class Participant extends Undoable
     this.Set("finished", val);
   }
 
-  private _active: boolean;
-
   get active(): boolean
   {
     return this._active;
@@ -51,8 +44,6 @@ export class Participant extends Undoable
   {
     this.Set("active", val);
   }
-
-  private _baseIni: number;
 
   get baseIni(): number
   {
@@ -64,8 +55,6 @@ export class Participant extends Undoable
     this.Set("baseIni", val);
   }
 
-  private _diceIni: number;
-
   get diceIni(): number
   {
     return this._diceIni;
@@ -76,8 +65,6 @@ export class Participant extends Undoable
     this.Set("diceIni", val);
   }
 
-  private _dices: number;
-
   get dices(): number
   {
     return this._dices;
@@ -87,8 +74,6 @@ export class Participant extends Undoable
   {
     this.Set("dices", val);
   }
-
-  private _hasPainEditor: boolean;
 
   get hasPainEditor(): boolean
   {
@@ -108,20 +93,18 @@ export class Participant extends Undoable
       return 0;
     }
 
-    var physicalWM = Math.floor((this.physicalDamage - this.painTolerance) / 3);
+    let physicalWM = Math.floor((this.physicalDamage - this.painTolerance) / 3);
     if (physicalWM < 0)
     {
       physicalWM = 0;
     }
-    var stunWM = Math.floor((this.stunDamage - this.painTolerance) / 3);
+    let stunWM = Math.floor((this.stunDamage - this.painTolerance) / 3);
     if (stunWM < 0)
     {
       stunWM = 0;
     }
     return physicalWM + stunWM;
   }
-
-  private _ooc: boolean;
 
   get ooc(): boolean
   {
@@ -146,8 +129,6 @@ export class Participant extends Undoable
     this.Set("ooc", val);
   }
 
-  private _edge: boolean;
-
   get edge(): boolean
   {
     return this._edge;
@@ -157,8 +138,6 @@ export class Participant extends Undoable
   {
     this.Set("edge", val);
   }
-
-  private _status: StatusEnum;
 
   get status(): StatusEnum
   {
@@ -170,8 +149,6 @@ export class Participant extends Undoable
     this.Set("status", val);
   }
 
-  private _actions: Actions;
-
   get actions(): Actions
   {
     return this._actions;
@@ -181,8 +158,6 @@ export class Participant extends Undoable
   {
     this.Set("actions", val);
   }
-
-  private _painTolerance: number;
 
   get painTolerance(): number
   {
@@ -194,8 +169,6 @@ export class Participant extends Undoable
     this.Set("painTolerance", val);
   }
 
-  private _overflowHealth: number;
-
   get overflowHealth(): number
   {
     return this._overflowHealth;
@@ -205,8 +178,6 @@ export class Participant extends Undoable
   {
     this.Set("overflowHealth", val);
   }
-
-  private _physicalHealth: number;
 
   get physicalHealth(): number
   {
@@ -218,8 +189,6 @@ export class Participant extends Undoable
     this.Set("physicalHealth", val);
   }
 
-  private _stunHealth: number;
-
   get stunHealth(): number
   {
     return this._stunHealth;
@@ -229,8 +198,6 @@ export class Participant extends Undoable
   {
     this.Set("stunHealth", val);
   }
-
-  private _physicalDamage: number;
 
   get physicalDamage(): number
   {
@@ -242,8 +209,6 @@ export class Participant extends Undoable
     this.Set("physicalDamage", val);
   }
 
-  private _stunDamage: number;
-
   get stunDamage(): number
   {
     return this._stunDamage;
@@ -254,8 +219,6 @@ export class Participant extends Undoable
     this.Set("stunDamage", val);
   }
 
-  private _sortOrder: number;
-
   get sortOrder(): number
   {
     return this._sortOrder;
@@ -265,6 +228,44 @@ export class Participant extends Undoable
   {
     this.Set("sortOrder", val);
   }
+
+  private _name: string;
+
+  private _waiting: boolean;
+
+  private _finished: boolean;
+
+  private _active: boolean;
+
+  private _baseIni: number;
+
+  private _diceIni: number;
+
+  private _dices: number;
+
+  private _hasPainEditor: boolean;
+
+  private _ooc: boolean;
+
+  private _edge: boolean;
+
+  private _status: StatusEnum;
+
+  private _actions: Actions;
+
+  private _painTolerance: number;
+
+  private _overflowHealth: number;
+
+  private _physicalHealth: number;
+
+  private _stunHealth: number;
+
+  private _physicalDamage: number;
+
+  private _stunDamage: number;
+
+  private _sortOrder: number;
 
   constructor()
   {
@@ -292,7 +293,7 @@ export class Participant extends Undoable
 
   clone(): Participant
   {
-    var clone: Participant = new Participant();
+    let clone: Participant = new Participant();
     clone._active = this._active;
     clone._baseIni = this._baseIni;
     clone._diceIni = this._diceIni;
@@ -321,7 +322,7 @@ export class Participant extends Undoable
 
   calculateInitiative(initiativeTurn: number)
   {
-    var ini = this.diceIni + this.baseIni - this.wm - (initiativeTurn - 1) * 10 + this.actions.modifier;
+    let ini = this.diceIni + this.baseIni - this.wm - (initiativeTurn - 1) * 10 + this.actions.modifier;
     return ini;
   }
 
@@ -338,25 +339,25 @@ export class Participant extends Undoable
   rollInitiative()
   {
     this.diceIni = 0;
-    var max = 6;
-    var min = 1;
-    for (var i = 0; i < this.dices; i++)
+    let max = 6;
+    let min = 1;
+    for (let i = 0; i < this.dices; i++)
     {
       this.diceIni += Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    var test = false;
+    let test = false;
     // DICE TEST
     if (test)
     {
-      var slots: Array<number> = new Array<number>();
-      for (var index = 1; index <= 6; index++)
+      let slots: Array<number> = new Array<number>();
+      for (let index = 1; index <= 6; index++)
       {
         slots[index] = 0;
       }
-      for (var i = 0; i < 1000000; i++)
+      for (let i = 0; i < 1000000; i++)
       {
-        var d = Math.floor(Math.random() * (max - min + 1)) + min;
+        let d = Math.floor(Math.random() * (max - min + 1)) + min;
         slots[d]++;
       }
       console.log(slots);

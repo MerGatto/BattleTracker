@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit } from "@angular/core";
 
-import { Participant } from "../../classes/Participant"
-import { ParticipantList } from "../../classes/ParticipantList"
-import { Action } from "../../Interfaces/Action"
-import { StatusEnum } from "../../classes/StatusEnum"
-import * as Utility from "../../utility"
-import { UndoHandler } from "../../classes/UndoHandler"
-import { LogHandler } from "../../classes/LogHandler"
-import * as $ from 'jquery';
-import { Undoable } from 'classes/Undoable';
-import { SortablejsOptions } from 'angular-sortablejs';
+import { Participant } from "../../classes/Participant";
+import { ParticipantList } from "../../classes/ParticipantList";
+import { Action } from "../../Interfaces/Action";
+import { StatusEnum } from "../../classes/StatusEnum";
+import * as Utility from "../../utility";
+import { UndoHandler } from "../../classes/UndoHandler";
+import { LogHandler } from "../../classes/LogHandler";
+import * as $ from "jquery";
+import { Undoable } from "classes/Undoable";
+import { SortablejsOptions } from "angular-sortablejs";
 
-var bt: any;
+let bt: any;
 
-//Debug stuff
+// Debug stuff
 (<any>window).btdump = function btdump()
 {
   console.log("===========");
@@ -23,9 +23,9 @@ var bt: any;
 };
 
 @Component({
-  selector: 'app-battle-tracker',
-  templateUrl: './battle-tracker.component.html',
-  styleUrls: ['./battle-tracker.component.css']
+  selector: "app-battle-tracker",
+  templateUrl: "./battle-tracker.component.html",
+  styleUrls: ["./battle-tracker.component.css"]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit
 {
@@ -128,20 +128,19 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.selectedActor = this.participants.items[0];
     bt = this;
 
-    this.options =
-    {
+    this.options = {
       onUpdate: (event: CustomEvent) =>
       {
         this.onSortUpdate(event);
       }
-    }
+    };
   }
 
   onSortUpdate(event: any)
   {
     if (!this.sortByInitiative)
     {
-      for (var i = 0; i < this.participants.count; i++)
+      for (let i = 0; i < this.participants.count; i++)
       {
         this.participants.items[i].sortOrder = i;
       }
@@ -206,7 +205,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   isOver()
   {
-    var over = true;
+    let over = true;
     for (let p of this.participants.items)
     {
       if (this.getInitiative(p) > 0 && !p.ooc)
@@ -220,29 +219,29 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   getNextActors()
   {
     this.currentActors.clear();
-    var max = 0;
-    var i = 0;
-    var edge = false;
-    var over = true;
+    let max = 0;
+    let i = 0;
+    let edge = false;
+    let over = true;
     this.currentInitiative = 0;
 
     for (let p of this.participants.items)
     {
       let effIni = this.getInitiative(p);
-      if (!p.ooc && p.status == StatusEnum.Waiting && effIni > 0)
+      if (!p.ooc && p.status === StatusEnum.Waiting && effIni > 0)
       {
         if (effIni > this.currentInitiative)
         {
           this.currentInitiative = effIni;
         }
 
-        if (effIni > max && (p.edge || !edge) || p.edge && !edge)
+        if ((effIni > max && (p.edge || !edge)) || (p.edge && !edge))
         {
           this.currentActors.clear();
           this.currentActors.insert(p);
           edge = p.edge;
           max = effIni;
-        } else if (effIni == max && edge == p.edge)
+        } else if (effIni === max && edge === p.edge)
         {
           this.currentActors.insert(p);
         }
@@ -262,7 +261,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   addParticipant(): Participant
   {
-    var p = new Participant();
+    let p = new Participant();
     p.sortOrder = this.nextSortOrder++;
     this.participants.insert(p);
     this.selectActor(p);
@@ -271,17 +270,17 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   copyParticipant(p: Participant)
   {
-    var copy = p.clone();
+    let copy = p.clone();
     copy.edge = false;
     copy.active = false;
     copy.status = StatusEnum.Waiting;
     copy.waiting = false;
     copy.sortOrder = this.nextSortOrder++;
 
-    var regexresult = p.name.match("\\d*$");
-    var number = regexresult[0];
-    var name = p.name;
-    var int;
+    let regexresult = p.name.match("\\d*$");
+    let number = regexresult[0];
+    let name = p.name;
+    let int;
 
     //  Extract name and numbner
     if (number)
@@ -291,8 +290,8 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     }
 
     // Check for other Participants with the same name
-    var high = 0;
-    for (var participant of this.participants.items)
+    let high = 0;
+    for (let participant of this.participants.items)
     {
       if (participant.name.match(name))
       {
@@ -308,7 +307,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
       }
     }
 
-    if (high == 0)
+    if (high === 0)
     {
       high++;
       p.name = p.name + "1";
@@ -360,7 +359,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     actor.status = StatusEnum.Finished;
     if (this.currentActors.remove(actor))
     {
-      if (this.currentActors.count == 0)
+      if (this.currentActors.count === 0)
       {
         this.goToNextActors();
       }
@@ -374,8 +373,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
       if (this.sortByInitiative)
       {
         this.participants.sortByInitiative();
-      }
-      else
+      } else
       {
         this.participants.sortBySortOrder();
       }
@@ -385,16 +383,16 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   /// Style Handler
   getParticipantStyles(p: Participant)
   {
-    var styles = {
-      'acting': this.currentActors.contains(p),
-      'ooc': p.ooc,
-      'delaying': p.status == StatusEnum.Delaying,
-      'waiting': p.status == StatusEnum.Waiting,
-      'noIni': p.diceIni == 0,
-      'negativeIni': this.getInitiative(p) <= 0 && this.started,
-      'finished': p.status == StatusEnum.Finished,
-      'edged': p.edge,
-      'selected': p == this.selectedActor
+    let styles = {
+      acting: this.currentActors.contains(p),
+      ooc: p.ooc,
+      delaying: p.status === StatusEnum.Delaying,
+      waiting: p.status === StatusEnum.Waiting,
+      noIni: p.diceIni === 0,
+      negativeIni: this.getInitiative(p) <= 0 && this.started,
+      finished: p.status === StatusEnum.Finished,
+      edged: p.edge,
+      selected: p === this.selectedActor
     };
     return styles;
   }
@@ -403,39 +401,39 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnAddParticipant_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.Log("AddParticipant_Click");
+    LogHandler.log("AddParticipant_Click");
     this.addParticipant();
   }
 
   btnEdge_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.Log(sender.name + " Edge_Click");
+    LogHandler.log(sender.name + " Edge_Click");
     sender.seizeInitiative();
   }
 
   btnRollInitative_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.Log(sender.name + " RollInitative_Click");
+    LogHandler.log(sender.name + " RollInitative_Click");
     sender.rollInitiative();
   }
 
   btnAct_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.Log(sender.name + " Act_Click");
+    LogHandler.log(sender.name + " Act_Click");
     this.act(sender);
   }
 
   btnDelay_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.Log(sender.name + " Delay_Click");
+    LogHandler.log(sender.name + " Delay_Click");
     sender.status = StatusEnum.Delaying;
     if (this.currentActors.remove(sender))
     {
-      if (this.currentActors.count == 0)
+      if (this.currentActors.count === 0)
       {
         this.goToNextActors();
       }
@@ -445,7 +443,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnStartRound_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.Log("StartRound_Click");
+    LogHandler.log("StartRound_Click");
     this.started = true;
     this.passEnded = false;
     this.goToNextActors();
@@ -454,43 +452,43 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnNextPass_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.Log("NextPass_Click");
+    LogHandler.log("NextPass_Click");
     this.nextIniPass();
     this.goToNextActors();
   }
 
   btnDelete_Click(sender: Participant)
   {
-    LogHandler.Log(sender.name + " Delete_Click");
-    if (sender.name != "")
+    LogHandler.log(sender.name + " Delete_Click");
+    if (sender.name !== "")
     {
       if (!confirm("Are you sure you want to remove " + sender.name + "?"))
       {
-        LogHandler.Log(sender.name + " Delete_Cancel");
+        LogHandler.log(sender.name + " Delete_Cancel");
         return;
       }
     }
-    LogHandler.Log(sender.name + " Delete_Confirm");
+    LogHandler.log(sender.name + " Delete_Confirm");
     UndoHandler.StartActions();
     this.removeParticipant(sender);
   }
 
   btnDuplicate_Click(sender: Participant)
   {
-    LogHandler.Log(sender.name + " Duplicate_Click");
+    LogHandler.log(sender.name + " Duplicate_Click");
     UndoHandler.StartActions();
     this.copyParticipant(sender);
   }
 
   btnReset_Click()
   {
-    LogHandler.Log("Reset_Click");
+    LogHandler.log("Reset_Click");
     if (!confirm("Are you sure you want to reset the BattleTracker?"))
     {
-      LogHandler.Log("Reset_Cancel");
+      LogHandler.log("Reset_Cancel");
       return;
     }
-    LogHandler.Log("Reset_Confirm");
+    LogHandler.log("Reset_Confirm");
     UndoHandler.StartActions();
     this.combatTurn = 1;
     this.currentActors.clear();
@@ -507,7 +505,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnLeaveCombat_Click(sender: Participant)
   {
-    LogHandler.Log(sender.name + " LeaveCombat_Click");
+    LogHandler.log(sender.name + " LeaveCombat_Click");
     UndoHandler.StartActions();
     sender.leaveCombat();
     if (this.currentActors.contains(sender))
@@ -519,14 +517,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnEnterCombat_Click(sender: Participant)
   {
-    LogHandler.Log(sender.name + " EnterCombat_Click");
+    LogHandler.log(sender.name + " EnterCombat_Click");
     UndoHandler.StartActions();
     sender.enterCombat();
   }
 
   btnAction_Click(p: Participant, action: Action, persistent: boolean)
   {
-    LogHandler.Log(p.name + " Action_Click: " + action.key);
+    LogHandler.log(p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
     if (!persistent)
     {
@@ -542,43 +540,43 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
   {
-    LogHandler.Log(p.name + " CustomAction_Click: " + inputElem.value);
+    LogHandler.log(p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
-    var action: Action = {
+    let action: Action = {
       iniMod: Number(inputElem.value),
       edge: false,
       key: "custom",
       martialArt: false,
       persist: false
-    }
+    };
     p.actions.doAction(action);
     inputElem.value = "-5";
   }
 
   btnUndo_Click()
   {
-    LogHandler.Log("Undo_Click");
+    LogHandler.log("Undo_Click");
     UndoHandler.Undo();
   }
 
   btnRedo_Click()
   {
-    LogHandler.Log("Redo_Click");
+    LogHandler.log("Redo_Click");
     UndoHandler.Redo();
   }
 
   inpName_KeyDown(e)
   {
-    var keyCode = e.keyCode || e.which;
+    let keyCode = e.keyCode || e.which;
 
-    if (keyCode == 9 && !e.shiftKey)
+    if (keyCode === 9 && !e.shiftKey)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var nextRow = $(row).next()[0];
-      if (nextRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let nextRow = $(row).next()[0];
+      if (nextRow !== undefined)
       {
-        var field: any = $(nextRow).find('input')[0];
+        let field: any = $(nextRow).find("input")[0];
         if (field)
         {
           field.select();
@@ -586,18 +584,18 @@ export class BattleTrackerComponent extends Undoable implements OnInit
           return;
         }
       }
-      LogHandler.Log("TabAddParticipant");
+      LogHandler.log("TabAddParticipant");
       UndoHandler.StartActions();
       this.addParticipant();
       this.indexToSelect = 1 + $(row).data("indexnr");
-    } else if (keyCode == 9 && e.shiftKey)
+    } else if (keyCode === 9 && e.shiftKey)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var prevRow = $(row).prev()[0];
-      if (prevRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let prevRow = $(row).prev()[0];
+      if (prevRow !== undefined)
       {
-        var field: any = $(prevRow).find('input')[0];
+        let field: any = $(prevRow).find("input")[0];
         if (field)
         {
           field.select();
@@ -610,16 +608,16 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   inpDiceIni_KeyDown(e)
   {
-    var keyCode = e.keyCode || e.which;
+    let keyCode = e.keyCode || e.which;
 
-    if (keyCode == 9 && !e.shiftKey)
+    if (keyCode === 9 && !e.shiftKey)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var nextRow = $(row).next()[0];
-      if (nextRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let nextRow = $(row).next()[0];
+      if (nextRow !== undefined)
       {
-        var field: any = $(nextRow).find('.inpDiceIni')[0];
+        let field: any = $(nextRow).find(".inpDiceIni")[0];
         if (field)
         {
           field.select();
@@ -627,14 +625,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit
           return;
         }
       }
-    } else if (keyCode == 9 && e.shiftKey)
+    } else if (keyCode === 9 && e.shiftKey)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var prevRow = $(row).prev()[0];
-      if (prevRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let prevRow = $(row).prev()[0];
+      if (prevRow !== undefined)
       {
-        var field: any = $(prevRow).find('.inpDiceIni')[0];
+        let field: any = $(prevRow).find(".inpDiceIni")[0];
         if (field)
         {
           field.select();
@@ -647,17 +645,17 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   inpBaseIni_KeyDown(e)
   {
-    var keyCode = e.keyCode || e.which;
-    var shift = e.shiftKey;
+    let keyCode = e.keyCode || e.which;
+    let shift = e.shiftKey;
 
-    if (keyCode == 9 && !shift)
+    if (keyCode === 9 && !shift)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var nextRow = $(row).next()[0];
-      if (nextRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let nextRow = $(row).next()[0];
+      if (nextRow !== undefined)
       {
-        var field: any = $(nextRow).find('.inpBaseIni')[0];
+        let field: any = $(nextRow).find(".inpBaseIni")[0];
         if (field)
         {
           field.select();
@@ -665,14 +663,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit
           return;
         }
       }
-    } else if (keyCode == 9 && shift)
+    } else if (keyCode === 9 && shift)
     {
       e.preventDefault();
-      var row = $(e.target).closest('.participant');
-      var prevRow = $(row).prev()[0];
-      if (prevRow != undefined)
+      let row = $(e.target).closest(".participant");
+      let prevRow = $(row).prev()[0];
+      if (prevRow !== undefined)
       {
-        var field: any = $(prevRow).find('.inpBaseIni')[0];
+        let field: any = $(prevRow).find(".inpBaseIni")[0];
         if (field)
         {
           field.select();
@@ -685,10 +683,10 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   ngReady()
   {
-    var row = document.getElementById("participant" + this.indexToSelect);
+    let row = document.getElementById("participant" + this.indexToSelect);
     if (row)
     {
-      var field: any = $(row).find('input')[0];
+      let field: any = $(row).find("input")[0];
       if (field)
       {
         this.indexToSelect = -1;
@@ -698,7 +696,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     }
   }
 
-  //Focus Handler
+  // Focus Handler
   inp_Focus(e)
   {
     e.target.select();

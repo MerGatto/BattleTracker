@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { TranslateService } from './translate';
-import { Auth } from './auth';
+import { Component, OnInit } from "@angular/core";
+import { TranslateService } from "./translate";
+import { Auth } from "./auth";
 
 declare var Auth0Lock;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
-export class AppComponent
+export class AppComponent implements OnInit
 {
-  title = 'Battle Tracker';
+  title = "Battle Tracker";
 
   public translatedText: string;
   public supportedLanguages: any[];
@@ -22,11 +22,11 @@ export class AppComponent
   {
     // standing data
     this.supportedLanguages = [
-      { display: 'English', value: 'en' },
-      { display: 'Deutsch', value: 'de' },
+      { display: "English", value: "en" },
+      { display: "Deutsch", value: "de" },
     ];
 
-    this.selectLang('en');
+    this.selectLang("en");
   }
 
   isCurrentLang(lang: string)

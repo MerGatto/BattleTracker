@@ -1,10 +1,9 @@
-import { UndoHandler } from "./UndoHandler"
-import { Action } from "../Interfaces/Action"
-import { interruptTable } from "./InterruptTable"
+import { UndoHandler } from "./UndoHandler";
+import { Action } from "../Interfaces/Action";
+import { interruptTable } from "./InterruptTable";
 
 export class Actions
 {
-  private _actionHistory: Array<Action> = [];
 
   get actionHistory()
   {
@@ -18,7 +17,7 @@ export class Actions
 
   get modifier(): number
   {
-    var sum: number = 0;
+    let sum: number = 0;
     for (let action of this.persistentInterrupts)
     {
       if (this[action.key] === true)
@@ -36,13 +35,14 @@ export class Actions
 
   readonly persistentInterrupts: Array<Action>;
   readonly normalInterrupts: Array<Action>;
+  private _actionHistory: Array<Action> = [];
 
   constructor()
   {
-    this.persistentInterrupts = interruptTable.filter(action => { return action.persist });
+    this.persistentInterrupts = interruptTable.filter(action => action.persist);
     this.normalInterrupts = interruptTable.filter(action =>
     {
-      return !action.edge && !action.martialArt && !action.persist
+      return !action.edge && !action.martialArt && !action.persist;
     });
     for (let action of this.persistentInterrupts)
     {
@@ -50,8 +50,8 @@ export class Actions
       Object.defineProperty(this,
         action.key,
         {
-          get: () => { return this["_" + action.key] },
-          set: (val: boolean) => { UndoHandler.HandleProperty(this, action.key, val) }
+          get: () => this["_" + action.key],
+          set: (val: boolean) => { UndoHandler.HandleProperty(this, action.key, val); }
         });
     }
     this.reset();
@@ -71,11 +71,11 @@ export class Actions
 
   reset()
   {
-    for (var action of this.persistentInterrupts)
+    for (let action of this.persistentInterrupts)
     {
       this[action.key] = false;
     }
-    var items = this.actionHistory;
-    UndoHandler.DoAction(() => this._actionHistory = [], () => { this._actionHistory = items });
+    let items = this.actionHistory;
+    UndoHandler.DoAction(() => this._actionHistory = [], () => { this._actionHistory = items; });
   }
 }

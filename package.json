@@ -30,6 +30,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.1.1",
     "@types/node": "^11.13.0",
     "angular-sortablejs": "^2.7.0",
+    "angular-tslint-rules": "^1.14.0",
     "bootstrap": "^4.3.1",
     "bootstrap-slider": "10.6.1",
     "codelyzer": "^5.0.0",
@@ -43,6 +44,7 @@
     "sortablejs": "^1.8.4",
     "ts-helpers": "^1.1.2",
     "tslint": "^5.15.0",
+    "tslint-angular": "^1.1.2",
     "typescript": "3.2.4",
     "zone.js": "^0.8.29"
   },

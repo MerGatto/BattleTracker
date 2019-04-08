@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, forwardRef } from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 
 declare var Slider;
 
@@ -10,38 +10,13 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'range-slider',
-  templateUrl: './range-slider.component.html',
-  styleUrls: ['./range-slider.component.css'],
+  selector: "ng-range-slider",
+  templateUrl: "./range-slider.component.html",
+  styleUrls: ["./range-slider.component.css"],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValueAccessor
 {
-  _slider;
-
-  @ViewChild('sliderino')
-  sliderino: ElementRef;
-
-  ngAfterViewInit()
-  {
-    this._slider = new Slider(this.sliderino.nativeElement,
-    {
-      ticks: this.ticks,
-      ticks_labels: this.ticks,
-      step: this.step,
-      min: this.min,
-      max: this.max
-      });
-    this._slider.on('change', (e) =>
-    {
-      this.value = Number(e.newValue);
-    });
-  }
-
-  private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
-
-  private _value: number;
 
   get value(): number
   {
@@ -53,12 +28,11 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
     this._value = val;
     this.onChangeCallback(val);
 
-    if (this._slider) {
+    if (this._slider)
+    {
       this._slider.setValue(val);
     }
   }
-
-  private _max: number;
 
   @Input()
   set max(value: number)
@@ -71,8 +45,6 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
     return this._max;
   }
 
-  private _min: number;
-
   @Input()
   set min(value: number)
   {
@@ -84,18 +56,16 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
     return this._min;
   }
 
-  private _tickInterval: number;
-
   @Input()
-  set tickInterval(value: number) {
+  set tickInterval(value: number)
+  {
     this._tickInterval = value;
   }
 
-  get tickInterval(): number {
+  get tickInterval(): number
+  {
     return this._tickInterval;
   }
-
-  private _step: number;
 
   @Input()
   set step(value: number)
@@ -109,18 +79,34 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
   }
   get ticks(): number[]
   {
-    var ticks: number[] = [];
-    if (this.tickInterval <= 0) {
+    let ticks: number[] = [];
+    if (this.tickInterval <= 0)
+    {
       return ticks;
     }
-    
-    for (var i = Number(this.min); i < Number(this.max); i += Number(this.tickInterval)) {
+
+    for (let i = Number(this.min); i < Number(this.max); i += Number(this.tickInterval))
+    {
       ticks.push(i);
     }
     ticks.push(this.max);
 
     return ticks;
   }
+  _slider;
+
+  @ViewChild("sliderino")
+  sliderino: ElementRef;
+
+  private _value: number;
+
+  private _max: number;
+
+  private _min: number;
+
+  private _tickInterval: number;
+
+  private _step: number;
 
   constructor()
   {
@@ -131,11 +117,27 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
     this.tickInterval = 0;
   }
 
-  ngOnInit() {}
+  ngAfterViewInit()
+  {
+    this._slider = new Slider(this.sliderino.nativeElement,
+      {
+        ticks: this.ticks,
+        ticks_labels: this.ticks,
+        step: this.step,
+        min: this.min,
+        max: this.max
+      });
+    this._slider.on("change", (e) =>
+    {
+      this.value = Number(e.newValue);
+    });
+  }
+
+  ngOnInit() { }
 
   writeValue(val: number): void
   {
-    if (val != this.value)
+    if (val !== this.value)
     {
       this.value = val;
     }
@@ -151,10 +153,13 @@ export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValue
     this.onTouchedCallback = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void { }
 
   inp_Focus(e)
   {
     e.target.select();
   }
+
+  private onTouchedCallback: () => void = () => { };
+  private onChangeCallback: (_: any) => void = () => { };
 }

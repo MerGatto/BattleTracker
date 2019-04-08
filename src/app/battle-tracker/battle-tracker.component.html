@@ -5,23 +5,24 @@
         <div class="col-6" style="padding-left: 0">
           <div class="left btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
-              {{"Start Round" | translate}}
+              {{ "Start Round" | translate }}
             </button>
             <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
-              {{"Next Pass" | translate}}
+              {{ "Next Pass" | translate }}
             </button>
             <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
-              {{"Reset" | translate}}
+              {{ "Reset" | translate }}
             </button>
           </div>
           <div class="btn-group ml-2">
             <div class="input-group">
               <div class="input-group-prepend">
-                <label for="chkbSortIni" class="input-group-text disable-selection">{{"Sort by Initiative" | translate}}</label>
+                <label for="chkbSortIni"
+                  class="input-group-text disable-selection">{{ "Sort by Initiative" | translate }}</label>
               </div>
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="this.sortByInitiative"/>
+                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="this.sortByInitiative" />
                 </div>
               </div>
             </div>
@@ -32,7 +33,7 @@
             <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}">
               <i class="fa fa-undo fa-lg fa-inverse"></i>
             </button>
-            <button  type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo">
+            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo">
               <i class="fa fa-redo fa-lg fa-inverse"></i>
             </button>
           </div>
@@ -43,199 +44,210 @@
   <br>
   <div class="row">
     <!--PARTICIPANT TABLE-->
-  <div class="col-9">
-    <div class="row bg-dark text-light">
-      <div class="col-4 col-xl-2">
-        <span class="h5">
-          <b>{{"Name" | translate}}</b>
-        </span>
-      </div>
-      <div class="col-2 col-xl-1 text-center">
-        <span class="h5">
-          <b>{{"Ini" | translate}}</b>
-        </span>
-      </div>
-      <div class="col-6 col-xl-2 text-center">
-        <span class="h5">
-          <b>{{"Base Ini" | translate}} / {{"Dice Roll" | translate}}</b>
-        </span>
-      </div>
-      <div class="col-xl-7"></div>
-    </div>
-
-    <!--PARTICIPANT ROWS-->
-    <div [sortablejs]="participants.items" [sortablejsOptions]="options">
-      <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
-           (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)" *ngFor="let p of participants.items let i = index let last = last">
+    <div class="col-9">
+      <div class="row bg-dark text-light">
         <div class="col-4 col-xl-2">
-          <input id="name" name="name" type="text" placeholder="Name" class="form-control" (keydown)="inpName_KeyDown($event)"
-                 [(ngModel)]="p.name">
+          <span class="h5">
+            <b>{{ "Name" | translate }}</b>
+          </span>
         </div>
-        <div class="col-2 col-xl text-center">
-          <label class="control-label lblIni" for="ini">{{getInitiative(p)}} </label>
+        <div class="col-2 col-xl-1 text-center">
+          <span class="h5">
+            <b>{{ "Ini" | translate }}</b>
+          </span>
         </div>
         <div class="col-6 col-xl-2 text-center">
-          <div class="input-group">
-            <input class="form-control text-center inpBaseIni" name="baseIni" type="number" (focus)="inp_Focus($event)" (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
-            <input class="form-control inpBaseIni text-center" name="diceIni" type="number" (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)"
-                   (input)="iniChange($event, p)" [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
-            <div class="input-group-append">
-              <button type="button" class="btn btn-dark p-0" (click)="btnRollInitative_Click(p)" [disabled]="p.diceIni != 0"
-                      data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
-                <i class="fas fa-dice fa-lg"></i>
-              </button>
-            </div>
-
-          </div>
+          <span class="h5">
+            <b>{{ "Base Ini" | translate }} / {{ "Dice Roll" | translate }}</b>
+          </span>
         </div>
-        <div class="col-7 col-xl-4 btn-group" role="group">
-          <!--action-->
-          <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)" *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
-            {{"Seize Initiative" | translate}}
-          </button>
-          <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)" *ngIf="started && (p.status == 1 || p.status == 2)">
-            {{"Act" | translate}}
-          </button>
-          <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
-            {{"Delay" | translate}}
-          </button>
-          <div class="btn-group p-0" ngbDropdown *ngIf="started && getInitiative(p) >= 1">
-            <button ngbDropdownToggle id="interruptDropdown" type="button" class="btn btn-secondary" dropdownToggle>
-              {{"Interrupts" | translate}} <span class="caret"></span>
-            </button>
-            <div ngbDropdownMenu aria-labelledby="interruptDropdown">
-              <div class="dropdown-item">
-                <div class="row mx-0 input-group">
-                  <div class="col-8 p-0 input-group-prepend">
-                    <button type="button" class="btn btn-secondary btn-block" (click)="btnCustomAction_Click(p, custominterrupt)">
-                      {{"Custom" | translate}}
-                    </button>
-                  </div>
-                  <div class="col-4 p-0">
-                    <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius" name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)" (focus)="inp_Focus($event)">
-                  </div>
-                </div>
-              </div>
-              <div class="dropdown-item" *ngFor="let action of p.actions.persistentInterrupts">
-                <div class="btn-group-toggle" [class.disabled]="p.actions[action.key]" data-toggle="buttons" >
-                  <label class=" btn btn-secondary btn-block" [class.disabled]="p.actions[action.key]" (click)="btnAction_Click(p, action, true)">
-                    <input type="checkbox" [disabled]="p.actions[action.key]">
-                    {{action.key | translate}}
-                  </label>
-                </div>
-              </div>
-              <div class="dropdown-item" *ngFor="let action of p.actions.normalInterrupts">
-                <button type="button" class="btn btn-secondary btn-block" (click)="btnAction_Click(p, action, false)">
-                  {{action.key | translate}}
+        <div class="col-xl-7"></div>
+      </div>
+
+      <!--PARTICIPANT ROWS-->
+      <div [sortablejs]="participants.items" [sortablejsOptions]="options">
+        <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
+          (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)"
+          *ngFor="let p of participants.items let i = index let last = last">
+          <div class="col-4 col-xl-2">
+            <input id="name" name="name" type="text" placeholder="Name" class="form-control"
+              (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
+          </div>
+          <div class="col-2 col-xl text-center">
+            <label class="control-label lblIni" for="ini">{{ getInitiative(p) }} </label>
+          </div>
+          <div class="col-6 col-xl-2 text-center">
+            <div class="input-group">
+              <input class="form-control text-center inpBaseIni" name="baseIni" type="number"
+                (focus)="inp_Focus($event)" (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
+              <input class="form-control inpBaseIni text-center" name="diceIni" type="number"
+                (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)"
+                [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-dark p-0" (click)="btnRollInitative_Click(p)"
+                  [disabled]="p.diceIni != 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
+                  <i class="fas fa-dice fa-lg"></i>
                 </button>
               </div>
+
             </div>
           </div>
-        </div>
-        <div class="col-5 col-xl-3 text-right">
-          <div class="btn-group" role="group">
-            <button type="button" class="btn btn-primary" (click)="btnDuplicate_Click(p)">
-              <i class="fas fa-clone fa-lg fa-flip-vertical"></i>
+          <div class="col-7 col-xl-4 btn-group" role="group">
+            <!--action-->
+            <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)"
+              *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
+              {{ "Seize Initiative" | translate }}
             </button>
-            <button type="button" class="btn btn-success" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
-              <i class="fa fa-sign-in-alt fa-lg fa-inverse"></i>
+            <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)"
+              *ngIf="started && (p.status == 1 || p.status == 2)">
+              {{ "Act" | translate }}
             </button>
-            <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
-              <i class="fa fa-sign-out-alt fa-lg fa-inverse"></i>
+            <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
+              {{ "Delay" | translate }}
             </button>
-            <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
-              <i class="fa fa-trash fa-lg"></i>
-            </button>
+            <div class="btn-group p-0" ngbDropdown *ngIf="started && getInitiative(p) >= 1">
+              <button ngbDropdownToggle id="interruptDropdown" type="button" class="btn btn-secondary" dropdownToggle>
+                {{ "Interrupts" | translate }} <span class="caret"></span>
+              </button>
+              <div ngbDropdownMenu aria-labelledby="interruptDropdown">
+                <div class="dropdown-item">
+                  <div class="row mx-0 input-group">
+                    <div class="col-8 p-0 input-group-prepend">
+                      <button type="button" class="btn btn-secondary btn-block"
+                        (click)="btnCustomAction_Click(p, custominterrupt)">
+                        {{ "Custom" | translate }}
+                      </button>
+                    </div>
+                    <div class="col-4 p-0">
+                      <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius"
+                        name="customInterruptIni" value="-5" type="number" (click)="keepMenuOpen($event)"
+                        (focus)="inp_Focus($event)">
+                    </div>
+                  </div>
+                </div>
+                <div class="dropdown-item" *ngFor="let action of p.actions.persistentInterrupts">
+                  <div class="btn-group-toggle" [class.disabled]="p.actions[action.key]" data-toggle="buttons">
+                    <label class=" btn btn-secondary btn-block" [class.disabled]="p.actions[action.key]"
+                      (click)="btnAction_Click(p, action, true)">
+                      <input type="checkbox" [disabled]="p.actions[action.key]">
+                      {{ action.key | translate }}
+                    </label>
+                  </div>
+                </div>
+                <div class="dropdown-item" *ngFor="let action of p.actions.normalInterrupts">
+                  <button type="button" class="btn btn-secondary btn-block" (click)="btnAction_Click(p, action, false)">
+                    {{ action.key | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+          <div class="col-5 col-xl-3 text-right">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-primary" (click)="btnDuplicate_Click(p)">
+                <i class="fas fa-clone fa-lg fa-flip-vertical"></i>
+              </button>
+              <button type="button" class="btn btn-success" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
+                <i class="fa fa-sign-in-alt fa-lg fa-inverse"></i>
+              </button>
+              <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
+                <i class="fa fa-sign-out-alt fa-lg fa-inverse"></i>
+              </button>
+              <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
+                <i class="fa fa-trash fa-lg"></i>
+              </button>
+            </div>
+          </div>
+          <span *ngIf="last">{{ ngReady() }}</span>
         </div>
-        <span *ngIf="last">{{ngReady()}}</span>
+      </div>
+      <div>
+        <div colspan="8">
+          <button type="submit" class="btn btn-primary" (click)="btnAddParticipant_Click()">
+            <i class="fa fa-plus fa-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="started,else startedContent" colspan="8">{{ "Turn" | translate }} {{ combatTurn }},
+          {{ "Pass" | translate }} {{ initiativePass }}, {{ "Initative" | translate }} {{ currentInitiative }}</div>
+        <ng-template #startedContent>{{ "Turn" | translate }} {{ combatTurn }}</ng-template>
       </div>
     </div>
-    <div>
-      <div colspan="8">
-        <button type="submit" class="btn btn-primary" (click)="btnAddParticipant_Click()">
-          <i class="fa fa-plus fa-lg"></i>
-        </button>
-      </div>
-    </div>
-    <div>
-      <div *ngIf="started,else startedContent" colspan="8">{{"Turn" | translate}} {{combatTurn}}, {{"Pass" | translate}} {{initiativePass}}, {{"Initative" | translate}} {{currentInitiative}}</div>
-      <ng-template #startedContent>{{"Turn" | translate}} {{combatTurn}}</ng-template>
-    </div>
-  </div>
 
     <!--DETAILS BAR-->
     <div class="col-3 detailsBar">
       <div class="card">
         <div class="card-header">
-          <h3>{{selectedActor.name || ("Selected Actor" | translate)}}</h3>
+          <h3>{{ selectedActor.name || ("Selected Actor" | translate) }}</h3>
         </div>
         <div class="card-body">
           <ngb-tabset>
             <ngb-tab>
-              <ng-template ngbTabTitle>{{"Condition Monitor" | translate}}</ng-template>
+              <ng-template ngbTabTitle>{{ "Condition Monitor" | translate }}</ng-template>
               <ng-template ngbTabContent>
-                <h4>{{"Condition Monitor" | translate}}</h4>
+                <h4>{{ "Condition Monitor" | translate }}</h4>
                 <div class="row">
                   <div class="col-xl-6 cm">
                     <h4>Physical</h4>
-                    <app-condition-monitor [health]="selectedActor.physicalHealth"
-                                           [overflow]="selectedActor.overflowHealth"
-                                           [painTolerance]="selectedActor.painTolerance"
-                                           [hasPainEditor]="selectedActor.hasPainEditor"
-                                           [(ngModel)]="selectedActor.physicalDamage">
-                    </app-condition-monitor>
+                    <ng-condition-monitor [health]="selectedActor.physicalHealth"
+                      [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
+                      [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
+                    </ng-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
                     <h4>Stun</h4>
-                    <app-condition-monitor [health]="selectedActor.stunHealth"
-                                           [painTolerance]="selectedActor.painTolerance"
-                                           [hasPainEditor]="selectedActor.hasPainEditor"
-                                           [(ngModel)]="selectedActor.stunDamage">
-                    </app-condition-monitor>
+                    <ng-condition-monitor [health]="selectedActor.stunHealth"
+                      [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
+                      [(ngModel)]="selectedActor.stunDamage">
+                    </ng-condition-monitor>
                   </div>
                 </div>
               </ng-template>
             </ngb-tab>
             <ngb-tab>
-              <ng-template ngbTabTitle>{{"Stats" | translate}}</ng-template>
+              <ng-template ngbTabTitle>{{ "Stats" | translate }}</ng-template>
               <ng-template ngbTabContent>
-                <h4>{{"Stats" | translate}}</h4>
+                <h4>{{ "Stats" | translate }}</h4>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{"Overflow" | translate}}</label>
+                    <label>{{ "Overflow" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
+                    <ng-range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ng-range-slider>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{"Physical Health" | translate}}</label>
+                    <label>{{ "Physical Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>{{"Stun Health" | translate}}</label>
-                  </div>
-                  <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5"></range-slider>
+                    <ng-range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ng-range-slider>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{"Pain Tolerance" | translate}}</label>
+                    <label>{{ "Stun Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5"></range-slider>
+                    <ng-range-slider [(ngModel)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ng-range-slider>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{"Ignore Pain" | translate}}</label>
+                    <label>{{ "Pain Tolerance" | translate }}</label>
+                  </div>
+                  <div class="col-12">
+                    <ng-range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5">
+                    </ng-range-slider>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <label>{{ "Ignore Pain" | translate }}</label>
                   </div>
                   <div class="col-12">
                     <label class="switch">
@@ -246,10 +258,11 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{"Initiative Dices" | translate}}</label>
+                    <label>{{ "Initiative Dices" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1"></range-slider>
+                    <ng-range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1">
+                    </ng-range-slider>
                   </div>
                 </div>
               </ng-template>

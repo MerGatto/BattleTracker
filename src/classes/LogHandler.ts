@@ -4,32 +4,32 @@ interface LogEntry
   text: String;
 }
 
-type Log = Array<LogEntry>
+type Log = Array<LogEntry>;
 
 export module LogHandler
 {
-  export var log: Log;
+  export let logbook: Log;
 
   export function Initialize()
   {
-    log = [];
+    logbook = [];
   }
 
-  export function Log(text: String)
+  export function log(text: String)
   {
-    var entry: LogEntry = {
+    let entry: LogEntry = {
       text: text,
       timestamp: new Date()
     };
-    log.push(entry);
+    logbook.push(entry);
   }
 
-  //Debug stuff
+  // Debug stuff
   (<any>window).logdump = function logdump()
   {
     console.log("===========");
-    console.log("log: ");
-    console.log(log);
+    console.log("logbook: ");
+    console.log(logbook);
     console.log("===========");
   };
 }

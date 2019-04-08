@@ -1,8 +1,8 @@
 export interface PropertyHistoryItem
 {
-  obj: Object,
-  property: string,
-  oldValue: any,
+  obj: Object;
+  property: string;
+  oldValue: any;
   newValue: any;
 }
 
@@ -12,18 +12,18 @@ interface HistoryEntry
   undoAction: () => void;
 }
 
-type Chapter = Array<HistoryEntry>
+type Chapter = Array<HistoryEntry>;
 
-type History = Array<Chapter>
+type History = Array<Chapter>;
 
 export module UndoHandler
 {
-  var pastHistory: History = [];
-  var futureHistory: History;
-  var currentChapter: Chapter;
+  let pastHistory: History = [];
+  let futureHistory: History;
+  let currentChapter: Chapter;
 
-  var halted: boolean = true;
-  var recording: boolean = false;
+  let halted: boolean = true;
+  let recording: boolean = false;
 
   export function Initialize()
   {
@@ -33,7 +33,7 @@ export module UndoHandler
     recording = false;
   }
 
-  //Debug stuff
+  // Debug stuff
   (<any>window).uhdump = function uhdump()
   {
     console.log("===========");
@@ -52,13 +52,13 @@ export module UndoHandler
 
   export function HandleProperty(obj: Object, prop: string, val: any)
   {
-    var oldval = obj["_" + prop];
-    if (oldval != val)
+    let oldval = obj["_" + prop];
+    if (oldval !== val)
     {
       obj["_" + prop] = val;
-      var entry: HistoryEntry = {
-        action: function() { obj["_" + prop] = val },
-        undoAction: function() { obj["_" + prop] = oldval }
+      let entry: HistoryEntry = {
+        action: function () { obj["_" + prop] = val; },
+        undoAction: function () { obj["_" + prop] = oldval; }
       };
       if (!recording)
       {
@@ -70,7 +70,7 @@ export module UndoHandler
 
   export function DoAction(action: () => void, undoAction: () => void)
   {
-    var entry: HistoryEntry = {
+    let entry: HistoryEntry = {
       action: action,
       undoAction: undoAction
     };
@@ -91,9 +91,9 @@ export module UndoHandler
     {
       return;
     }
-    var chapt = pastHistory.pop();
-    var last = chapt.length - 1;
-    for (var i = last; i >= 0; i--)
+    let chapt = pastHistory.pop();
+    let last = chapt.length - 1;
+    for (let i = last; i >= 0; i--)
     {
       chapt[i].undoAction();
     }
@@ -106,8 +106,8 @@ export module UndoHandler
     {
       return;
     }
-    var chapt = futureHistory.pop();
-    for (var i = 0; i < chapt.length; i++)
+    let chapt = futureHistory.pop();
+    for (let i = 0; i < chapt.length; i++)
     {
       chapt[i].action();
     }

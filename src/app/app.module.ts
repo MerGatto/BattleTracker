@@ -3,8 +3,8 @@ import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 
-import { CustomFormsModule } from "ng2-validation"
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomFormsModule } from "ng2-validation";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "./translate";
 import { Auth } from "./auth";
 
@@ -29,7 +29,7 @@ import { RangeSliderComponent } from "./range-slider/range-slider.component";
     FormsModule,
     HttpModule,
     CustomFormsModule,
-    NgbModule.forRoot(),
+    NgbModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [TranslateService, Auth],

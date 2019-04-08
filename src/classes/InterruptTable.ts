@@ -1,6 +1,6 @@
-import {Action} from "../Interfaces/Action"
+import {Action} from "../Interfaces/Action";
 
-export var interruptTable: Array<Action> = [
+export let interruptTable: Array<Action> = [
   {
     key: "fullDefense",
     iniMod: -10,

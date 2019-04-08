@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
+import { Component, OnInit, Input, forwardRef } from "@angular/core";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -8,17 +8,13 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 };
 
 @Component({
-  selector: 'app-condition-monitor',
-  templateUrl: './condition-monitor.component.html',
-  styleUrls: ['./condition-monitor.component.css'],
+  selector: "ng-condition-monitor",
+  templateUrl: "./condition-monitor.component.html",
+  styleUrls: ["./condition-monitor.component.css"],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 {
-  private onTouchedCallback: () => void = () => {};
-  private onChangeCallback: (_: any) => void = () => {};
-
-  private _damage: number;
 
   get damage(): number
   {
@@ -31,8 +27,6 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     this.onChangeCallback(val);
   }
 
-  private _health: number;
-
   @Input()
   set health(value: number)
   {
@@ -43,8 +37,6 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
   {
     return this._health;
   }
-
-  private _overflow: number;
 
   @Input()
   set overflow(value: number)
@@ -57,8 +49,6 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     return this._overflow;
   }
 
-  private _painTolerance: number;
-
   @Input()
   set painTolerance(value: number)
   {
@@ -69,8 +59,6 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
   {
     return this._painTolerance;
   }
-
-  private _hasPainEditor: boolean;
 
   @Input()
   set hasPainEditor(value: boolean)
@@ -90,13 +78,23 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   get cellCount(): number
   {
-    var overflow = 0;
+    let overflow = 0;
     if (this.overflow > 0)
     {
       overflow = this.overflow + 1;
     }
     return this.health + overflow;
   }
+
+  private _damage: number;
+
+  private _health: number;
+
+  private _overflow: number;
+
+  private _painTolerance: number;
+
+  private _hasPainEditor: boolean;
 
   constructor()
   {
@@ -107,12 +105,12 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     this.hasPainEditor = false;
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   createRange(number)
   {
-    var items: number[] = [];
-    for (var i = 1; i <= number; i++)
+    let items: number[] = [];
+    for (let i = 1; i <= number; i++)
     {
       items.push(i);
     }
@@ -132,7 +130,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   OnCellClick(n: number)
   {
-    if (this.damage == n)
+    if (this.damage === n)
     {
       this.damage = 0;
     } else
@@ -143,33 +141,33 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   getCellStyle(n: number)
   {
-    var styles = {
-      'damage': this.damage >= n,
-      'overflow': n > this.health,
-      'filled': n == this.cellCount && this.overflow > 0
+    let styles = {
+      "damage": this.damage >= n,
+      "overflow": n > this.health,
+      "filled": n === this.cellCount && this.overflow > 0
     };
     return styles;
   }
 
   getCellText(n: number): string
   {
-    var result: string = "";
+    let result: string = "";
 
     if (this.hasPainEditor)
     {
       return result;
     }
 
-    if ((n > this.painTolerance) && (n - this.painTolerance) % 3 == 0 && n <= this.health)
+    if ((n > this.painTolerance) && (n - this.painTolerance) % 3 === 0 && n <= this.health)
     {
-      result = '-' + ((n - this.painTolerance) / 3);
+      result = "-" + ((n - this.painTolerance) / 3);
     }
     return result;
   }
 
   writeValue(val: number): void
   {
-    if (val != this.damage)
+    if (val !== this.damage)
     {
       this.damage = val;
     }
@@ -185,5 +183,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     this.onTouchedCallback = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {}
+  setDisabledState(isDisabled: boolean): void { }
+  private onTouchedCallback: () => void = () => { };
+  private onChangeCallback: (_: any) => void = () => { };
 }

@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "tslint-angular"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -12,8 +15,10 @@
     "curly": true,
     "eofline": true,
     "forin": true,
-    "import-blacklist": [true],
-    "import-spacing": true,
+    "import-blacklist": [
+      true
+    ],
+    "import-spacing": false,
     "indent": [
       true,
       "spaces"
@@ -27,8 +32,9 @@
     "member-access": false,
     "member-ordering": [
       true,
-      "static-before-instance",
-      "variables-before-functions"
+      {
+        "order": "fields-first"
+      }
     ],
     "no-arg": true,
     "no-bitwise": true,
@@ -46,31 +52,32 @@
     "no-empty": false,
     "no-empty-interface": true,
     "no-eval": true,
-    "no-inferrable-types": true,
+    "no-inferrable-types": false,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
     "no-switch-case-fall-through": true,
     "no-trailing-whitespace": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
+    "no-use-before-declare": false,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
     "one-line": [
-      true,
+      false,
       "check-open-brace",
       "check-catch",
       "check-else",
       "check-whitespace"
     ],
-    "prefer-const": true,
+    "prefer-const": false,
     "quotemark": [
       true,
-      "single"
+      "double",
+      "avoid-escape"
     ],
     "radix": true,
     "semicolon": [
-      "always"
+      true
     ],
     "triple-equals": [
       true,
@@ -86,7 +93,6 @@
         "variable-declaration": "nospace"
       }
     ],
-    "typeof-compare": true,
     "unified-signatures": true,
     "variable-name": false,
     "whitespace": [
@@ -97,9 +103,21 @@
       "check-separator",
       "check-type"
     ],
-
-    "directive-selector": [true, "attribute", "app", "camelCase"],
-    "component-selector": [true, "element", "app", "kebab-case"],
+    "directive-selector": [
+      true,
+      "attribute",
+      "app",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      [
+        "ng",
+        "app"
+      ],
+      "kebab-case"
+    ],
     "use-input-property-decorator": true,
     "use-output-property-decorator": true,
     "use-host-property-decorator": true,
@@ -108,9 +126,6 @@
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
-    "directive-class-suffix": true,
-    "no-access-missing-member": true,
-    "templates-use-public": true,
-    "invoke-injectable": true
+    "directive-class-suffix": true
   }
 }
