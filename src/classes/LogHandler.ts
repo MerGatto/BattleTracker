@@ -1,7 +1,10 @@
+import { BTTime } from "./bttime";
+
 interface LogEntry
 {
   timestamp: Date;
   text: String;
+  bttime: BTTime;
 }
 
 type Log = Array<LogEntry>;
@@ -15,11 +18,12 @@ export module LogHandler
     logbook = [];
   }
 
-  export function log(text: String)
+  export function log(time: BTTime, text: String)
   {
     let entry: LogEntry = {
       text: text,
-      timestamp: new Date()
+      timestamp: new Date(),
+      bttime: time
     };
     logbook.push(entry);
   }
