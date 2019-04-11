@@ -10,6 +10,8 @@ import { LogHandler } from "../../classes/LogHandler";
 import * as $ from "jquery";
 import { Undoable } from "classes/Undoable";
 import { SortablejsOptions } from "angular-sortablejs";
+import { BTTime } from "classes/bttime";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 let bt: any;
 
@@ -120,7 +122,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.Set("selectedActor", val);
   }
 
-  constructor()
+  get currentBTTime(): BTTime
+  {
+    return new BTTime(this.combatTurn, this.initiativePass, this.currentInitiative);
+  }
+
+  constructor(private modalService: NgbModal)
   {
     super();
     this.initialize();
@@ -401,35 +408,35 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnAddParticipant_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.log("AddParticipant_Click");
+    LogHandler.log(this.currentBTTime, "AddParticipant_Click");
     this.addParticipant();
   }
 
   btnEdge_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.log(sender.name + " Edge_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " Edge_Click");
     sender.seizeInitiative();
   }
 
   btnRollInitative_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.log(sender.name + " RollInitative_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " RollInitative_Click");
     sender.rollInitiative();
   }
 
   btnAct_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.log(sender.name + " Act_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " Act_Click");
     this.act(sender);
   }
 
   btnDelay_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.log(sender.name + " Delay_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " Delay_Click");
     sender.status = StatusEnum.Delaying;
     if (this.currentActors.remove(sender))
     {
@@ -443,7 +450,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnStartRound_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.log("StartRound_Click");
+    LogHandler.log(this.currentBTTime, "StartRound_Click");
     this.started = true;
     this.passEnded = false;
     this.goToNextActors();
@@ -452,43 +459,43 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   btnNextPass_Click()
   {
     UndoHandler.StartActions();
-    LogHandler.log("NextPass_Click");
+    LogHandler.log(this.currentBTTime, "NextPass_Click");
     this.nextIniPass();
     this.goToNextActors();
   }
 
   btnDelete_Click(sender: Participant)
   {
-    LogHandler.log(sender.name + " Delete_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " Delete_Click");
     if (sender.name !== "")
     {
       if (!confirm("Are you sure you want to remove " + sender.name + "?"))
       {
-        LogHandler.log(sender.name + " Delete_Cancel");
+        LogHandler.log(this.currentBTTime, sender.name + " Delete_Cancel");
         return;
       }
     }
-    LogHandler.log(sender.name + " Delete_Confirm");
+    LogHandler.log(this.currentBTTime, sender.name + " Delete_Confirm");
     UndoHandler.StartActions();
     this.removeParticipant(sender);
   }
 
   btnDuplicate_Click(sender: Participant)
   {
-    LogHandler.log(sender.name + " Duplicate_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " Duplicate_Click");
     UndoHandler.StartActions();
     this.copyParticipant(sender);
   }
 
   btnReset_Click()
   {
-    LogHandler.log("Reset_Click");
+    LogHandler.log(this.currentBTTime, "Reset_Click");
     if (!confirm("Are you sure you want to reset the BattleTracker?"))
     {
-      LogHandler.log("Reset_Cancel");
+      LogHandler.log(this.currentBTTime, "Reset_Cancel");
       return;
     }
-    LogHandler.log("Reset_Confirm");
+    LogHandler.log(this.currentBTTime, "Reset_Confirm");
     UndoHandler.StartActions();
     this.combatTurn = 1;
     this.currentActors.clear();
@@ -505,7 +512,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnLeaveCombat_Click(sender: Participant)
   {
-    LogHandler.log(sender.name + " LeaveCombat_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " LeaveCombat_Click");
     UndoHandler.StartActions();
     sender.leaveCombat();
     if (this.currentActors.contains(sender))
@@ -517,14 +524,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnEnterCombat_Click(sender: Participant)
   {
-    LogHandler.log(sender.name + " EnterCombat_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " EnterCombat_Click");
     UndoHandler.StartActions();
     sender.enterCombat();
   }
 
   btnAction_Click(p: Participant, action: Action, persistent: boolean)
   {
-    LogHandler.log(p.name + " Action_Click: " + action.key);
+    LogHandler.log(this.currentBTTime, p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
     if (!persistent)
     {
@@ -540,7 +547,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
   {
-    LogHandler.log(p.name + " CustomAction_Click: " + inputElem.value);
+    LogHandler.log(this.currentBTTime, p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
     let action: Action = {
       iniMod: Number(inputElem.value),
@@ -555,14 +562,19 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnUndo_Click()
   {
-    LogHandler.log("Undo_Click");
+    LogHandler.log(this.currentBTTime, "Undo_Click");
     UndoHandler.Undo();
   }
 
   btnRedo_Click()
   {
-    LogHandler.log("Redo_Click");
+    LogHandler.log(this.currentBTTime, "Redo_Click");
     UndoHandler.Redo();
+  }
+
+  btnAddReminder_Click(content)
+  {
+    this.modalService.open(content);
   }
 
   inpName_KeyDown(e)
@@ -584,7 +596,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
           return;
         }
       }
-      LogHandler.log("TabAddParticipant");
+      LogHandler.log(this.currentBTTime, "TabAddParticipant");
       UndoHandler.StartActions();
       this.addParticipant();
       this.indexToSelect = 1 + $(row).data("indexnr");
