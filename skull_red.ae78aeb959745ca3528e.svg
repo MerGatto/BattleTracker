@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="222"
+   height="250"
+   viewBox="0 0 58.737499 66.145838"
+   version="1.1"
+   id="svg4491"
+   sodipodi:docname="skull_red.svg"
+   inkscape:version="0.92.1 r15371">
+  <defs
+     id="defs4485" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="84.735793"
+     inkscape:cy="123.36031"
+     inkscape:document-units="px"
+     inkscape:current-layer="g4556"
+     showgrid="false"
+     units="px"
+     inkscape:pagecheckerboard="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata4488">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-3.9687497,-234.02916)">
+    <g
+       id="g4556"
+       transform="matrix(1.0070346,0,0,1,-23.920166,39.687501)">
+      <path
+         style="fill:#ff0000;stroke-width:1.08229434"
+         d="M 111 0 A 101 100 0 0 0 10.035156 99 L 10 99 L 10 100 L 10 150 L 10 150.1582 A 24.927512 24.927497 0 0 0 0 170.07227 A 24.927512 24.927497 0 0 0 24.927734 195 A 24.927512 24.927497 0 0 0 41.929688 188.22656 C 52.894155 190.87879 61 200.69778 61 212.5 L 61 225 L 61.025391 225 C 61.528186 238.93616 72.472568 250 86 250 L 111 250 L 136 250 C 149.52743 250 160.47181 238.93616 160.97461 225 L 161 225 L 161 212.5 C 161 200.69778 169.10584 190.87879 180.07031 188.22656 A 24.927511 24.927498 0 0 0 197.07227 195 A 24.927511 24.927498 0 0 0 222 170.07227 A 24.927511 24.927498 0 0 0 212 150.1582 L 212 149 L 212 99 L 211.96484 99 A 101 100 0 0 0 111 0 z "
+         transform="matrix(0.2627351,0,0,0.26458334,27.694099,194.34166)"
+         id="path4482" />
+      <rect
+         ry="4.9609375"
+         rx="4.9262829"
+         y="212.86249"
+         x="35.576153"
+         height="15.875"
+         width="15.764106"
+         id="rect4577"
+         style="fill:#000000;stroke-width:0.39548638" />
+      <rect
+         ry="4.960938"
+         rx="4.9262829"
+         y="212.86249"
+         x="-77.613785"
+         height="15.875"
+         width="15.764106"
+         id="rect4577-0"
+         style="fill:#000000;stroke-width:0.39548638"
+         transform="scale(-1,1)" />
+      <path
+         sodipodi:type="star"
+         style="fill:#000000"
+         id="path4676"
+         sodipodi:sides="3"
+         sodipodi:cx="96.25"
+         sodipodi:cy="190.71429"
+         sodipodi:r1="21.285984"
+         sodipodi:r2="10.642992"
+         sodipodi:arg1="2.6179939"
+         sodipodi:arg2="3.6651914"
+         inkscape:flatsided="true"
+         inkscape:rounded="0.2"
+         inkscape:randomized="0"
+         d="m 77.815797,201.35729 c -3.686841,-6.3858 11.060522,-31.92898 18.434203,-31.92898 7.37368,0 22.12104,25.54318 18.4342,31.92898 -3.68684,6.38579 -33.181563,6.38579 -36.868403,0 z"
+         transform="matrix(0.41449145,0,0,0.43234547,16.700158,155.48593)"
+         inkscape:transform-center-y="-1.2653818" />
+    </g>
+  </g>
+</svg>
