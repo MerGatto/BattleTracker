@@ -1,4 +1,4 @@
-import { BTTime } from "./bttime";
+import { BTTime } from "Combat";
 
 interface LogEntry
 {

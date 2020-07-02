@@ -1,5 +1,4 @@
-import { Undoable } from "./Undoable";
-import { TranslateService } from "app/translate";
+import { Undoable } from "Common";
 
 export class BTTime extends Undoable
 {

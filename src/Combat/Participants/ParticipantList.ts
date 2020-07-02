@@ -1,5 +1,5 @@
-import { UndoHandler } from "./UndoHandler";
-import { Participant } from "./Participant";
+import { UndoHandler } from "Common";
+import { Participant } from "Combat";
 
 export class ParticipantList
 {
@@ -118,8 +118,8 @@ export class ParticipantList
 
   initiativeComparator(p1: Participant, p2: Participant): number
   {
-    let p1CompValue = p1.calculateInitiative(1);
-    let p2CompValue = p2.calculateInitiative(1);
+    let p1CompValue = p1.getCurrentInitiative();
+    let p2CompValue = p2.getCurrentInitiative();
     if (p2.ooc)
     {
       p2CompValue -= 1000;

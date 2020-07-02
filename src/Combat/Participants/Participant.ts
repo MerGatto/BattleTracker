@@ -1,6 +1,6 @@
-import { StatusEnum } from "./StatusEnum";
-import { Actions } from "./Actions";
-import { Undoable } from "./Undoable";
+import { Undoable } from "Common";
+import { StatusEnum, Actions, CombatManager } from "Combat";
+import { Action } from "Interfaces/Action";
 
 export class Participant extends Undoable
 {
@@ -320,10 +320,29 @@ export class Participant extends Undoable
     this.edge = true;
   }
 
-  calculateInitiative(initiativeTurn: number)
+  getCurrentInitiative()
   {
-    let ini = this.diceIni + this.baseIni - this.wm - (initiativeTurn - 1) * 10 + this.actions.modifier;
+    let currentTurn = CombatManager.getInstance().initiativePass;
+    // Fallback to 1 if we can't use the current initiative pass for some reason
+    if (currentTurn == undefined)
+    {
+      currentTurn = 1;
+    }
+    let ini = this.diceIni + this.baseIni - this.wm - (currentTurn - 1) * 10 + this.actions.modifier;
     return ini;
+  }
+
+  canUseAction(action: Action): boolean
+  {
+    if (Math.abs(action.iniMod) > this.getCurrentInitiative())
+    {
+      return false;
+    }
+    if (action.persist)
+    {
+      return !this.actions[action.key]
+    }
+    return true;
   }
 
   leaveCombat()

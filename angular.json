@@ -35,12 +35,10 @@
           },
           "configurations": {
             "source": {
-              "fileReplacements": [
-              ]
+              "fileReplacements": []
             },
             "dev": {
-              "fileReplacements": [
-              ]
+              "fileReplacements": []
             },
             "production": {
               "optimization": true,
@@ -52,12 +50,12 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
-              "fileReplacements": [
-              ]
+              "fileReplacements": []
             }
           }
         },
         "serve": {
+          "showCircularDependencies": false,
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "battle-tracker:build"

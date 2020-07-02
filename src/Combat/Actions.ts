@@ -1,6 +1,6 @@
-import { UndoHandler } from "./UndoHandler";
-import { Action } from "../Interfaces/Action";
-import { interruptTable } from "./InterruptTable";
+import { Action } from "Interfaces/Action";
+import { interruptTable } from "InterruptTable";
+import { UndoHandler } from "Common";
 
 export class Actions
 {

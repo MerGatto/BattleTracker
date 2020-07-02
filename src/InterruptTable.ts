@@ -1,4 +1,4 @@
-import {Action} from "../Interfaces/Action";
+import { Action } from "./Interfaces/Action";
 
 export let interruptTable: Array<Action> = [
   {

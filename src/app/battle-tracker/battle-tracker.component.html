@@ -4,10 +4,12 @@
       <div class="row">
         <div class="col-6" style="padding-left: 0">
           <div class="left btn-group" role="group">
-            <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()" *ngIf="!started">
+            <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()"
+              *ngIf="!combatManager.started">
               {{ "Start Round" | translate }}
             </button>
-            <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()" *ngIf="started && passEnded">
+            <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()"
+              *ngIf="combatManager.started && combatManager.passEnded">
               {{ "Next Pass" | translate }}
             </button>
             <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
@@ -65,16 +67,16 @@
       </div>
 
       <!--PARTICIPANT ROWS-->
-      <div [sortablejs]="participants.items" [sortablejsOptions]="options">
+      <div [sortablejs]="combatManager.participants.items" [sortablejsOptions]="options">
         <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
           (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)"
-          *ngFor="let p of participants.items let i = index let last = last">
+          *ngFor="let p of combatManager.participants.items let i = index let last = last">
           <div class="col-4 col-xl-2">
             <input id="name" name="name" type="text" placeholder="Name" class="form-control"
               (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </div>
           <div class="col-2 col-xl text-center">
-            <label class="control-label lblIni" for="ini">{{ getInitiative(p) }} </label>
+            <label class="control-label lblIni" for="ini">{{ p.getCurrentInitiative() }} </label>
           </div>
           <div class="col-6 col-xl-2 text-center">
             <div class="input-group">
@@ -95,17 +97,18 @@
           <div class="col-7 col-xl-4 btn-group" role="group">
             <!--action-->
             <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)"
-              *ngIf="!p.edge && (!started || (passEnded && getInitiative(p) > 10))">
+              *ngIf="!p.edge && (!combatManager.started || (combatManager.passEnded && p.getCurrentInitiative() > 10))">
               {{ "Seize Initiative" | translate }}
             </button>
             <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)"
-              *ngIf="started && (p.status == 1 || p.status == 2)">
+              *ngIf="combatManager.started && (p.status == 1 || p.status == 2)">
               {{ "Act" | translate }}
             </button>
-            <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)" *ngIf="started && p.status == 1">
+            <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)"
+              *ngIf="combatManager.started && p.status == 1">
               {{ "Delay" | translate }}
             </button>
-            <div class="btn-group p-0" ngbDropdown *ngIf="started && getInitiative(p) >= 1">
+            <div class="btn-group p-0" ngbDropdown *ngIf="combatManager.started && p.getCurrentInitiative() >= 1">
               <button ngbDropdownToggle id="interruptDropdown" type="button" class="btn btn-secondary" dropdownToggle>
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
@@ -126,10 +129,10 @@
                   </div>
                 </div>
                 <div class="dropdown-item" *ngFor="let action of p.actions.persistentInterrupts">
-                  <div class="btn-group-toggle" [class.disabled]="p.actions[action.key]" data-toggle="buttons">
-                    <label class=" btn btn-secondary btn-block" [class.disabled]="p.actions[action.key]"
+                  <div class="btn-group-toggle" [class.disabled]="!p.canUseAction(action)" data-toggle="buttons">
+                    <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
                       (click)="btnAction_Click(p, action, true)">
-                      <input type="checkbox" [disabled]="p.actions[action.key]">
+                      <input type="checkbox" [disabled]="!p.canUseAction(action)">
                       {{ action.key | translate }}
                     </label>
                   </div>
@@ -169,7 +172,7 @@
         </div>
       </div>
       <div>
-        <div *ngIf="started,else startedContent" colspan="8">{{ "Turn" | translate }} {{ combatTurn }},
+        <div *ngIf="combatManager.started,else startedContent" colspan="8">{{ "Turn" | translate }} {{ combatTurn }},
           {{ "Pass" | translate }} {{ initiativePass }}, {{ "Initative" | translate }} {{ currentInitiative }}</div>
         <ng-template #startedContent>{{ "Turn" | translate }} {{ combatTurn }}</ng-template>
       </div>
@@ -214,7 +217,8 @@
                     <label>{{ "Overflow" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5">
+                    <ng-range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1"
+                      tickInterval="5">
                     </ng-range-slider>
                   </div>
                 </div>
@@ -223,7 +227,8 @@
                     <label>{{ "Physical Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5">
+                    <ng-range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1"
+                      tickInterval="5">
                     </ng-range-slider>
                   </div>
                 </div>
@@ -241,7 +246,8 @@
                     <label>{{ "Pain Tolerance" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5">
+                    <ng-range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1"
+                      tickInterval="5">
                     </ng-range-slider>
                   </div>
                 </div>
