@@ -9,7 +9,7 @@ import { UndoHandler } from "../../classes/UndoHandler";
 import { LogHandler } from "../../classes/LogHandler";
 import * as $ from "jquery";
 import { Undoable } from "classes/Undoable";
-import { SortablejsOptions } from "angular-sortablejs";
+import { Options } from "sortablejs";
 import { BTTime } from "classes/bttime";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
@@ -36,7 +36,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   indexToSelect: number = -1;
   logHandler = LogHandler;
   nextSortOrder = 0;
-  options: SortablejsOptions;
+  options: Options;
 
   private _started: boolean;
 

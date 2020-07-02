@@ -1,14 +1,13 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 
-import { CustomFormsModule } from "ng2-validation";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { TranslatePipe, TranslateService } from "./translate";
 import { Auth } from "./auth";
 
-import { SortablejsModule } from "angular-sortablejs";
+import { SortablejsModule } from "ngx-sortablejs";
 
 import { AppComponent } from "./app.component";
 import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.component";
@@ -27,11 +26,10 @@ import { RangeSliderComponent } from "./range-slider/range-slider.component";
   imports: [
     BrowserModule,
     FormsModule,
-    CustomFormsModule,
     NgbModule,
     SortablejsModule.forRoot({ animation: 150 })
   ],
   providers: [TranslateService, Auth],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
