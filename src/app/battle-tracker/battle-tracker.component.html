@@ -86,7 +86,7 @@
                 (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)"
                 [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
               <div class="input-group-append">
-                <button type="button" class="btn btn-dark p-0" (click)="btnRollInitative_Click(p)"
+                <button type="button" class="btn btn-dark p-0" (click)="btnRollInitiative_Click(p)"
                   [disabled]="p.diceIni != 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
                   <i class="fas fa-dice fa-lg"></i>
                 </button>
@@ -144,6 +144,8 @@
                 </div>
               </div>
             </div>
+            <div class="icon-shield" [hidden]="!p.actions['fullDefense']">
+            </div>
           </div>
           <div class="col-5 col-xl-3 text-right">
             <div class="btn-group" role="group">
@@ -174,7 +176,7 @@
       <div>
         <div *ngIf="combatManager.started,else startedContent" colspan="8">{{ "Turn" | translate }}
           {{ combatManager.combatTurn }},
-          {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initative" | translate }}
+          {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initiative" | translate }}
           {{ combatManager.currentInitiative }}</div>
         <ng-template #startedContent>{{ "Turn" | translate }} {{ combatManager.combatTurn }}</ng-template>
       </div>

@@ -153,10 +153,10 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     sender.seizeInitiative();
   }
 
-  btnRollInitative_Click(sender: Participant)
+  btnRollInitiative_Click(sender: Participant)
   {
     UndoHandler.StartActions();
-    LogHandler.log(this.currentBTTime, sender.name + " RollInitative_Click");
+    LogHandler.log(this.currentBTTime, sender.name + " RollInitiative_Click");
     sender.rollInitiative();
   }
 

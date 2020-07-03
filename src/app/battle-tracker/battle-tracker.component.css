@@ -1,7 +1,5 @@
 tr { background: white; }
 
-.row { }
-
 div {
   padding-top: 2px;
   padding-bottom: 2px;
@@ -50,6 +48,14 @@ div {
 .participant {
   border: 3px solid white;
   border-radius: 5px;
+}
+
+.icon-shield {
+  background-image: url("../../assets/shield.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 100%;
+  width: 32px;
 }
 
 .right {
