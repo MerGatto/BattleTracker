@@ -1,10 +1,10 @@
 import { UndoHandler } from "Common";
-import { Participant } from "Combat";
+import { IParticipant } from "Combat";
 
 export class ParticipantList
 {
 
-  get items(): Participant[]
+  get items(): IParticipant[]
   {
     return this._list;
   }
@@ -13,14 +13,14 @@ export class ParticipantList
   {
     return this.items.length;
   }
-  private _list: Array<Participant>;
+  private _list: Array<IParticipant>;
 
   constructor()
   {
-    this._list = new Array<Participant>();
+    this._list = new Array<IParticipant>();
   }
 
-  insert(p: Participant, log: boolean = true)
+  insert(p: IParticipant, log: boolean = true)
   {
     if (log)
     {
@@ -34,7 +34,7 @@ export class ParticipantList
     }
   }
 
-  insertAt(p: Participant, i: number, log: boolean = true)
+  insertAt(p: IParticipant, i: number, log: boolean = true)
   {
     if (log)
     {
@@ -48,7 +48,7 @@ export class ParticipantList
     }
   }
 
-  remove(p: Participant, log: boolean = true): boolean
+  remove(p: IParticipant, log: boolean = true): boolean
   {
     let i = this.items.indexOf(p);
     if (i !== -1)
@@ -68,7 +68,7 @@ export class ParticipantList
     return false;
   }
 
-  move(p: Participant, n: number)
+  move(p: IParticipant, n: number)
   {
     let i = this.items.indexOf(p);
     if (i !== -1 && i + n !== -1 && i + n < this.items.length)
@@ -96,7 +96,7 @@ export class ParticipantList
     }
   }
 
-  contains(p: Participant, log: boolean = true): boolean
+  contains(p: IParticipant, log: boolean = true): boolean
   {
     return this.items.indexOf(p) !== -1;
   }
@@ -111,12 +111,12 @@ export class ParticipantList
     this.items.sort(this.sortOrderComparator);
   }
 
-  sortOrderComparator(p1: Participant, p2: Participant): number
+  sortOrderComparator(p1: IParticipant, p2: IParticipant): number
   {
     return p1.sortOrder - p2.sortOrder;
   }
 
-  initiativeComparator(p1: Participant, p2: Participant): number
+  initiativeComparator(p1: IParticipant, p2: IParticipant): number
   {
     let p1CompValue = p1.getCurrentInitiative();
     let p2CompValue = p2.getCurrentInitiative();

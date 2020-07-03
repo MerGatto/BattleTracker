@@ -1,8 +1,9 @@
 import { Undoable } from "Common";
 import { StatusEnum, Actions, CombatManager } from "Combat";
 import { Action } from "Interfaces/Action";
+import { IParticipant } from "./IParticipant";
 
-export class Participant extends Undoable
+export class Participant extends Undoable implements IParticipant
 {
 
   get name(): string

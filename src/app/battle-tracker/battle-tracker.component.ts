@@ -3,7 +3,8 @@ import * as $ from "jquery";
 import { Options } from "sortablejs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler } from "Common";
-import { CombatManager, Participant, StatusEnum, BTTime } from "Combat";
+import { CombatManager, StatusEnum, BTTime } from "Combat";
+import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
 
@@ -64,8 +65,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   {
     super();
     this.initialize();
-    this.combatManager.addParticipant();
-    this.selectedActor = this.combatManager.participants.items[0];
+    this.addParticipant();
     bt = this;
 
     this.options = {
@@ -141,8 +141,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "AddParticipant_Click");
-    let p = this.combatManager.addParticipant();
-    this.selectActor(p);
   }
 
   btnEdge_Click(sender: Participant)
@@ -323,7 +321,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
       }
       LogHandler.log(this.currentBTTime, "TabAddParticipant");
       UndoHandler.StartActions();
-      this.combatManager.addParticipant();
+      this.addParticipant();
       this.indexToSelect = 1 + $(row).data("indexnr");
     } else if (keyCode === 9 && e.shiftKey)
     {
@@ -457,5 +455,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   onChange(e)
   {
     console.log(e);
+  }
+
+  addParticipant()
+  {
+    let p = new Participant();
+    this.combatManager.addParticipant(p);
+    this.selectActor(p);
   }
 }

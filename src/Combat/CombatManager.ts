@@ -1,3 +1,8 @@
+import { Undoable, Utility } from "Common";
+import { ParticipantList } from "./Participants/ParticipantList";
+import { StatusEnum } from "./Participants/StatusEnum";
+import { IParticipant } from "./Participants/IParticipant";
+
 export class CombatManager extends Undoable
 {
   private static instance: CombatManager;
@@ -195,20 +200,18 @@ export class CombatManager extends Undoable
     }
   }
 
-  seizeInitiative(p: Participant)
+  seizeInitiative(p: IParticipant)
   {
     p.seizeInitiative();
   }
 
-  addParticipant(): Participant
+  addParticipant(participant: IParticipant)
   {
-    let p = new Participant();
-    p.sortOrder = this.nextSortOrder++;
-    this.participants.insert(p);
-    return p;
+    participant.sortOrder = this.nextSortOrder++;
+    this.participants.insert(participant);
   }
 
-  copyParticipant(p: Participant)
+  copyParticipant(p: IParticipant)
   {
     let copy = p.clone();
     copy.edge = false;
@@ -286,7 +289,7 @@ export class CombatManager extends Undoable
     // }
   }
 
-  act(actor: Participant)
+  act(actor: IParticipant)
   {
     actor.status = StatusEnum.Finished;
     if (this.currentActors.remove(actor))

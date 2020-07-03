@@ -1,4 +1,4 @@
-import { UndoHandler } from "Common";
+import { UndoHandler } from "./UndoHandler";
 
 export class Undoable
 {
