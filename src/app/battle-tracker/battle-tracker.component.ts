@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import * as $ from "jquery";
 import { Options } from "sortablejs";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -30,6 +30,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   indexToSelect: number = -1;
   logHandler = LogHandler;
   options: Options;
+  changeDetector: ChangeDetectorRef;
 
   private _sortByInitiative: boolean;
 
@@ -61,12 +62,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.Set("selectedActor", val);
   }
 
-  constructor(private modalService: NgbModal)
+  constructor(private ref: ChangeDetectorRef, private modalService: NgbModal)
   {
     super();
     this.initialize();
     this.addParticipant();
     bt = this;
+    this.changeDetector = ref;
 
     this.options = {
       onUpdate: (event: CustomEvent) =>
@@ -141,6 +143,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "AddParticipant_Click");
+    this.addParticipant()
   }
 
   btnEdge_Click(sender: Participant)
@@ -304,6 +307,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   {
     let keyCode = e.keyCode || e.which;
 
+    // Tab Key
     if (keyCode === 9 && !e.shiftKey)
     {
       e.preventDefault();
@@ -428,6 +432,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
         field.select();
         $(row).click();
       }
+      this.changeDetector.detectChanges();
     }
   }
 
@@ -457,10 +462,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     console.log(e);
   }
 
-  addParticipant()
+  addParticipant(selectNewParticipant = true)
   {
     let p = new Participant();
     this.combatManager.addParticipant(p);
-    this.selectActor(p);
+    if (selectNewParticipant)
+    {
+      this.selectActor(p);
+    }
   }
 }

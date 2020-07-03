@@ -282,7 +282,7 @@ export class CombatManager extends Undoable
       this.endInitiativePass();
     }
 
-    // TODO Place sorting logic elsewhere
+    // TODO place elsewhere
     // if (this.sortByInitiative)
     // {
     //   this.participants.sortByInitiative();

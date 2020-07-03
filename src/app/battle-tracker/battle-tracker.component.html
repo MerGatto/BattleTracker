@@ -172,9 +172,11 @@
         </div>
       </div>
       <div>
-        <div *ngIf="combatManager.started,else startedContent" colspan="8">{{ "Turn" | translate }} {{ combatTurn }},
-          {{ "Pass" | translate }} {{ initiativePass }}, {{ "Initative" | translate }} {{ currentInitiative }}</div>
-        <ng-template #startedContent>{{ "Turn" | translate }} {{ combatTurn }}</ng-template>
+        <div *ngIf="combatManager.started,else startedContent" colspan="8">{{ "Turn" | translate }}
+          {{ combatManager.combatTurn }},
+          {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initative" | translate }}
+          {{ combatManager.currentInitiative }}</div>
+        <ng-template #startedContent>{{ "Turn" | translate }} {{ combatManager.combatTurn }}</ng-template>
       </div>
     </div>
 
