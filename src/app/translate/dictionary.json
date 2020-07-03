@@ -189,6 +189,14 @@
   },
   "Sort by Initiative": {
     "en": "Sort by Initiative",
-    "de":  "Nach Initiative sortieren" 
-  } 
+    "de": "Nach Initiative sortieren"
+  },
+  "Initiative": {
+    "en": "Initiative",
+    "de": "Initiative"
+  },
+  "Custom": {
+    "en": "Custom",
+    "de": "Nutzerdefiniert"
+  }
 }
