@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@an
 import * as $ from "jquery";
 import { Options } from "sortablejs";
 import { NgbModal, NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
-import { Undoable, UndoHandler } from "Common";
+import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
@@ -138,7 +138,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit
       edged: p.edge,
       selected: p === this.selectedActor
     };
-    return styles;
+
+    // This is necessary due to a bug in production mode
+    return Utility.ConvertStyleObjectToString(styles);
   }
 
   /// Button Handler

@@ -38,6 +38,7 @@
               "fileReplacements": []
             },
             "dev": {
+              "optimization": true,
               "fileReplacements": []
             },
             "production": {
@@ -58,7 +59,8 @@
           "showCircularDependencies": false,
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "battle-tracker:build"
+            "browserTarget": "battle-tracker:build",
+            "optimization": true
           },
           "configurations": {
             "source": {

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { Utility } from "Common";
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -146,7 +147,9 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
       "overflow": n > this.health,
       "filled": n === this.cellCount && this.overflow > 0
     };
-    return styles;
+
+    // This is necessary due to a bug in production mode
+    return Utility.ConvertStyleObjectToString(styles);
   }
 
   getCellText(n: number): string
