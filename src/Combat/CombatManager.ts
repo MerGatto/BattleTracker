@@ -134,7 +134,6 @@ export class CombatManager extends Undoable
 
   endCombatTurn()
   {
-    this.participants.sortBySortOrder();
     this.initiativePass = 1;
     this.combatTurn++;
     this.currentInitiative = NaN;
@@ -281,12 +280,6 @@ export class CombatManager extends Undoable
     {
       this.endInitiativePass();
     }
-
-    // TODO place elsewhere
-    // if (this.sortByInitiative)
-    // {
-    //   this.participants.sortByInitiative();
-    // }
   }
 
   act(actor: IParticipant)

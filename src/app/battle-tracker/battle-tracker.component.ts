@@ -168,6 +168,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Act_Click");
     this.combatManager.act(sender);
+    this.sort();
   }
 
   btnDelay_Click(sender: Participant)
@@ -189,6 +190,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
     this.combatManager.startRound();
+    this.sort();
   }
 
   btnNextPass_Click()
@@ -197,6 +199,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     LogHandler.log(this.currentBTTime, "NextPass_Click");
     this.combatManager.nextIniPass();
     this.combatManager.goToNextActors();
+    this.sort();
   }
 
   btnDelete_Click(sender: Participant)
