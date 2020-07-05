@@ -299,12 +299,10 @@ export class CombatManager extends Undoable
   act(actor: IParticipant)
   {
     actor.status = StatusEnum.Finished;
-    if (this.currentActors.remove(actor))
+    this.currentActors.remove(actor)
+    if (this.currentActors.count === 0)
     {
-      if (this.currentActors.count === 0)
-      {
-        this.goToNextActors();
-      }
+      this.goToNextActors();
     }
   }
 
