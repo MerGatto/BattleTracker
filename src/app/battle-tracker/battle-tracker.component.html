@@ -120,7 +120,7 @@
                     <div class="col-6 p-0 input-group-prepend">
                       <button type="button" class="btn btn-secondary btn-block"
                         [disabled]="!canUseCustomInterrupt(p, custominterrupt)"
-                        (click)="btnCustomAction_Click(p, custominterrupt)">
+                        (click)="btnCustomAction_Click(p, custominterrupt, i)">
                         {{ "Custom" | translate }}
                       </button>
                     </div>
@@ -134,7 +134,7 @@
                   [class.disabled]="!p.canUseAction(action)">
                   <div class="btn-group-toggle" data-toggle="buttons">
                     <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
-                      (click)="btnAction_Click(p, action, true)">
+                      (click)="btnAction_Click(p, action, true, i)">
                       <input type="checkbox" attr.title="{{ action.iniMod }}">
                       {{ action.key | translate }}
                     </label>
@@ -142,8 +142,9 @@
                 </div>
                 <div class="dropdown-item" *ngFor="let action of p.actions.normalInterrupts"
                   [class.disabled]="!p.canUseAction(action)">
-                  <button type="button" class="btn btn-secondary btn-block" (click)="btnAction_Click(p, action, false)"
-                    [disabled]="!p.canUseAction(action)" attr.title="{{ action.iniMod }}">
+                  <button type="button" class="btn btn-secondary btn-block"
+                    (click)="btnAction_Click(p, action, false, i)" [disabled]="!p.canUseAction(action)"
+                    attr.title="{{ action.iniMod }}">
                     {{ action.key | translate }}
                   </button>
                 </div>

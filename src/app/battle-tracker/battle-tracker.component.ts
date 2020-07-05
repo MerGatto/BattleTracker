@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
 import * as $ from "jquery";
 import { Options } from "sortablejs";
 import { NgbModal, NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
@@ -32,9 +32,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   options: Options;
   changeDetector: ChangeDetectorRef;
 
-  @ViewChild(NgbDropdown)
-  private interruptDropdown: NgbDropdown;
-
+  @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
   private _sortByInitiative: boolean;
 
   get sortByInitiative(): boolean
@@ -259,7 +257,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     sender.enterCombat();
   }
 
-  btnAction_Click(p: Participant, action: Action, persistent: boolean)
+  btnAction_Click(p: Participant, action: Action, persistent: boolean, index: number)
   {
     if (!p.canUseAction(action))
     {
@@ -277,10 +275,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit
         p.actions[action.key] = !p.actions[action.key];
       }
     }
-    this.interruptDropdown.close();
+
+    this.interruptDropdowns.toArray()[index].close();
   }
 
-  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
+  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement, index: number)
   {
     if (!this.canUseCustomInterrupt(p, inputElem))
     {
@@ -297,7 +296,8 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     };
     p.actions.doAction(action);
     inputElem.value = "-5";
-    this.interruptDropdown.close();
+
+    this.interruptDropdowns.toArray()[index].close();
   }
 
   canUseCustomInterrupt(p: Participant, inputElem: HTMLInputElement)
