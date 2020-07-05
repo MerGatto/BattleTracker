@@ -6,11 +6,11 @@
           <div class="left btn-group" role="group">
             <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()"
               *ngIf="!combatManager.started">
-              {{ "Start Round" | translate }}
+              {{ "Start Turn" | translate }}
             </button>
             <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()"
               *ngIf="combatManager.started && combatManager.passEnded">
-              {{ "Next Pass" | translate }}
+              {{ combatManager.hasMoreIniPasses() ? "Next Pass" : "End Turn" | translate }}
             </button>
             <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
               {{ "Reset" | translate }}

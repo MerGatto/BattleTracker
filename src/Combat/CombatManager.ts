@@ -153,17 +153,29 @@ export class CombatManager extends Undoable
       return;
     }
   }
+
   isOver()
   {
-    let over = true;
     for (let p of this.participants.items)
     {
       if (p.getCurrentInitiative() > 0 && !p.ooc)
       {
-        over = false;
+        return false;
       }
     }
-    return over;
+    return true;
+  }
+
+  hasMoreIniPasses()
+  {
+    for (let p of this.participants.items)
+    {
+      if (p.getCurrentInitiative() - 10 > 0 && !p.ooc)
+      {
+        return true;
+      }
+    }
+    return false;
   }
 
   getNextActors()
@@ -262,6 +274,7 @@ export class CombatManager extends Undoable
 
   goToNextActors()
   {
+    // Clear active participants
     if (this.currentActors.count > 0)
     {
       for (let a of this.currentActors.items)
@@ -269,6 +282,7 @@ export class CombatManager extends Undoable
         a.status = StatusEnum.Finished;
       }
     }
+
     this.getNextActors();
     if (this.currentActors.count > 0)
     {
