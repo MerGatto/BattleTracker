@@ -277,6 +277,10 @@ export class BattleTrackerComponent extends Undoable implements OnInit
 
   btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
   {
+    if (!this.canUseCustomInterrupt(p, inputElem))
+    {
+      return;
+    }
     LogHandler.log(this.currentBTTime, p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
     let action: Action = {
@@ -289,6 +293,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     p.actions.doAction(action);
     inputElem.value = "-5";
     this.interruptDropdown.close();
+  }
+
+  canUseCustomInterrupt(p: Participant, inputElem: HTMLInputElement)
+  {
+    return (Number(inputElem.value) * -1) <= p.getCurrentInitiative();
   }
 
   btnUndo_Click()
@@ -445,11 +454,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   inp_Focus(e)
   {
     e.target.select();
-  }
-
-  keepMenuOpen(e: MouseEvent)
-  {
-    e.stopPropagation();
   }
 
   iniChange(e, p: Participant)
