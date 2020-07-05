@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from "@angular/core";
 import * as $ from "jquery";
 import { Options } from "sortablejs";
-import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler } from "Common";
 import { CombatManager, StatusEnum, BTTime } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
@@ -31,6 +31,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   logHandler = LogHandler;
   options: Options;
   changeDetector: ChangeDetectorRef;
+
+  @ViewChild(NgbDropdown)
+  private interruptDropdown: NgbDropdown;
 
   private _sortByInitiative: boolean;
 
@@ -269,6 +272,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
         p.actions[action.key] = !p.actions[action.key];
       }
     }
+    this.interruptDropdown.close();
   }
 
   btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement)
@@ -284,6 +288,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     };
     p.actions.doAction(action);
     inputElem.value = "-5";
+    this.interruptDropdown.close();
   }
 
   btnUndo_Click()
@@ -442,7 +447,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     e.target.select();
   }
 
-  keepMenuOpen(e)
+  keepMenuOpen(e: MouseEvent)
   {
     e.stopPropagation();
   }

@@ -108,11 +108,13 @@
               *ngIf="combatManager.started && p.status == 1">
               {{ "Delay" | translate }}
             </button>
-            <div class="btn-group p-0" ngbDropdown *ngIf="combatManager.started && p.getCurrentInitiative() >= 1">
-              <button ngbDropdownToggle id="interruptDropdown" type="button" class="btn btn-secondary" dropdownToggle>
+            <div class="btn-group p-0" #interruptDropdown ngbDropdown autoClose="outside"
+              *ngIf="combatManager.started && p.getCurrentInitiative() >= 1">
+              <button ngbDropdownToggle id="interruptDropdownButton" type="button" class="btn btn-secondary"
+                dropdownToggle>
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
-              <div ngbDropdownMenu aria-labelledby="interruptDropdown">
+              <div ngbDropdownMenu aria-labelledby="interruptDropdownButton">
                 <div class="dropdown-item">
                   <div class="row mx-0 input-group">
                     <div class="col-8 p-0 input-group-prepend">
