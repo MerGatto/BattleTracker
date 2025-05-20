@@ -1,3 +1,4 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit, Input, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { Utility } from "Common";
@@ -12,6 +13,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: "ng-condition-monitor",
   templateUrl: "./condition-monitor.component.html",
   styleUrls: ["./condition-monitor.component.css"],
+  imports: [CommonModule],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
@@ -22,6 +24,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     return this._damage;
   }
 
+  @Input()
   set damage(val: number)
   {
     this._damage = val;

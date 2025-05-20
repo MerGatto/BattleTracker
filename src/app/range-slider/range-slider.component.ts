@@ -1,5 +1,6 @@
+import { CommonModule } from "@angular/common";
 import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, forwardRef } from "@angular/core";
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormsModule } from "@angular/forms";
 
 declare var Slider;
 
@@ -13,6 +14,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   selector: "ng-range-slider",
   templateUrl: "./range-slider.component.html",
   styleUrls: ["./range-slider.component.css"],
+  imports: [CommonModule, FormsModule],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class RangeSliderComponent implements OnInit, AfterViewInit, ControlValueAccessor

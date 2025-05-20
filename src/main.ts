@@ -1,14 +1,18 @@
 /// <reference types="@angular/localize" />
-
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { enableProdMode } from "@angular/core";
+import { ChangeDetectorRef, enableProdMode, importProvidersFrom } from "@angular/core";
 import { environment } from "./environments/environment";
-import { AppModule } from "./app/app.module";
-import * as jQuery from "jquery";
+import { bootstrapApplication } from "@angular/platform-browser";
+import { AppComponent } from "app/app.component";
+import {provideHttpClient, withNoXsrfProtection} from '@angular/common/http';
+import { NgbNav, NgbNavItem, NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
 
 if (environment.production)
 {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(withNoXsrfProtection()),
+    importProvidersFrom(NgbNavModule)]
+}).catch(err => console.error(err));

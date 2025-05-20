@@ -38,7 +38,6 @@
     <Content Include="src\tsconfig.json" />
     <Content Include="src\browserconfig.xml" />
     <TypeScriptCompile Include="src\main.ts" />
-    <TypeScriptCompile Include="src\polyfills.ts" />
     <TypeScriptCompile Include="src\test.ts" />
     <TypeScriptCompile Include="src\utility.ts" />
     <Content Include="src\app\app.component.html" />

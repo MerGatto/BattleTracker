@@ -1,10 +1,15 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
-import { NgbModal, NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbDropdown, NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
-import { CombatManager, StatusEnum, BTTime } from "Combat";
+import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
+import { TranslatePipe } from "../translate/translate.pipe";
+import { ConditionMonitorComponent } from "../condition-monitor/condition-monitor.component";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
 
 let bt: any;
 
@@ -19,7 +24,8 @@ let bt: any;
 @Component({
   selector: "app-battle-tracker",
   templateUrl: "./battle-tracker.component.html",
-  styleUrls: ["./battle-tracker.component.css"]
+  styleUrls: ["./battle-tracker.component.css"],
+  imports: [TranslatePipe, ConditionMonitorComponent, NgxSliderModule, NgbNavModule, FormsModule, CommonModule ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager: CombatManager;
@@ -43,13 +49,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     UndoHandler.DoAction(() => this.sort(), () => this.sort());
   }
 
-  private _selectedActor: Participant;
+  private _selectedActor: IParticipant;
 
-  get selectedActor(): Participant {
+  get selectedActor(): IParticipant {
     return this._selectedActor;
   }
 
-  set selectedActor(val: Participant) {
+  set selectedActor(val: IParticipant) {
     this.Set("selectedActor", val);
   }
 
@@ -80,7 +86,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.sortByInitiative = true;
   }
 
-  selectActor(p: Participant) {
+  selectActor(p: IParticipant) {
     this.selectedActor = p;
   }
 
@@ -95,7 +101,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   /// Style Handler
-  getParticipantStyles(p: Participant) {
+  getParticipantStyles(p: IParticipant) {
     let styles = {
       acting: this.combatManager.currentActors.contains(p),
       ooc: p.ooc,
@@ -119,26 +125,26 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.addParticipant()
   }
 
-  btnEdge_Click(sender: Participant) {
+  btnEdge_Click(sender: IParticipant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Edge_Click");
     sender.seizeInitiative();
   }
 
-  btnRollInitiative_Click(sender: Participant) {
+  btnRollInitiative_Click(sender: IParticipant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " RollInitiative_Click");
     sender.rollInitiative();
   }
 
-  btnAct_Click(sender: Participant) {
+  btnAct_Click(sender: IParticipant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Act_Click");
     this.combatManager.act(sender);
     this.sort();
   }
 
-  btnDelay_Click(sender: Participant) {
+  btnDelay_Click(sender: IParticipant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Delay_Click");
     sender.status = StatusEnum.Delaying;
@@ -164,7 +170,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.sort();
   }
 
-  btnDelete_Click(sender: Participant) {
+  btnDelete_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " Delete_Click");
     if (sender.name !== "") {
       if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
@@ -177,7 +183,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.combatManager.removeParticipant(sender);
   }
 
-  btnDuplicate_Click(sender: Participant) {
+  btnDuplicate_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " Duplicate_Click");
     UndoHandler.StartActions();
     this.combatManager.copyParticipant(sender);
@@ -194,7 +200,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.combatManager.reset();
   }
 
-  btnLeaveCombat_Click(sender: Participant) {
+  btnLeaveCombat_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " LeaveCombat_Click");
     UndoHandler.StartActions();
     sender.leaveCombat();
@@ -204,13 +210,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
   }
 
-  btnEnterCombat_Click(sender: Participant) {
+  btnEnterCombat_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " EnterCombat_Click");
     UndoHandler.StartActions();
     sender.enterCombat();
   }
 
-  btnAction_Click(p: Participant, action: Action, persistent: boolean, index: number) {
+  btnAction_Click(p: IParticipant, action: Action, persistent: boolean, index: number) {
     if (!p.canUseAction(action)) {
       return;
     }
@@ -227,7 +233,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.interruptDropdowns.toArray()[index].close();
   }
 
-  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement, index: number) {
+  btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement, index: number) {
     if (!this.canUseCustomInterrupt(p, inputElem)) {
       return;
     }
@@ -246,7 +252,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.interruptDropdowns.toArray()[index].close();
   }
 
-  canUseCustomInterrupt(p: Participant, inputElem: HTMLInputElement) {
+  canUseCustomInterrupt(p: IParticipant, inputElem: HTMLInputElement) {
     return (Number(inputElem.value) * -1) <= p.getCurrentInitiative();
   }
 
@@ -389,7 +395,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     e.target.select();
   }
 
-  iniChange(e, p: Participant) {
+  iniChange(e, p: IParticipant) {
     if (p.diceIni < 0) {
       e.preventDefault();
       p.diceIni = 0;

@@ -4,14 +4,18 @@
       <div class="row">
         <div class="col-6" style="padding-left: 0">
           <div class="left btn-group" role="group">
-            <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()"
-              *ngIf="!combatManager.started">
-              {{ "Start Turn" | translate }}
-            </button>
-            <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()"
-              *ngIf="combatManager.started && combatManager.passEnded">
-              {{ combatManager.hasMoreIniPasses() ? "Next Pass" : "End Turn" | translate }}
-            </button>
+            @if(!combatManager.started)
+            {
+              <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()">
+                {{ "Start Turn" | translate }}
+              </button>
+            }
+            @if(combatManager.started && combatManager.passEnded)
+            {
+              <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()">
+                {{ combatManager.hasMoreIniPasses() ? "Next Pass" : "End Turn" | translate }}
+              </button>
+            }
             <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
               {{ "Reset" | translate }}
             </button>
@@ -19,12 +23,12 @@
           <div class="btn-group ml-2">
             <div class="input-group">
               <div class="input-group-prepend">
-                <label for="chkbSortIni"
-                  class="input-group-text disable-selection">{{ "Sort by Initiative" | translate }}</label>
+                <label for="chkbSortIni" class="input-group-text disable-selection">{{ "Sort by Initiative" | translate
+                  }}</label>
               </div>
               <div class="input-group-append">
                 <div class="input-group-text">
-                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="this.sortByInitiative" />
+                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="sortByInitiative" />
                 </div>
               </div>
             </div>
@@ -67,7 +71,8 @@
       </div>
 
       <!--PARTICIPANT ROWS-->
-      <div [sortablejs]="combatManager.participants.items" [sortablejsOptions]="options">
+      <div>
+      <!-- <div [sortablejs]="combatManager.participants.items" [sortablejsOptions]="options"> -->
         <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
           (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)"
           *ngFor="let p of combatManager.participants.items let i = index let last = last">
@@ -195,41 +200,42 @@
           <h3>{{ selectedActor.name || ("Selected Actor" | translate) }}</h3>
         </div>
         <div class="card-body">
-          <ngb-tabset>
-            <ngb-tab>
-              <ng-template ngbTabTitle>{{ "Condition Monitor" | translate }}</ng-template>
-              <ng-template ngbTabContent>
+          <nav ngbNav #nav="ngbNav" class="nav-tabs">
+            <ng-container ngbNavItem>
+              <button ngbNavLink>{{ "Condition Monitor" | translate }}</button>
+              <ng-template ngbNavContent>
+                <div>
                 <h4>{{ "Condition Monitor" | translate }}</h4>
                 <div class="row">
                   <div class="col-xl-6 cm">
                     <h4>Physical</h4>
                     <ng-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
-                      [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
+                      [hasPainEditor]="selectedActor.hasPainEditor" [damage]="selectedActor.physicalDamage">
                     </ng-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
                     <h4>Stun</h4>
                     <ng-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
-                      [(ngModel)]="selectedActor.stunDamage">
+                      [damage]="selectedActor.stunDamage">
                     </ng-condition-monitor>
                   </div>
                 </div>
+                </div>
               </ng-template>
-            </ngb-tab>
-            <ngb-tab>
-              <ng-template ngbTabTitle>{{ "Stats" | translate }}</ng-template>
-              <ng-template ngbTabContent>
+            </ng-container>
+            <ng-container ngbNavItem>
+              <button ngbNavLink>{{ "Stats" | translate }}</button>
+              <ng-template ngbNavContent>
                 <h4>{{ "Stats" | translate }}</h4>
                 <div class="row">
                   <div class="col-12">
                     <label>{{ "Overflow" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.overflowHealth" min="0" max="20" step="1"
-                      tickInterval="5">
-                    </ng-range-slider>
+                    <ngx-slider [(value)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ngx-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -237,9 +243,8 @@
                     <label>{{ "Physical Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.physicalHealth" min="0" max="20" step="1"
-                      tickInterval="5">
-                    </ng-range-slider>
+                    <ngx-slider [(value)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ngx-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -247,8 +252,8 @@
                     <label>{{ "Stun Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5">
-                    </ng-range-slider>
+                    <ngx-slider [(value)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5">
+                    </ngx-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -256,9 +261,8 @@
                     <label>{{ "Pain Tolerance" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.painTolerance" min="0" max="15" step="1"
-                      tickInterval="5">
-                    </ng-range-slider>
+                    <ngx-slider [(value)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5">
+                    </ngx-slider>
                   </div>
                 </div>
                 <div class="row">
@@ -267,7 +271,7 @@
                   </div>
                   <div class="col-12">
                     <label class="switch">
-                      <input type="checkbox" [(ngModel)]="selectedActor.hasPainEditor" />
+                      <input type="checkbox" [(value)]="selectedActor.hasPainEditor" />
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -277,13 +281,13 @@
                     <label>{{ "Initiative Dices" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ng-range-slider [(ngModel)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1">
-                    </ng-range-slider>
+                    <ngx-slider [(value)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1">
+                    </ngx-slider>
                   </div>
                 </div>
               </ng-template>
-            </ngb-tab>
-          </ngb-tabset>
+            </ng-container>
+          </nav>
         </div>
       </div>
     </div>

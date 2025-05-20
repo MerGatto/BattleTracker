@@ -7,7 +7,9 @@ declare var Auth0Lock: any;
 
 const helper = new JwtHelperService();
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class Auth
 {
   // Configure Auth0
