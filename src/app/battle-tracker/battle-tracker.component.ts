@@ -1,6 +1,4 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
-import * as $ from "jquery";
-import { Options } from "sortablejs";
 import { NgbModal, NgbDropdown } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime } from "Combat";
@@ -11,8 +9,7 @@ import { Action } from "Interfaces/Action";
 let bt: any;
 
 // Debug stuff
-(<any>window).btdump = function btdump()
-{
+(<any>window).btdump = function btdump() {
   console.log("===========");
   console.log("bt: ");
   console.log(bt);
@@ -24,107 +21,81 @@ let bt: any;
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"]
 })
-export class BattleTrackerComponent extends Undoable implements OnInit
-{
+export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager: CombatManager;
   indexToSelect: number = -1;
   logHandler = LogHandler;
-  options: Options;
   changeDetector: ChangeDetectorRef;
 
   @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
   private _sortByInitiative: boolean;
 
-  get sortByInitiative(): boolean
-  {
+  get sortByInitiative(): boolean {
     return this._sortByInitiative;
   }
 
-  get currentBTTime(): BTTime
-  {
+  get currentBTTime(): BTTime {
     return new BTTime(this.combatManager.combatTurn, this.combatManager.initiativePass, this.combatManager.currentInitiative);
   }
 
-  set sortByInitiative(val: boolean)
-  {
+  set sortByInitiative(val: boolean) {
     this.Set("sortByInitiative", val);
     UndoHandler.DoAction(() => this.sort(), () => this.sort());
   }
 
   private _selectedActor: Participant;
 
-  get selectedActor(): Participant
-  {
+  get selectedActor(): Participant {
     return this._selectedActor;
   }
 
-  set selectedActor(val: Participant)
-  {
+  set selectedActor(val: Participant) {
     this.Set("selectedActor", val);
   }
 
-  constructor(private ref: ChangeDetectorRef, private modalService: NgbModal)
-  {
+  constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
     super();
     this.initialize();
     this.addParticipant();
     bt = this;
     this.changeDetector = ref;
-
-    this.options = {
-      onUpdate: (event: CustomEvent) =>
-      {
-        this.onSortUpdate(event);
-      }
-    };
   }
 
-  onSortUpdate(event: any)
-  {
-    if (!this.sortByInitiative)
-    {
-      for (let i = 0; i < this.combatManager.participants.count; i++)
-      {
+  onSortUpdate(event: any) {
+    if (!this.sortByInitiative) {
+      for (let i = 0; i < this.combatManager.participants.count; i++) {
         this.combatManager.participants.items[i].sortOrder = i;
       }
     }
   }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     UndoHandler.Initialize();
     UndoHandler.StartActions();
     LogHandler.Initialize();
   }
 
-  initialize()
-  {
+  initialize() {
     this.combatManager = CombatManager.getInstance();
     this.sortByInitiative = true;
   }
 
-  selectActor(p: Participant)
-  {
+  selectActor(p: Participant) {
     this.selectedActor = p;
   }
 
-  sort()
-  {
-    if (!this.combatManager.passEnded)
-    {
-      if (this.sortByInitiative)
-      {
+  sort() {
+    if (!this.combatManager.passEnded) {
+      if (this.sortByInitiative) {
         this.combatManager.participants.sortByInitiative();
-      } else
-      {
+      } else {
         this.combatManager.participants.sortBySortOrder();
       }
     }
   }
 
   /// Style Handler
-  getParticipantStyles(p: Participant)
-  {
+  getParticipantStyles(p: Participant) {
     let styles = {
       acting: this.combatManager.currentActors.contains(p),
       ooc: p.ooc,
@@ -142,59 +113,50 @@ export class BattleTrackerComponent extends Undoable implements OnInit
   }
 
   /// Button Handler
-  btnAddParticipant_Click()
-  {
+  btnAddParticipant_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "AddParticipant_Click");
     this.addParticipant()
   }
 
-  btnEdge_Click(sender: Participant)
-  {
+  btnEdge_Click(sender: Participant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Edge_Click");
     sender.seizeInitiative();
   }
 
-  btnRollInitiative_Click(sender: Participant)
-  {
+  btnRollInitiative_Click(sender: Participant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " RollInitiative_Click");
     sender.rollInitiative();
   }
 
-  btnAct_Click(sender: Participant)
-  {
+  btnAct_Click(sender: Participant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Act_Click");
     this.combatManager.act(sender);
     this.sort();
   }
 
-  btnDelay_Click(sender: Participant)
-  {
+  btnDelay_Click(sender: Participant) {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, sender.name + " Delay_Click");
     sender.status = StatusEnum.Delaying;
-    if (this.combatManager.currentActors.remove(sender))
-    {
-      if (this.combatManager.currentActors.count === 0)
-      {
+    if (this.combatManager.currentActors.remove(sender)) {
+      if (this.combatManager.currentActors.count === 0) {
         this.combatManager.goToNextActors();
       }
     }
   }
 
-  btnStartRound_Click()
-  {
+  btnStartRound_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
     this.combatManager.startRound();
     this.sort();
   }
 
-  btnNextPass_Click()
-  {
+  btnNextPass_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "NextPass_Click");
     this.combatManager.nextIniPass();
@@ -202,13 +164,10 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.sort();
   }
 
-  btnDelete_Click(sender: Participant)
-  {
+  btnDelete_Click(sender: Participant) {
     LogHandler.log(this.currentBTTime, sender.name + " Delete_Click");
-    if (sender.name !== "")
-    {
-      if (!confirm("Are you sure you want to remove " + sender.name + "?"))
-      {
+    if (sender.name !== "") {
+      if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
         LogHandler.log(this.currentBTTime, sender.name + " Delete_Cancel");
         return;
       }
@@ -218,18 +177,15 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.combatManager.removeParticipant(sender);
   }
 
-  btnDuplicate_Click(sender: Participant)
-  {
+  btnDuplicate_Click(sender: Participant) {
     LogHandler.log(this.currentBTTime, sender.name + " Duplicate_Click");
     UndoHandler.StartActions();
     this.combatManager.copyParticipant(sender);
   }
 
-  btnReset_Click()
-  {
+  btnReset_Click() {
     LogHandler.log(this.currentBTTime, "Reset_Click");
-    if (!confirm("Are you sure you want to reset the BattleTracker?"))
-    {
+    if (!confirm("Are you sure you want to reset the BattleTracker?")) {
       LogHandler.log(this.currentBTTime, "Reset_Cancel");
       return;
     }
@@ -238,40 +194,32 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.combatManager.reset();
   }
 
-  btnLeaveCombat_Click(sender: Participant)
-  {
+  btnLeaveCombat_Click(sender: Participant) {
     LogHandler.log(this.currentBTTime, sender.name + " LeaveCombat_Click");
     UndoHandler.StartActions();
     sender.leaveCombat();
-    if (this.combatManager.currentActors.contains(sender))
-    {
+    if (this.combatManager.currentActors.contains(sender)) {
       // Remove sender from active Actors
       this.combatManager.act(sender);
     }
   }
 
-  btnEnterCombat_Click(sender: Participant)
-  {
+  btnEnterCombat_Click(sender: Participant) {
     LogHandler.log(this.currentBTTime, sender.name + " EnterCombat_Click");
     UndoHandler.StartActions();
     sender.enterCombat();
   }
 
-  btnAction_Click(p: Participant, action: Action, persistent: boolean, index: number)
-  {
-    if (!p.canUseAction(action))
-    {
+  btnAction_Click(p: Participant, action: Action, persistent: boolean, index: number) {
+    if (!p.canUseAction(action)) {
       return;
     }
     LogHandler.log(this.currentBTTime, p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
-    if (!persistent)
-    {
+    if (!persistent) {
       p.actions.doAction(action);
-    } else
-    {
-      if (!p.actions[action.key])
-      {
+    } else {
+      if (!p.actions[action.key]) {
         p.actions[action.key] = !p.actions[action.key];
       }
     }
@@ -279,10 +227,8 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.interruptDropdowns.toArray()[index].close();
   }
 
-  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement, index: number)
-  {
-    if (!this.canUseCustomInterrupt(p, inputElem))
-    {
+  btnCustomAction_Click(p: Participant, inputElem: HTMLInputElement, index: number) {
+    if (!this.canUseCustomInterrupt(p, inputElem)) {
       return;
     }
     LogHandler.log(this.currentBTTime, p.name + " CustomAction_Click: " + inputElem.value);
@@ -300,189 +246,174 @@ export class BattleTrackerComponent extends Undoable implements OnInit
     this.interruptDropdowns.toArray()[index].close();
   }
 
-  canUseCustomInterrupt(p: Participant, inputElem: HTMLInputElement)
-  {
+  canUseCustomInterrupt(p: Participant, inputElem: HTMLInputElement) {
     return (Number(inputElem.value) * -1) <= p.getCurrentInitiative();
   }
 
-  btnUndo_Click()
-  {
+  btnUndo_Click() {
     LogHandler.log(this.currentBTTime, "Undo_Click");
     UndoHandler.Undo();
   }
 
-  btnRedo_Click()
-  {
+  btnRedo_Click() {
     LogHandler.log(this.currentBTTime, "Redo_Click");
     UndoHandler.Redo();
   }
 
-  btnAddReminder_Click(content)
-  {
+  btnAddReminder_Click(content) {
     this.modalService.open(content);
   }
 
-  inpName_KeyDown(e)
-  {
-    let keyCode = e.keyCode || e.which;
+  inpName_KeyDown(e: KeyboardEvent) {
+    const keyCode = e.code
 
-    // Tab Key
-    if (keyCode === 9 && !e.shiftKey)
+    if (keyCode === "Tab" && !e.shiftKey) // Tab key
     {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let nextRow = $(row).next()[0];
-      if (nextRow !== undefined)
-      {
-        let field: any = $(nextRow).find("input")[0];
-        if (field)
-        {
+
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      if (!row) return;
+
+      const nextRow = row.nextElementSibling as HTMLElement;
+      if (nextRow) {
+        const field = nextRow.querySelector("input") as HTMLInputElement;
+        if (field) {
           field.select();
-          $(nextRow).click();
+          nextRow.click();
           return;
         }
       }
+
       LogHandler.log(this.currentBTTime, "TabAddParticipant");
       UndoHandler.StartActions();
       this.addParticipant();
-      this.indexToSelect = 1 + $(row).data("indexnr");
-    } else if (keyCode === 9 && e.shiftKey)
+
+      const index = row.getAttribute("data-indexnr");
+      this.indexToSelect = index !== null ? 1 + Number(index) : -1;
+    }
+    else if (keyCode === "Tab" && e.shiftKey) // Shift + Tab
     {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let prevRow = $(row).prev()[0];
-      if (prevRow !== undefined)
-      {
-        let field: any = $(prevRow).find("input")[0];
-        if (field)
-        {
+
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      if (!row) return;
+
+      const prevRow = row.previousElementSibling as HTMLElement;
+      if (prevRow) {
+        const field = prevRow.querySelector("input") as HTMLInputElement;
+        if (field) {
           field.select();
-          $(prevRow).click();
+          prevRow.click();
           return;
         }
       }
     }
   }
 
-  inpDiceIni_KeyDown(e)
-  {
-    let keyCode = e.keyCode || e.which;
+  inpDiceIni_KeyDown(e: KeyboardEvent) {
+    let keyCode = e.code;
 
-    if (keyCode === 9 && !e.shiftKey)
-    {
+    if (keyCode === "Tab" && !e.shiftKey) {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let nextRow = $(row).next()[0];
-      if (nextRow !== undefined)
-      {
-        let field: any = $(nextRow).find(".inpDiceIni")[0];
-        if (field)
-        {
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      let nextRow = row.nextElementSibling as HTMLElement;
+      if (nextRow !== undefined) {
+        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+        if (field) {
           field.select();
-          $(nextRow).click();
+          nextRow.click
           return;
         }
       }
-    } else if (keyCode === 9 && e.shiftKey)
-    {
+    } else if (keyCode === "Tab" && e.shiftKey) {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let prevRow = $(row).prev()[0];
-      if (prevRow !== undefined)
-      {
-        let field: any = $(prevRow).find(".inpDiceIni")[0];
-        if (field)
-        {
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      const prevRow = row.previousElementSibling as HTMLElement;
+      if (prevRow !== undefined) {
+        let field: any = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+        if (field) {
           field.select();
-          $(prevRow).click();
+          prevRow.click()
           return;
         }
       }
     }
   }
 
-  inpBaseIni_KeyDown(e)
-  {
+  inpBaseIni_KeyDown(e) {
     let keyCode = e.keyCode || e.which;
     let shift = e.shiftKey;
 
-    if (keyCode === 9 && !shift)
-    {
+    if (keyCode === 9 && !shift) {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let nextRow = $(row).next()[0];
-      if (nextRow !== undefined)
-      {
-        let field: any = $(nextRow).find(".inpBaseIni")[0];
-        if (field)
-        {
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      let nextRow = row.nextElementSibling as HTMLElement;
+      if (nextRow !== undefined) {
+        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+        if (field) {
           field.select();
-          $(nextRow).click();
+          nextRow.click()
           return;
         }
       }
-    } else if (keyCode === 9 && shift)
-    {
+    } else if (keyCode === 9 && shift) {
       e.preventDefault();
-      let row = $(e.target).closest(".participant");
-      let prevRow = $(row).prev()[0];
-      if (prevRow !== undefined)
-      {
-        let field: any = $(prevRow).find(".inpBaseIni")[0];
-        if (field)
-        {
+      const row = this.closestByClass(e.target as HTMLElement, "participant");
+      const prevRow = row.previousElementSibling as HTMLElement;
+      if (prevRow !== undefined) {
+        let field: any = prevRow.querySelectorAll(".inpBaseIni")[0];
+        if (field) {
           field.select();
-          $(prevRow).click();
+          prevRow.click();
           return;
         }
       }
     }
   }
 
-  ngReady()
-  {
+  ngReady() {
     let row = document.getElementById("participant" + this.indexToSelect);
-    if (row)
-    {
-      let field: any = $(row).find("input")[0];
-      if (field)
-      {
+    if (row) {
+      let field: any = row.querySelectorAll("input")[0];
+      if (field) {
         this.indexToSelect = -1;
         field.select();
-        $(row).click();
+        row.click();
       }
       this.changeDetector.detectChanges();
     }
   }
 
   // Focus Handler
-  inp_Focus(e)
-  {
+  inp_Focus(e) {
     e.target.select();
   }
 
-  iniChange(e, p: Participant)
-  {
-    if (p.diceIni < 0)
-    {
+  iniChange(e, p: Participant) {
+    if (p.diceIni < 0) {
       e.preventDefault();
       p.diceIni = 0;
       e.target.value = 0;
     }
   }
 
-  onChange(e)
-  {
+  onChange(e) {
     console.log(e);
   }
 
-  addParticipant(selectNewParticipant = true)
-  {
+  addParticipant(selectNewParticipant = true) {
     let p = new Participant();
     this.combatManager.addParticipant(p);
-    if (selectNewParticipant)
-    {
+    if (selectNewParticipant) {
       this.selectActor(p);
     }
+  }
+
+  // Helper to find the closest ancestor with a given class
+  private closestByClass(el: HTMLElement, className: string): HTMLElement | null {
+    while (el && !el.classList.contains(className)) {
+      el = el.parentElement;
+    }
+    return el;
   }
 }
