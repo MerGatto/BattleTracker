@@ -185,11 +185,18 @@
         </div>
       </div>
       <div>
-        <div *ngIf="combatManager.started,else startedContent" colspan="8">{{ "Turn" | translate }}
-          {{ combatManager.combatTurn }},
-          {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initiative" | translate }}
-          {{ combatManager.currentInitiative }}</div>
-        <ng-template #startedContent>{{ "Turn" | translate }} {{ combatManager.combatTurn }}</ng-template>
+        @if (combatManager.started)
+        {
+          <div colspan="8">{{ "Turn" | translate }}
+            {{ combatManager.combatTurn }},
+            {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initiative" | translate }}
+            {{ combatManager.currentInitiative }}
+          </div>
+        }
+        @else
+        {
+          {{ "Turn" | translate }} {{ combatManager.combatTurn }}
+        }
       </div>
     </div>
 
@@ -204,7 +211,6 @@
             <ng-container ngbNavItem>
               <button ngbNavLink>{{ "Condition Monitor" | translate }}</button>
               <ng-template ngbNavContent>
-                <div>
                 <h4>{{ "Condition Monitor" | translate }}</h4>
                 <div class="row">
                   <div class="col-xl-6 cm">
@@ -222,7 +228,6 @@
                     </ng-condition-monitor>
                   </div>
                 </div>
-                </div>
               </ng-template>
             </ng-container>
             <ng-container ngbNavItem>
@@ -234,7 +239,7 @@
                     <label>{{ "Overflow" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.overflowHealth" min="0" max="20" step="1" tickInterval="5">
+                    <ngx-slider [(value)]="selectedActor.overflowHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -243,7 +248,7 @@
                     <label>{{ "Physical Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.physicalHealth" min="0" max="20" step="1" tickInterval="5">
+                    <ngx-slider [(value)]="selectedActor.physicalHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -252,7 +257,7 @@
                     <label>{{ "Stun Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.stunHealth" min="0" max="20" step="1" tickInterval="5">
+                    <ngx-slider [(value)]="selectedActor.stunHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -261,7 +266,7 @@
                     <label>{{ "Pain Tolerance" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.painTolerance" min="0" max="15" step="1" tickInterval="5">
+                    <ngx-slider [(value)]="selectedActor.painTolerance" [options]="{ floor: 0, ceil: 15, step: 1, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -281,13 +286,14 @@
                     <label>{{ "Initiative Dices" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.dices" min="1" max="5" step="1" tickInterval="1">
+                    <ngx-slider [(value)]="selectedActor.dices" [options]="{ floor: 1, ceil: 5, step: 1, tickStep: 1}">
                     </ngx-slider>
                   </div>
                 </div>
               </ng-template>
             </ng-container>
           </nav>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
         </div>
       </div>
     </div>
