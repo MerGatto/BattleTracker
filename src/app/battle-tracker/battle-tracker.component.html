@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-6 position-relative">
           <div class="right btn-group" role="group">
             <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}">
               <i class="fa fa-undo fa-lg fa-inverse"></i>
@@ -239,7 +239,8 @@
                     <label>{{ "Overflow" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.overflowHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
+                    <ngx-slider [(value)]="selectedActor.overflowHealth"
+                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -248,7 +249,8 @@
                     <label>{{ "Physical Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.physicalHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
+                    <ngx-slider [(value)]="selectedActor.physicalHealth"
+                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -257,7 +259,8 @@
                     <label>{{ "Stun Health" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.stunHealth" [options]="{ floor: 0, ceil: 20, step: 1, tickStep: 5}">
+                    <ngx-slider [(value)]="selectedActor.stunHealth"
+                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -266,7 +269,8 @@
                     <label>{{ "Pain Tolerance" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.painTolerance" [options]="{ floor: 0, ceil: 15, step: 1, tickStep: 5}">
+                    <ngx-slider [(value)]="selectedActor.painTolerance"
+                    [options]="{ floor: 0, ceil: 15, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -286,7 +290,8 @@
                     <label>{{ "Initiative Dices" | translate }}</label>
                   </div>
                   <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.dices" [options]="{ floor: 1, ceil: 5, step: 1, tickStep: 1}">
+                    <ngx-slider [(value)]="selectedActor.dices"
+                    [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1}">
                     </ngx-slider>
                   </div>
                 </div>
