@@ -217,14 +217,14 @@
                     <h4>Physical</h4>
                     <ng-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
-                      [hasPainEditor]="selectedActor.hasPainEditor" [damage]="selectedActor.physicalDamage">
+                      [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
                     </ng-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
                     <h4>Stun</h4>
                     <ng-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
-                      [damage]="selectedActor.stunDamage">
+                      [(ngModel)]="selectedActor.stunDamage">
                     </ng-condition-monitor>
                   </div>
                 </div>
