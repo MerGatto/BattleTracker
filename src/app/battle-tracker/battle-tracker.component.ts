@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
-import { NgbModal, NgbDropdown, NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbModal, NgbDropdown, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
@@ -25,7 +25,7 @@ let bt: any;
   selector: "app-battle-tracker",
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"],
-  imports: [TranslatePipe, ConditionMonitorComponent, NgxSliderModule, NgbNavModule, FormsModule, CommonModule ]
+  imports: [TranslatePipe, ConditionMonitorComponent, NgxSliderModule, NgbNavModule, NgbDropdownModule, FormsModule, CommonModule ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager: CombatManager;
