@@ -37,7 +37,7 @@
     "karma-chrome-launcher": "^2.2.0",
     "karma-jasmine": "^2.0.1",
     "ngx-sortablejs": "^3.1.4",
-    "node-sass": "^4.0.0",
+    "node-sass": "^9.0.0",
     "popper.js": "^1.14.3",
     "rxjs": "^6.6.0",
     "sortablejs": "^1.10.2",
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.901.10",
-    "@angular/cli": "^9.1.10",
+    "@angular/cli": "^19.2.12",
     "@types/jasmine": "3.3.12",
     "jasmine-core": "3.4.0",
     "jasmine-spec-reporter": "4.2.1",
