@@ -2,7 +2,7 @@ import { Action } from "Interfaces/Action";
 import { interruptTable } from "InterruptTable";
 import { UndoHandler } from "Common";
 
-const COMMON_INTERRUPTS = [ "fullDefense", "runForYourLife", "counterstrike", , "intercept" ] as const
+const COMMON_INTERRUPTS = [ "fullDefense", "runForYourLife", "counterstrike", "rightBackAtYa" ]
 export class Actions
 {
 
@@ -46,7 +46,7 @@ export class Actions
     {
       return !action.edge && !action.martialArt && !action.persist;
     });
-    this.commonInterrupts = interruptTable.filter(action => COMMON_INTERRUPTS.includes(action.key))
+    this.commonInterrupts = COMMON_INTERRUPTS.map(key => interruptTable.find(action => action.key === key))
 
     for (let action of this.persistentInterrupts)
     {

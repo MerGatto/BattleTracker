@@ -264,11 +264,11 @@ export class CombatManager extends Undoable
     if (high === 0)
     {
       high++;
-      p.name = p.name + "1";
+      p.name = p.name.trim() + " 1";
     }
 
     // Set the name for the Copy
-    copy.name = name + (high + 1);
+    copy.name = `${name.trim()} ${high + 1}`;
     this.participants.insert(copy);
   }
 

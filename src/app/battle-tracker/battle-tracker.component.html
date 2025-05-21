@@ -106,21 +106,6 @@
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
               <div ngbDropdownMenu aria-labelledby="interruptDropdownButton">
-                <div class="dropdown-item">
-                  <div class="row mx-0 input-group">
-                    <div class="col-6 p-0 input-group-prepend">
-                      <button type="button" class="btn btn-secondary btn-block"
-                        [disabled]="!canUseCustomInterrupt(p, custominterrupt)"
-                        (click)="btnCustomAction_Click(p, custominterrupt, i)">
-                        {{ "Custom" | translate }}
-                      </button>
-                    </div>
-                    <div class="col-6 p-0">
-                      <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius"
-                        name="customInterruptIni" value="-5" type="number" (focus)="inp_Focus($event)">
-                    </div>
-                  </div>
-                </div>
                 <div class="dropdown-item" *ngFor="let action of p.actions.commonInterrupts"
                   [class.disabled]="!p.canUseAction(action)">
                   @if (action.persist)
@@ -129,7 +114,7 @@
                     <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
                       (click)="btnAction_Click(p, action, true, i)">
                       <input type="checkbox" attr.title="{{ action.iniMod }}">
-                      {{ action.key | translate }}
+                      {{ action.key | translate }} ({{ action.iniMod }})
                     </label>
                   </div>
                   }
@@ -138,9 +123,24 @@
                   <button type="button" class="btn btn-secondary btn-block"
                     (click)="btnAction_Click(p, action, false, i)" [disabled]="!p.canUseAction(action)"
                     attr.title="{{ action.iniMod }}">
-                    {{ action.key | translate }}
+                    {{ action.key | translate }} ({{ action.iniMod }})
                   </button>
                   }
+                </div>
+                <div class="dropdown-item">
+                  <div class="row mx-0 input-group">
+                    <div class="col-6 p-0 input-group-prepend">
+                      <button type="button" class="btn btn-secondary btn-block"
+                        [disabled]="!canUseCustomInterrupt(p, custominterrupt)"
+                        (click)="btnCustomAction_Click(p, custominterrupt, i)">
+                        {{ "Other" | translate }}
+                      </button>
+                    </div>
+                    <div class="col-6 p-0">
+                      <input #custominterrupt class="form-control inpBaseIni text-center no-border-radius"
+                        name="customInterruptIni" value="-5" type="number" (focus)="inp_Focus($event)">
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -203,14 +203,14 @@
                 <h4>{{ "Condition Monitor" | translate }}</h4>
                 <div class="row">
                   <div class="col-xl-6 cm">
-                    <h4>Physical</h4>
+                    <h4>{{"Physical" | translate}}</h4>
                     <ng-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
                       [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
                     </ng-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
-                    <h4>Stun</h4>
+                    <h4>{{"Stun" | translate}}</h4>
                     <ng-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
                       [(ngModel)]="selectedActor.stunDamage">
@@ -223,6 +223,16 @@
               <button ngbNavLink>{{ "Stats" | translate }}</button>
               <ng-template ngbNavContent>
                 <h4>{{ "Stats" | translate }}</h4>
+                <div class="row">
+                  <div class="col-12">
+                    <label>{{ "Initiative Dices" | translate }}</label>
+                  </div>
+                  <div class="col-12">
+                    <ngx-slider [(value)]="selectedActor.dices"
+                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1, animate: false}">
+                    </ngx-slider>
+                  </div>
+                </div>
                 <div class="row">
                   <div class="col-12">
                     <label>{{ "Overflow" | translate }}</label>
@@ -272,16 +282,6 @@
                       <input type="checkbox" [(ngModel)]="selectedActor.hasPainEditor" />
                       <span class="slider round"></span>
                     </label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>{{ "Initiative Dices" | translate }}</label>
-                  </div>
-                  <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.dices"
-                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1, animate: false}">
-                    </ngx-slider>
                   </div>
                 </div>
               </ng-template>

@@ -7,6 +7,14 @@
     "en": "Full Defense",
     "de": "Volle Abwehr"
   },
+  "Physical": {
+    "en": "Physical",
+    "de": "Körperlich"
+  },
+  "Stun": {
+    "en": "Stun",
+    "de": "Geistig"
+  },
   "intercept": {
     "en": "Intercept",
     "de": "Abfangen"
@@ -206,5 +214,9 @@
   "Custom": {
     "en": "Custom",
     "de": "Nutzerdefiniert"
+  },
+  "Other": {
+    "en": "Other",
+    "de": "Andere"
   }
 }
