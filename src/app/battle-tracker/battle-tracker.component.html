@@ -229,7 +229,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.overflowHealth"
-                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5, animate: false}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -239,7 +239,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.physicalHealth"
-                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5, animate: false}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -249,7 +249,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.stunHealth"
-                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5, animate: false}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -259,7 +259,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.painTolerance"
-                      [options]="{ floor: 0, ceil: 15, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 15, step: 1, showTicks: true, tickStep: 5, animate: false}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -269,7 +269,7 @@
                   </div>
                   <div class="col-12">
                     <label class="switch">
-                      <input type="checkbox" [(value)]="selectedActor.hasPainEditor" />
+                      <input type="checkbox" [(ngModel)]="selectedActor.hasPainEditor" />
                       <span class="slider round"></span>
                     </label>
                   </div>
@@ -280,7 +280,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.dices"
-                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1}">
+                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1, animate: false}">
                     </ngx-slider>
                   </div>
                 </div>
