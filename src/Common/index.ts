@@ -1,4 +1,4 @@
-import { UndoHandler, PropertyHistoryItem } from "./UndoHandler";
+import UndoHandler, { PropertyHistoryItem } from "./UndoHandler";
 import { Undoable } from "./Undoable";
 import { Utility } from "./Utility";
 
