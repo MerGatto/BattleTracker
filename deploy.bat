@@ -1,1 +1,1 @@
-start ng build --prod
+cmd /k ng build --configuration=production
