@@ -11,7 +11,7 @@ export class TranslatePipe implements PipeTransform
 {
   constructor(private _translate: TranslateService) {}
 
-  transform(value: string, args: any[]): any
+  transform(value: string): any
   {
     if (!value)
     {

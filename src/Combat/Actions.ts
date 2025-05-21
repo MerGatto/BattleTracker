@@ -2,6 +2,7 @@ import { Action } from "Interfaces/Action";
 import { interruptTable } from "InterruptTable";
 import { UndoHandler } from "Common";
 
+const COMMON_INTERRUPTS = [ "fullDefense", "runForYourLife", "counterstrike", , "intercept" ] as const
 export class Actions
 {
 
@@ -35,6 +36,7 @@ export class Actions
 
   readonly persistentInterrupts: Array<Action>;
   readonly normalInterrupts: Array<Action>;
+  readonly commonInterrupts: Array<Action>;
   private _actionHistory: Array<Action> = [];
 
   constructor()
@@ -44,6 +46,8 @@ export class Actions
     {
       return !action.edge && !action.martialArt && !action.persist;
     });
+    this.commonInterrupts = interruptTable.filter(action => COMMON_INTERRUPTS.includes(action.key))
+
     for (let action of this.persistentInterrupts)
     {
       this["_" + action.key] = false;

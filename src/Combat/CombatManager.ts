@@ -97,7 +97,7 @@ export class CombatManager extends Undoable
     this.currentActors = new ParticipantList();
   }
 
-  reset()
+  endCombat()
   {
     this.combatTurn = 1;
     this.currentActors.clear();
@@ -308,6 +308,10 @@ export class CombatManager extends Undoable
 
   removeParticipant(participant)
   {
+    if (this.currentActors.contains(participant)) {
+      // Remove sender from active Actors
+      this.act(participant);
+    }
     this.participants.remove(participant);
   }
 }

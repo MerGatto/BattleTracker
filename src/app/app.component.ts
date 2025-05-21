@@ -1,11 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from "./translate";
-import { Auth } from "./auth";
+import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.component";
+import { CommonModule } from "@angular/common";
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 declare var Auth0Lock;
 
 @Component({
   selector: "app-root",
+  standalone: true,
+  imports: [CommonModule,NgbNavModule, BattleTrackerComponent],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
@@ -16,7 +20,7 @@ export class AppComponent implements OnInit
   public translatedText: string;
   public supportedLanguages: any[];
 
-  constructor(private _translate: TranslateService, private auth: Auth) {}
+  constructor(private _translate: TranslateService) {}
 
   ngOnInit()
   {

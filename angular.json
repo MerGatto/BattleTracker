@@ -15,7 +15,9 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "tsConfig": "src/tsconfig.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "assets": [
               "src/assets",
               "src/favicon.ico"
@@ -28,7 +30,6 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"
             ]
@@ -38,54 +39,44 @@
               "fileReplacements": []
             },
             "dev": {
-              "optimization": true,
+              "optimization": false,
               "fileReplacements": []
             },
             "production": {
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "fileReplacements": []
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
-          "showCircularDependencies": false,
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "battle-tracker:build",
-            "optimization": true
-          },
           "configurations": {
-            "source": {
-              "browserTarget": "battle-tracker:build:source"
-            },
             "dev": {
-              "browserTarget": "battle-tracker:build:dev"
+              "buildTarget": "battle-tracker:build:dev"
             },
             "production": {
-              "browserTarget": "battle-tracker:build:production"
+              "buildTarget": "battle-tracker:build:production"
             }
-          }
+          },
+          "defaultConfiguration": "dev"
         },
         "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "battle-tracker:build"
-          }
+          "builder": "@angular-devkit/build-angular:extract-i18n"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": [
+              "zone.js"
+            ],
             "scripts": [],
             "styles": [
               "src/styles.css"
@@ -106,39 +97,6 @@
           }
         }
       }
-    },
-    "battle-tracker-e2e": {
-      "root": "",
-      "sourceRoot": "e2e",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "battle-tracker:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "e2e/tsconfig.json"
-            ],
-            "exclude": []
-          }
-        }
-      }
-    }
-  },
-  "defaultProject": "battle-tracker",
-  "schematics": {
-    "@schematics/angular:component": {
-      "prefix": "app",
-      "styleext": "css"
-    },
-    "@schematics/angular:directive": {
-      "prefix": "app"
     }
   }
 }

@@ -4,15 +4,26 @@
     "declaration": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["es6", "dom"],
+    "lib": ["ES2022", "dom"],
     "mapRoot": "./",
-    "module": "es6",
+    "module": "ES2022",
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
-    "target": "es5",
+    "target": "ES2022",
+    "resolveJsonModule": true,
     "typeRoots": [
       "../node_modules/@types"
+    ],
+    "types": [
+      "@angular/localize"
     ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
   }
 }

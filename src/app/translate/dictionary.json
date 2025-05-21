@@ -71,6 +71,10 @@
     "en": "Leave Combat",
     "de": "Kampf verlassen"
   },
+  "End Combat": {
+    "en": "End Combat",
+    "de": "Kampf beenden"
+  },
   "Start Turn": {
     "en": "Start Turn",
     "de": "Runde Starten"
