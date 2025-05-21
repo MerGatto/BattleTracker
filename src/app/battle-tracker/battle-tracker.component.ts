@@ -261,6 +261,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     return (Number(inputElem.value) * -1) <= p.getCurrentInitiative();
   }
 
+  isUndoDisabled() {
+    return !UndoHandler.hasPast();
+  }
+
+  isRedoDisabled() {
+    return !UndoHandler.hasFuture();
+  }
+
   btnUndo_Click() {
     LogHandler.log(this.currentBTTime, "Undo_Click");
     UndoHandler.Undo();

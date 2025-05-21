@@ -23,10 +23,10 @@
         </div>
         <div class="col-6 position-relative">
           <div class="right btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}">
+            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}" [disabled]="isUndoDisabled()">
               <i class="fa fa-undo fa-lg fa-inverse"></i>
             </button>
-            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo">
+            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo" [disabled]="isRedoDisabled()">
               <i class="fa fa-redo fa-lg fa-inverse"></i>
             </button>
           </div>

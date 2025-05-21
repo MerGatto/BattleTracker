@@ -114,6 +114,14 @@ export module UndoHandler
     pastHistory.push(chapt);
   }
 
+  export function hasFuture() {
+    return futureHistory.length > 0
+  }
+
+  export function hasPast() {
+    return pastHistory.length > 0
+  }
+
   export function StartActions()
   {
     futureHistory = [];
