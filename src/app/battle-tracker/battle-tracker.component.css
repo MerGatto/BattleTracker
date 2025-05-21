@@ -64,7 +64,7 @@ div {
   position: absolute;
 }
 
-.acting, .acting > * { background: rgba(100, 255, 100, 1); }
+.acting, .acting > * { background: rgba(100, 255, 100, 1) !important; }
 
 .noIni .inpDiceIni { background: rgba(100, 150, 255, 1); }
 

@@ -308,6 +308,10 @@ export class CombatManager extends Undoable
 
   removeParticipant(participant)
   {
+    if (this.currentActors.contains(participant)) {
+      // Remove sender from active Actors
+      this.act(participant);
+    }
     this.participants.remove(participant);
   }
 }
