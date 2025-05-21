@@ -67,5 +67,10 @@ export let interruptTable: Array<Action> = [
     key: "shadowBlock",
     iniMod: -5,
     martialArt: true
+  },
+  {
+    key: "iAmTheFirewall",
+    iniMod: -5,
+    martialArt: false
   }
 ];

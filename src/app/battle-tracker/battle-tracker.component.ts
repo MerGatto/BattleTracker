@@ -9,7 +9,9 @@ import { TranslatePipe } from "../translate/translate.pipe";
 import { ConditionMonitorComponent } from "../condition-monitor/condition-monitor.component";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 let bt: any;
 
@@ -25,7 +27,15 @@ let bt: any;
   selector: "app-battle-tracker",
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"],
-  imports: [TranslatePipe, ConditionMonitorComponent, NgxSliderModule, NgbNavModule, NgbDropdownModule, FormsModule, CommonModule ]
+  imports: [
+    TranslatePipe,
+    ConditionMonitorComponent,
+    NgxSliderModule,
+    NgbNavModule,
+    NgbDropdownModule,
+    FormsModule,
+    CommonModule,
+    DragDropModule]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager: CombatManager;
@@ -34,19 +44,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   changeDetector: ChangeDetectorRef;
 
   @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
-  private _sortByInitiative: boolean;
-
-  get sortByInitiative(): boolean {
-    return this._sortByInitiative;
-  }
 
   get currentBTTime(): BTTime {
     return new BTTime(this.combatManager.combatTurn, this.combatManager.initiativePass, this.combatManager.currentInitiative);
-  }
-
-  set sortByInitiative(val: boolean) {
-    this.Set("sortByInitiative", val);
-    UndoHandler.DoAction(() => this.sort(), () => this.sort());
   }
 
   private _selectedActor: IParticipant;
@@ -67,8 +67,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.changeDetector = ref;
   }
 
-  onSortUpdate(event: any) {
-    if (!this.sortByInitiative) {
+  drop(event: CdkDragDrop<string[]>) {
+    if (!this.combatManager.started) {
+      moveItemInArray(this.combatManager.participants.items, event.previousIndex, event.currentIndex);
       for (let i = 0; i < this.combatManager.participants.count; i++) {
         this.combatManager.participants.items[i].sortOrder = i;
       }
@@ -83,7 +84,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   initialize() {
     this.combatManager = CombatManager.getInstance();
-    this.sortByInitiative = true;
   }
 
   selectActor(p: IParticipant) {
@@ -91,12 +91,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   sort() {
-    if (!this.combatManager.passEnded) {
-      if (this.sortByInitiative) {
-        this.combatManager.participants.sortByInitiative();
-      } else {
+    if (!this.combatManager.started) {
         this.combatManager.participants.sortBySortOrder();
-      }
+    }
+    else {
+      this.combatManager.participants.sortByInitiative()
     }
   }
 
@@ -191,13 +190,14 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   btnReset_Click() {
     LogHandler.log(this.currentBTTime, "Reset_Click");
-    if (!confirm("Are you sure you want to reset the BattleTracker?")) {
+    if (!confirm("Are you sure you want to end combat?")) {
       LogHandler.log(this.currentBTTime, "Reset_Cancel");
       return;
     }
     LogHandler.log(this.currentBTTime, "Reset_Confirm");
     UndoHandler.StartActions();
-    this.combatManager.reset();
+    this.combatManager.endCombat();
+    this.sort()
   }
 
   btnLeaveCombat_Click(sender: IParticipant) {

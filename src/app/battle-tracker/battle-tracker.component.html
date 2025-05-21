@@ -6,32 +6,19 @@
           <div class="left btn-group" role="group">
             @if(!combatManager.started)
             {
-              <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()">
-                {{ "Start Turn" | translate }}
-              </button>
+            <button type="button" class="btn btn-primary" (click)="btnStartRound_Click()">
+              {{ "Start Turn" | translate }}
+            </button>
             }
             @if(combatManager.started && combatManager.passEnded)
             {
-              <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()">
-                {{ combatManager.hasMoreIniPasses() ? "Next Pass" : "End Turn" | translate }}
-              </button>
+            <button type="button" class="btn btn-primary" (click)="btnNextPass_Click()">
+              {{ combatManager.hasMoreIniPasses() ? "Next Pass" : "End Turn" | translate }}
+            </button>
             }
             <button type="button" class="btn btn-danger" (click)="btnReset_Click()">
-              {{ "Reset" | translate }}
+              {{ "End Combat" | translate }}
             </button>
-          </div>
-          <div class="btn-group ml-2">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <label for="chkbSortIni" class="input-group-text disable-selection">{{ "Sort by Initiative" | translate
-                  }}</label>
-              </div>
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <input id="chkbSortIni" type="checkbox" [(ngModel)]="sortByInitiative" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
         <div class="col-6 position-relative">
@@ -71,13 +58,12 @@
       </div>
 
       <!--PARTICIPANT ROWS-->
-      <div>
-      <!-- <div [sortablejs]="combatManager.participants.items" [sortablejsOptions]="options"> -->
+      <div cdkDropList (cdkDropListDropped)="drop($event)">
         <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
           (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)"
-          *ngFor="let p of combatManager.participants.items let i = index let last = last">
+          *ngFor="let p of combatManager.participants.items let i = index let last = last" cdkDrag>
           <div class="col-4 col-xl-2">
-            <input id="name" name="name" type="text" placeholder="Name" class="form-control"
+            <input id="name" name="name" type="text" autocomplete="off" placeholder="Name" class="form-control"
               (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </div>
           <div class="col-2 col-xl text-center">
@@ -135,8 +121,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="dropdown-item" *ngFor="let action of p.actions.persistentInterrupts"
+                <div class="dropdown-item" *ngFor="let action of p.actions.commonInterrupts"
                   [class.disabled]="!p.canUseAction(action)">
+                  @if (action.persist)
+                  {
                   <div class="btn-group-toggle" data-toggle="buttons">
                     <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
                       (click)="btnAction_Click(p, action, true, i)">
@@ -144,14 +132,15 @@
                       {{ action.key | translate }}
                     </label>
                   </div>
-                </div>
-                <div class="dropdown-item" *ngFor="let action of p.actions.normalInterrupts"
-                  [class.disabled]="!p.canUseAction(action)">
+                  }
+                  @else
+                  {
                   <button type="button" class="btn btn-secondary btn-block"
                     (click)="btnAction_Click(p, action, false, i)" [disabled]="!p.canUseAction(action)"
                     attr.title="{{ action.iniMod }}">
                     {{ action.key | translate }}
                   </button>
+                  }
                 </div>
               </div>
             </div>
@@ -187,15 +176,15 @@
       <div>
         @if (combatManager.started)
         {
-          <div colspan="8">{{ "Turn" | translate }}
-            {{ combatManager.combatTurn }},
-            {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initiative" | translate }}
-            {{ combatManager.currentInitiative }}
-          </div>
+        <div colspan="8">{{ "Turn" | translate }}
+          {{ combatManager.combatTurn }},
+          {{ "Pass" | translate }} {{ combatManager.initiativePass }}, {{ "Initiative" | translate }}
+          {{ combatManager.currentInitiative }}
+        </div>
         }
         @else
         {
-          {{ "Turn" | translate }} {{ combatManager.combatTurn }}
+        {{ "Turn" | translate }} {{ combatManager.combatTurn }}
         }
       </div>
     </div>
@@ -240,7 +229,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.overflowHealth"
-                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -250,7 +239,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.physicalHealth"
-                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -260,7 +249,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.stunHealth"
-                    [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 20, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -270,7 +259,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.painTolerance"
-                    [options]="{ floor: 0, ceil: 15, step: 1, showTicks: true, tickStep: 5}">
+                      [options]="{ floor: 0, ceil: 15, step: 1, showTicks: true, tickStep: 5}">
                     </ngx-slider>
                   </div>
                 </div>
@@ -291,7 +280,7 @@
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.dices"
-                    [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1}">
+                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1}">
                     </ngx-slider>
                   </div>
                 </div>

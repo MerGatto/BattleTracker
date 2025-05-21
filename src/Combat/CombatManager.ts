@@ -97,7 +97,7 @@ export class CombatManager extends Undoable
     this.currentActors = new ParticipantList();
   }
 
-  reset()
+  endCombat()
   {
     this.combatTurn = 1;
     this.currentActors.clear();
