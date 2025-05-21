@@ -157,6 +157,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   btnStartRound_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
+    if (this.combatManager.participants.items.some(p => p.diceIni <= 0)) {
+      // Confirm?
+      this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+    }
+
     this.combatManager.startRound();
     this.sort();
   }

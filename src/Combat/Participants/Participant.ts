@@ -275,7 +275,7 @@ export class Participant extends Undoable implements IParticipant
     this.waiting = false;
     this.finished = false;
     this.active = false;
-    this.baseIni = 0;
+    this.baseIni = 6;
     this.diceIni = 0;
     this.dices = 1;
     this.ooc = false;
