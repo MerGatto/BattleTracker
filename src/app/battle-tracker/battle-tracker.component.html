@@ -106,7 +106,7 @@
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
               <div ngbDropdownMenu aria-labelledby="interruptDropdownButton">
-                <div class="dropdown-item" *ngFor="let action of p.actions.commonInterrupts"
+                <div class="dropdown-item" *ngFor="let action of actionHandler.commonInterrupts"
                   [class.disabled]="!p.canUseAction(action)">
                   @if (action.persist)
                   {
@@ -144,7 +144,7 @@
                 </div>
               </div>
             </div>
-            <img src="./assets/shield.svg" [hidden]="!p.actions['fullDefense']"
+            <img src="./assets/shield.svg" [hidden]="!p.isInFullDefense()"
               attr.title="{{ 'fullDefense' | translate }}" />
           </div>
           <div class="col-5 col-xl-3 text-right">

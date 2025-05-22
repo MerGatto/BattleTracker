@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import ActionHandler from "Combat/ActionHandler";
 
 let bt: any;
 
@@ -35,13 +36,15 @@ let bt: any;
     NgbDropdownModule,
     FormsModule,
     CommonModule,
-    DragDropModule]
+    DragDropModule
+  ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager: CombatManager;
   indexToSelect: number = -1;
   logHandler = LogHandler;
   changeDetector: ChangeDetectorRef;
+  actionHandler = ActionHandler
 
   @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
 
@@ -227,13 +230,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
     LogHandler.log(this.currentBTTime, p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
-    if (!persistent) {
-      p.actions.doAction(action);
-    } else {
-      if (!p.actions[action.key]) {
-        p.actions[action.key] = !p.actions[action.key];
-      }
-    }
+    p.doAction(action);
 
     this.interruptDropdowns.toArray()[index].close();
   }
@@ -251,7 +248,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
       martialArt: false,
       persist: false
     };
-    p.actions.doAction(action);
+    p.doAction(action);
     inputElem.value = "-5";
 
     this.interruptDropdowns.toArray()[index].close();
