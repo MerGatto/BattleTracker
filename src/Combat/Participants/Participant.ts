@@ -275,7 +275,7 @@ export class Participant extends Undoable implements IParticipant {
   }
 
   getCurrentInitiative() {
-    let currentTurn = CombatManager.getInstance().initiativePass;
+    let currentTurn = CombatManager.initiativePass;
     // Fallback to 1 if we can't use the current initiative pass for some reason
     if (currentTurn == undefined) {
       currentTurn = 1;

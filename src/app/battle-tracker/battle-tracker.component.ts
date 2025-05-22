@@ -40,31 +40,28 @@ let bt: any;
   ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
-  combatManager: CombatManager;
+  combatManager = CombatManager
   indexToSelect: number = -1;
   logHandler = LogHandler;
   changeDetector: ChangeDetectorRef;
   actionHandler = ActionHandler
 
-  @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
-
   get currentBTTime(): BTTime {
     return new BTTime(this.combatManager.combatTurn, this.combatManager.initiativePass, this.combatManager.currentInitiative);
   }
 
-  private _selectedActor: IParticipant;
+  private _selectedActor: IParticipant | null = null
 
-  get selectedActor(): IParticipant {
+  get selectedActor(): IParticipant | null {
     return this._selectedActor;
   }
 
-  set selectedActor(val: IParticipant) {
+  set selectedActor(val: IParticipant | null) {
     this.Set("selectedActor", val);
   }
 
   constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
     super();
-    this.initialize();
     this.addParticipant();
     bt = this;
     this.changeDetector = ref;
@@ -83,10 +80,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     UndoHandler.Initialize();
     UndoHandler.StartActions();
     LogHandler.Initialize();
-  }
-
-  initialize() {
-    this.combatManager = CombatManager.getInstance();
   }
 
   selectActor(p: IParticipant) {
@@ -231,8 +224,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     LogHandler.log(this.currentBTTime, p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
     p.doAction(action);
-
-    this.interruptDropdowns.toArray()[index].close();
   }
 
   btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement, index: number) {
@@ -250,8 +241,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     };
     p.doAction(action);
     inputElem.value = "-5";
-
-    this.interruptDropdowns.toArray()[index].close();
   }
 
   canUseCustomInterrupt(p: IParticipant, inputElem: HTMLInputElement) {
@@ -274,10 +263,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   btnRedo_Click() {
     LogHandler.log(this.currentBTTime, "Redo_Click");
     UndoHandler.Redo();
-  }
-
-  btnAddReminder_Click(content) {
-    this.modalService.open(content);
   }
 
   inpName_KeyDown(e: KeyboardEvent) {
@@ -405,15 +390,16 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     e.target.select();
   }
 
-  iniChange(e, p: IParticipant) {
+  iniChange(e: Event, p: IParticipant) {
     if (p.diceIni < 0) {
       e.preventDefault();
       p.diceIni = 0;
-      e.target.value = 0;
+      let target = e.target as HTMLInputElement
+      target.value = '0';
     }
   }
 
-  onChange(e) {
+  onChange(e: Event) {
     console.log(e);
   }
 
@@ -428,7 +414,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   // Helper to find the closest ancestor with a given class
   private closestByClass(el: HTMLElement, className: string): HTMLElement | null {
     while (el && !el.classList.contains(className)) {
-      el = el.parentElement;
+      if (el.parentElement != null) {
+        el = el.parentElement;
+      }
+      else {
+        return null
+      }
     }
     return el;
   }
