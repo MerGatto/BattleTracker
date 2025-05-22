@@ -1,32 +1,31 @@
-export class Utility
-{
-  public static convertToInt(input, deflt = 0): number
-  {
-    let int = parseInt(input, 10);
-    if (isNaN(int))
-    {
+export class Utility {
+  public static convertToInt(input: string | number | undefined | null, deflt = 0): number {
+    if (input == null) {
+      return deflt
+    }
+
+    let int = deflt
+    if (typeof input === "string") {
+      int = parseInt(input, 10);
+    }
+    if (isNaN(int)) {
       return deflt;
-    } else
-    {
+    }
+    else {
       return int;
     }
   }
 
-  public static ConvertStyleObjectToString(styles: any): string
-  {
+  public static ConvertStyleObjectToString(styles: any): string {
     let result = '';
     let first = true;
-    for (var key in styles)
-    {
-      if (styles[key])
-      {
+    for (var key in styles) {
+      if (styles[key]) {
 
-        if (!first)
-        {
+        if (!first) {
           result += ' ';
         }
-        else
-        {
+        else {
           first = false;
         }
 
