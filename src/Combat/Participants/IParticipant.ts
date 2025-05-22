@@ -8,7 +8,7 @@ export interface IParticipant
   finished: boolean;
   active: boolean;
   baseIni: number;
-  iniModifier: number
+  actionIniModifier: number
   diceIni: number;
   dices: number;
   hasPainEditor: boolean;

@@ -280,7 +280,7 @@ export class Participant extends Undoable implements IParticipant {
     if (currentTurn == undefined) {
       currentTurn = 1;
     }
-    let ini = this.diceIni + this.baseIni - this.wm - (currentTurn - 1) * 10 + this.iniModifier;
+    let ini = this.diceIni + this.baseIni - this.wm - (currentTurn - 1) * 10 + this.actionIniModifier;
     return ini;
   }
 
@@ -317,7 +317,7 @@ export class Participant extends Undoable implements IParticipant {
     return this.actionHistory.some(a => a.key == "fullDefense")
   }
 
-  get iniModifier(): number {
+  get actionIniModifier(): number {
     let sum: number = 0;
     for (let action of this.actionHistory) {
       sum += action.iniMod;
