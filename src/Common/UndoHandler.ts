@@ -54,13 +54,17 @@ class UndoHandler
 
   HandleProperty(obj: Object, prop: string, val: any)
   {
-    let oldval = obj["_" + prop];
+    const propBackingFieldName = "_" + prop;
+    if (!obj.hasOwnProperty(propBackingFieldName)) {
+      throw new Error("obj is missing property: " + propBackingFieldName)
+    }
+    let oldval = (obj as any)[propBackingFieldName]
     if (oldval !== val)
     {
-      obj["_" + prop] = val;
+      (obj as any)[propBackingFieldName] = val;
       let entry: HistoryEntry = {
-        action: function () { obj["_" + prop] = val; },
-        undoAction: function () { obj["_" + prop] = oldval; }
+        action: function () { (obj as any)[propBackingFieldName] = val; },
+        undoAction: function () { (obj as any)[propBackingFieldName] = oldval; }
       };
       if (!this.recording)
       {
@@ -93,7 +97,7 @@ class UndoHandler
     {
       return;
     }
-    let chapt = this.pastHistory.pop();
+    let chapt = <Chapter>this.pastHistory.pop();
     let last = chapt.length - 1;
     for (let i = last; i >= 0; i--)
     {
@@ -108,7 +112,7 @@ class UndoHandler
     {
       return;
     }
-    let chapt = this.futureHistory.pop();
+    let chapt = <Chapter>this.futureHistory.pop();
     for (let i = 0; i < chapt.length; i++)
     {
       chapt[i].action();
