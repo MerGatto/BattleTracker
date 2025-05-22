@@ -67,7 +67,7 @@ export class BTTime extends Undoable
 
     text += "; Pass " + this.initiativePass;
 
-    if (this.initiativeScore = BTTime.Start)
+    if (this.initiativeScore === BTTime.Start)
     {
       return text + ": Start";
     }

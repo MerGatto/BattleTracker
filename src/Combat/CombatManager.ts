@@ -69,9 +69,6 @@ class CombatManager extends Undoable {
     this.currentActors = new ParticipantList();
   }
 
-  private initialize() {
-  }
-
   endCombat() {
     this.combatTurn = 1;
     this.currentActors.clear();
@@ -139,9 +136,7 @@ class CombatManager extends Undoable {
   getNextActors() {
     this.currentActors.clear();
     let max = 0;
-    const i = 0;
     let edge = false;
-    const over = true;
     this.currentInitiative = 0;
 
     for (const p of this.participants.items) {

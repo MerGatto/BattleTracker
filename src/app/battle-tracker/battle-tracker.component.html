@@ -80,7 +80,7 @@
                 [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
               <div class="input-group-append">
                 <button type="button" class="btn btn-dark p-0" (click)="btnRollInitiative_Click(p)"
-                  [disabled]="p.diceIni != 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
+                  [disabled]="p.diceIni !== 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
                   <i class="fas fa-dice fa-lg"></i>
                 </button>
               </div>
@@ -94,11 +94,11 @@
               {{ "Seize Initiative" | translate }}
             </button>
             <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)"
-              *ngIf="combatManager.started && (p.status == 1 || p.status == 2)">
+              *ngIf="combatManager.started && (p.status === 1 || p.status === 2)">
               {{ "Act" | translate }}
             </button>
             <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)"
-              *ngIf="combatManager.started && p.status == 1">
+              *ngIf="combatManager.started && p.status === 1">
               {{ "Delay" | translate }}
             </button>
             <div class="btn-group p-0" #interruptDropdown ngbDropdown autoClose="outside"
@@ -146,7 +146,7 @@
                 </div>
               </div>
             </div>
-            <img src="./assets/shield.svg" [hidden]="!p.isInFullDefense()"
+            <img src="./assets/shield.svg" [hidden]="!p.isInFullDefense()" alt="Shield Icon"
               attr.title="{{ 'fullDefense' | translate }}" />
           </div>
           <div class="col-5 col-xl-3 text-right">
@@ -192,7 +192,7 @@
     </div>
 
     <!--DETAILS BAR-->
-    @if (selectedActor != null)
+    @if (selectedActor !== null && selectActor !== undefined)
     {
     <div class="col-3 detailsBar">
       <div class="card">

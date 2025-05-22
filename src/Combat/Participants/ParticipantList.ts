@@ -96,7 +96,7 @@ export class ParticipantList
     }
   }
 
-  contains(p: IParticipant, log = true): boolean
+  contains(p: IParticipant): boolean
   {
     return this.items.indexOf(p) !== -1;
   }

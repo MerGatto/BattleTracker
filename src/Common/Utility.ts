@@ -16,6 +16,7 @@ export class Utility {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public static ConvertStyleObjectToString(styles: any): string {
     let result = '';
     let first = true;
