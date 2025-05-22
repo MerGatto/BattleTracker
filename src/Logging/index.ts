@@ -1,3 +1,3 @@
-import { LogHandler } from "./LogHandler";
+import LogHandler from "./LogHandler";
 
 export { LogHandler };

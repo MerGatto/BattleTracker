@@ -48,7 +48,7 @@ export class BTTime extends Undoable
 
   public toString(): string
   {
-    let text: string = "";
+    let text = "";
     if (this.combatTurn === BTTime.Start)
     {
       return BTTime.BEFORE_COMBAT;

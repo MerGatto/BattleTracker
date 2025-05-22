@@ -221,7 +221,7 @@ export class Participant extends Undoable implements IParticipant {
 
   private _sortOrder: number;
 
-  private _actionHistory: Array<Action> = [];
+  private _actionHistory: Action[] = [];
 
   constructor() {
     super();
@@ -247,7 +247,7 @@ export class Participant extends Undoable implements IParticipant {
   }
 
   clone(): IParticipant {
-    let clone: Participant = new Participant();
+    const clone: Participant = new Participant();
     clone._active = this._active;
     clone._baseIni = this._baseIni;
     clone._diceIni = this._diceIni;
@@ -280,7 +280,7 @@ export class Participant extends Undoable implements IParticipant {
     if (currentTurn == undefined) {
       currentTurn = 1;
     }
-    let ini = this.diceIni + this.baseIni - this.wm - (currentTurn - 1) * 10 + this.actionIniModifier;
+    const ini = this.diceIni + this.baseIni - this.wm - (currentTurn - 1) * 10 + this.actionIniModifier;
     return ini;
   }
 
@@ -309,7 +309,7 @@ export class Participant extends Undoable implements IParticipant {
 
   resetActions()
   {
-    let items = this.actionHistory;
+    const items = this.actionHistory;
     UndoHandler.DoAction(() => this._actionHistory = [], () => { this._actionHistory = items; });
   }
 
@@ -318,8 +318,8 @@ export class Participant extends Undoable implements IParticipant {
   }
 
   get actionIniModifier(): number {
-    let sum: number = 0;
-    for (let action of this.actionHistory) {
+    let sum = 0;
+    for (const action of this.actionHistory) {
       sum += action.iniMod;
     }
 
@@ -337,21 +337,21 @@ export class Participant extends Undoable implements IParticipant {
 
   rollInitiative() {
     this.diceIni = 0;
-    let max = 6;
-    let min = 1;
+    const max = 6;
+    const min = 1;
     for (let i = 0; i < this.dices; i++) {
       this.diceIni += Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    let test = false;
+    const test = false;
     // DICE TEST
     if (test) {
-      let slots: Array<number> = new Array<number>();
+      const slots: number[] = new Array<number>();
       for (let index = 1; index <= 6; index++) {
         slots[index] = 0;
       }
       for (let i = 0; i < 1000000; i++) {
-        let d = Math.floor(Math.random() * (max - min + 1)) + min;
+        const d = Math.floor(Math.random() * (max - min + 1)) + min;
         slots[d]++;
       }
       console.log(slots);

@@ -10,9 +10,9 @@ class ActionHandler
     return interruptTable;
   }
 
-  readonly persistentInterrupts: Array<Action>;
-  readonly normalInterrupts: Array<Action>;
-  readonly commonInterrupts: Array<Action>;
+  readonly persistentInterrupts: Action[];
+  readonly normalInterrupts: Action[];
+  readonly commonInterrupts: Action[];
 
   constructor()
   {

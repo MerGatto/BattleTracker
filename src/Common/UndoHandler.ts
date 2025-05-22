@@ -1,6 +1,6 @@
 export interface PropertyHistoryItem
 {
-  obj: Object;
+  obj: object;
   property: string;
   oldValue: any;
   newValue: any;
@@ -12,9 +12,9 @@ interface HistoryEntry
   undoAction: () => void;
 }
 
-type Chapter = Array<HistoryEntry>;
+type Chapter = HistoryEntry[];
 
-type History = Array<Chapter>;
+type History = Chapter[];
 
 class UndoHandler
 {
@@ -22,12 +22,12 @@ class UndoHandler
     private futureHistory: History = [];
     private currentChapter: Chapter = [];
 
-    private halted: boolean = true;
-    private recording: boolean = false;
+    private halted = true;
+    private recording = false;
 
   constructor() {
   // Debug stuff
-  (<any>window).uhdump = function uhdump()
+  (window as any).uhdump = function uhdump()
   {
     console.log("===========");
     console.log("pastHistory: ");
@@ -52,17 +52,17 @@ class UndoHandler
     this.recording = false;
   }
 
-  HandleProperty(obj: Object, prop: string, val: any)
+  HandleProperty(obj: object, prop: string, val: any)
   {
     const propBackingFieldName = "_" + prop;
     if (!obj.hasOwnProperty(propBackingFieldName)) {
       throw new Error("obj is missing property: " + propBackingFieldName)
     }
-    let oldval = (obj as any)[propBackingFieldName]
+    const oldval = (obj as any)[propBackingFieldName]
     if (oldval !== val)
     {
       (obj as any)[propBackingFieldName] = val;
-      let entry: HistoryEntry = {
+      const entry: HistoryEntry = {
         action: function () { (obj as any)[propBackingFieldName] = val; },
         undoAction: function () { (obj as any)[propBackingFieldName] = oldval; }
       };
@@ -76,7 +76,7 @@ class UndoHandler
 
   DoAction(action: () => void, undoAction: () => void)
   {
-    let entry: HistoryEntry = {
+    const entry: HistoryEntry = {
       action: action,
       undoAction: undoAction
     };
@@ -97,8 +97,8 @@ class UndoHandler
     {
       return;
     }
-    let chapt = <Chapter>this.pastHistory.pop();
-    let last = chapt.length - 1;
+    const chapt = this.pastHistory.pop() as Chapter;
+    const last = chapt.length - 1;
     for (let i = last; i >= 0; i--)
     {
       chapt[i].undoAction();
@@ -112,7 +112,7 @@ class UndoHandler
     {
       return;
     }
-    let chapt = <Chapter>this.futureHistory.pop();
+    const chapt = this.futureHistory.pop() as Chapter;
     for (let i = 0; i < chapt.length; i++)
     {
       chapt[i].action();
@@ -136,8 +136,8 @@ class UndoHandler
       this.EndActions();
     }
     this.recording = true;
-    this.currentChapter = new Array();
-    this.futureHistory = new Array();
+    this.currentChapter = [];
+    this.futureHistory = [];
   }
 
   EndActions()
@@ -147,6 +147,6 @@ class UndoHandler
   }
 }
 
-let _undoHandlerInstance = new UndoHandler()
+const _undoHandlerInstance = new UndoHandler()
 
 export default _undoHandlerInstance

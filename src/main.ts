@@ -1,10 +1,10 @@
 /// <reference types="@angular/localize" />
-import { ChangeDetectorRef, enableProdMode, importProvidersFrom } from "@angular/core";
+import { enableProdMode, importProvidersFrom } from "@angular/core";
 import { environment } from "./environments/environment";
 import { bootstrapApplication } from "@angular/platform-browser";
 import { AppComponent } from "app/app.component";
 import {provideHttpClient, withNoXsrfProtection} from '@angular/common/http';
-import { NgbNav, NgbNavItem, NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
 
 if (environment.production)
 {

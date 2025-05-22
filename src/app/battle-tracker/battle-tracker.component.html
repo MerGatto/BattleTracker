@@ -114,7 +114,7 @@
                   {
                   <div class="btn-group-toggle" data-toggle="buttons">
                     <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
-                      (click)="btnAction_Click(p, action, true, i)">
+                      (click)="btnAction_Click(p, action)">
                       <input type="checkbox" attr.title="{{ action.iniMod }}">
                       {{ action.key | translate }} ({{ action.iniMod }})
                     </label>
@@ -123,7 +123,7 @@
                   @else
                   {
                   <button type="button" class="btn btn-secondary btn-block"
-                    (click)="btnAction_Click(p, action, false, i)" [disabled]="!p.canUseAction(action)"
+                    (click)="btnAction_Click(p, action)" [disabled]="!p.canUseAction(action)"
                     attr.title="{{ action.iniMod }}">
                     {{ action.key | translate }} ({{ action.iniMod }})
                   </button>
@@ -134,7 +134,7 @@
                     <div class="col-6 p-0 input-group-prepend">
                       <button type="button" class="btn btn-secondary btn-block"
                         [disabled]="!canUseCustomInterrupt(p, custominterrupt)"
-                        (click)="btnCustomAction_Click(p, custominterrupt, i)">
+                        (click)="btnCustomAction_Click(p, custominterrupt)">
                         {{ "Other" | translate }}
                       </button>
                     </div>
@@ -208,17 +208,17 @@
                 <div class="row">
                   <div class="col-xl-6 cm">
                     <h4>{{"Physical" | translate}}</h4>
-                    <ng-condition-monitor [health]="selectedActor.physicalHealth"
+                    <app-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
                       [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
-                    </ng-condition-monitor>
+                    </app-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
                     <h4>{{"Stun" | translate}}</h4>
-                    <ng-condition-monitor [health]="selectedActor.stunHealth"
+                    <app-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
                       [(ngModel)]="selectedActor.stunDamage">
-                    </ng-condition-monitor>
+                    </app-condition-monitor>
                   </div>
                 </div>
               </ng-template>
@@ -229,7 +229,7 @@
                 <h4>{{ "Stats" | translate }}</h4>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Initiative Dices" | translate }}</label>
+                    <span>{{ "Initiative Dices" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.dices"
@@ -239,7 +239,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Overflow" | translate }}</label>
+                    <span>{{ "Overflow" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.overflowHealth"
@@ -249,7 +249,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Physical Health" | translate }}</label>
+                    <span>{{ "Physical Health" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.physicalHealth"
@@ -259,7 +259,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Stun Health" | translate }}</label>
+                    <span>{{ "Stun Health" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.stunHealth"
@@ -269,7 +269,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Pain Tolerance" | translate }}</label>
+                    <span>{{ "Pain Tolerance" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.painTolerance"
@@ -279,7 +279,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Ignore Pain" | translate }}</label>
+                    <span>{{ "Ignore Pain" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <label class="switch">

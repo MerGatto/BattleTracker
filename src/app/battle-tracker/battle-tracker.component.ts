@@ -1,28 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
-import { NgbModal, NgbDropdown, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { NgbModal, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
 import { TranslatePipe } from "../translate/translate.pipe";
-import { ConditionMonitorComponent } from "../condition-monitor/condition-monitor.component";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import ActionHandler from "Combat/ActionHandler";
+import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
 
-let bt: any;
-
-// Debug stuff
-(<any>window).btdump = function btdump() {
-  console.log("===========");
-  console.log("bt: ");
-  console.log(bt);
-  console.log("===========");
-};
+let bt: BattleTrackerComponent;
 
 @Component({
   selector: "app-battle-tracker",
@@ -30,18 +22,18 @@ let bt: any;
   styleUrls: ["./battle-tracker.component.css"],
   imports: [
     TranslatePipe,
-    ConditionMonitorComponent,
     NgxSliderModule,
     NgbNavModule,
     NgbDropdownModule,
     FormsModule,
     CommonModule,
-    DragDropModule
+    DragDropModule,
+    ConditionMonitorComponent
   ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
   combatManager = CombatManager
-  indexToSelect: number = -1;
+  indexToSelect = -1;
   logHandler = LogHandler;
   changeDetector: ChangeDetectorRef;
   actionHandler = ActionHandler
@@ -63,7 +55,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
     super();
     this.addParticipant();
-    bt = this;
     this.changeDetector = ref;
   }
 
@@ -79,7 +70,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   ngOnInit() {
     UndoHandler.Initialize();
     UndoHandler.StartActions();
-    LogHandler.Initialize();
   }
 
   selectActor(p: IParticipant) {
@@ -97,7 +87,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   /// Style Handler
   getParticipantStyles(p: IParticipant) {
-    let styles = {
+    const styles = {
       acting: this.combatManager.currentActors.contains(p),
       ooc: p.ooc,
       delaying: p.status === StatusEnum.Delaying,
@@ -217,7 +207,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     sender.enterCombat();
   }
 
-  btnAction_Click(p: IParticipant, action: Action, persistent: boolean, index: number) {
+  btnAction_Click(p: IParticipant, action: Action) {
     if (!p.canUseAction(action)) {
       return;
     }
@@ -226,13 +216,13 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     p.doAction(action);
   }
 
-  btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement, index: number) {
+  btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement) {
     if (!this.canUseCustomInterrupt(p, inputElem)) {
       return;
     }
     LogHandler.log(this.currentBTTime, p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
-    let action: Action = {
+    const action: Action = {
       iniMod: Number(inputElem.value),
       edge: false,
       key: "custom",
@@ -312,17 +302,17 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   inpDiceIni_KeyDown(e: KeyboardEvent) {
-    let keyCode = e.code;
+    const keyCode = e.code;
 
     if (keyCode === "Tab" && !e.shiftKey) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row?.nextElementSibling as HTMLElement | null;
+      const nextRow = row?.nextElementSibling as HTMLElement | null;
       if (nextRow != null) {
-        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+        const field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
-          nextRow.click
+          nextRow.click()
           return;
         }
       }
@@ -331,7 +321,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
       const row = this.closestByClass(e.target as HTMLElement, "participant");
       const prevRow = row?.previousElementSibling as HTMLElement | null;
       if (prevRow != null) {
-        let field: any = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+        const field: HTMLInputElement = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           prevRow.click()
@@ -342,15 +332,15 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   inpBaseIni_KeyDown(e: KeyboardEvent) {
-    let keyCode = e.code;
-    let shift = e.shiftKey;
+    const keyCode = e.code;
+    const shift = e.shiftKey;
 
     if (keyCode === "Tab" && !shift) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row?.nextElementSibling as HTMLElement | null;
+      const nextRow = row?.nextElementSibling as HTMLElement | null;
       if (nextRow != null) {
-        let field: HTMLInputElement = nextRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
+        const field: HTMLInputElement = nextRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           nextRow.click()
@@ -362,7 +352,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
       const row = this.closestByClass(e.target as HTMLElement, "participant");
       const prevRow = row?.previousElementSibling as HTMLElement | null;
       if (prevRow != null) {
-        let field: any = prevRow.querySelectorAll(".inpBaseIni")[0];
+        const field: HTMLInputElement = prevRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           prevRow.click();
@@ -373,9 +363,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   ngReady() {
-    let row = document.getElementById("participant" + this.indexToSelect);
+    const row = document.getElementById("participant" + this.indexToSelect);
     if (row) {
-      let field: any = row.querySelectorAll("input")[0];
+      const field: HTMLInputElement = row.querySelectorAll("input")[0] as HTMLInputElement;
       if (field) {
         this.indexToSelect = -1;
         field.select();
@@ -395,7 +385,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     if (p.diceIni < 0) {
       e.preventDefault();
       p.diceIni = 0;
-      let target = e.target as HTMLInputElement
+      const target = e.target as HTMLInputElement
       target.value = '0';
     }
   }
@@ -405,7 +395,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   addParticipant(selectNewParticipant = true) {
-    let p = new Participant();
+    const p = new Participant();
     this.combatManager.addParticipant(p);
     if (selectNewParticipant) {
       this.selectActor(p);

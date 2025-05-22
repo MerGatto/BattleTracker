@@ -19,7 +19,7 @@ export class Utility {
   public static ConvertStyleObjectToString(styles: any): string {
     let result = '';
     let first = true;
-    for (var key in styles) {
+    for (const key in styles) {
       if (styles[key]) {
 
         if (!first) {

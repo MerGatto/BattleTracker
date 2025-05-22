@@ -79,7 +79,7 @@ class CombatManager extends Undoable {
       this.started = false;
     }
     this.initiativePass = 1;
-    for (let p of this.participants.items) {
+    for (const p of this.participants.items) {
       p.softReset();
     }
   }
@@ -93,7 +93,7 @@ class CombatManager extends Undoable {
   nextIniPass() {
     this.passEnded = false;
     this.initiativePass++;
-    for (let p of this.participants.items) {
+    for (const p of this.participants.items) {
       if (!p.ooc && p.status !== StatusEnum.Delaying) {
         p.status = StatusEnum.Waiting;
       }
@@ -104,7 +104,7 @@ class CombatManager extends Undoable {
     this.initiativePass = 1;
     this.combatTurn++;
     this.currentInitiative = NaN;
-    for (let p of this.participants.items) {
+    for (const p of this.participants.items) {
       p.softReset();
     }
     this.started = false;
@@ -119,7 +119,7 @@ class CombatManager extends Undoable {
   }
 
   isOver() {
-    for (let p of this.participants.items) {
+    for (const p of this.participants.items) {
       if (p.getCurrentInitiative() > 0 && !p.ooc) {
         return false;
       }
@@ -128,7 +128,7 @@ class CombatManager extends Undoable {
   }
 
   hasMoreIniPasses() {
-    for (let p of this.participants.items) {
+    for (const p of this.participants.items) {
       if (p.getCurrentInitiative() - 10 > 0 && !p.ooc) {
         return true;
       }
@@ -139,13 +139,13 @@ class CombatManager extends Undoable {
   getNextActors() {
     this.currentActors.clear();
     let max = 0;
-    let i = 0;
+    const i = 0;
     let edge = false;
-    let over = true;
+    const over = true;
     this.currentInitiative = 0;
 
-    for (let p of this.participants.items) {
-      let effIni = p.getCurrentInitiative();
+    for (const p of this.participants.items) {
+      const effIni = p.getCurrentInitiative();
       if (!p.ooc && p.status === StatusEnum.Waiting && effIni > 0) {
         if (effIni > this.currentInitiative) {
           this.currentInitiative = effIni;
@@ -173,7 +173,7 @@ class CombatManager extends Undoable {
   }
 
   copyParticipant(p: IParticipant) {
-    let copy = p.clone();
+    const copy = p.clone();
     copy.edge = false;
     copy.active = false;
     copy.status = StatusEnum.Waiting;
@@ -186,7 +186,7 @@ class CombatManager extends Undoable {
     let int;
     let numberStr: string | null = null
     if (regexresult) {
-      let number = regexresult[0];
+      const number = regexresult[0];
       //  Extract name and numbner
       name = p.name.substring(0, regexresult.index);
       int = Utility.convertToInt(number);
@@ -194,7 +194,7 @@ class CombatManager extends Undoable {
 
     // Check for other Participants with the same name
     let high = 0;
-    for (let participant of this.participants.items) {
+    for (const participant of this.participants.items) {
       if (participant.name.match(name)) {
         regexresult = participant.name.match("\\d*$")
         if (regexresult) {
@@ -222,14 +222,14 @@ class CombatManager extends Undoable {
   goToNextActors() {
     // Clear active participants
     if (this.currentActors.count > 0) {
-      for (let a of this.currentActors.items) {
+      for (const a of this.currentActors.items) {
         a.status = StatusEnum.Finished;
       }
     }
 
     this.getNextActors();
     if (this.currentActors.count > 0) {
-      for (let a of this.currentActors.items) {
+      for (const a of this.currentActors.items) {
         a.status = StatusEnum.Active;
       }
     } else {

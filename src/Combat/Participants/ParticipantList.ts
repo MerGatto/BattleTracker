@@ -13,14 +13,14 @@ export class ParticipantList
   {
     return this.items.length;
   }
-  private _list: Array<IParticipant>;
+  private _list: IParticipant[];
 
   constructor()
   {
     this._list = new Array<IParticipant>();
   }
 
-  insert(p: IParticipant, log: boolean = true)
+  insert(p: IParticipant, log = true)
   {
     if (log)
     {
@@ -34,7 +34,7 @@ export class ParticipantList
     }
   }
 
-  insertAt(p: IParticipant, i: number, log: boolean = true)
+  insertAt(p: IParticipant, i: number, log = true)
   {
     if (log)
     {
@@ -48,9 +48,9 @@ export class ParticipantList
     }
   }
 
-  remove(p: IParticipant, log: boolean = true): boolean
+  remove(p: IParticipant, log = true): boolean
   {
-    let i = this.items.indexOf(p);
+    const i = this.items.indexOf(p);
     if (i !== -1)
     {
       if (log)
@@ -70,7 +70,7 @@ export class ParticipantList
 
   move(p: IParticipant, n: number)
   {
-    let i = this.items.indexOf(p);
+    const i = this.items.indexOf(p);
     if (i !== -1 && i + n !== -1 && i + n < this.items.length)
     {
       this.remove(p);
@@ -78,11 +78,11 @@ export class ParticipantList
     }
   }
 
-  clear(log: boolean = true)
+  clear(log = true)
   {
     if (log)
     {
-      let items = this.items;
+      const items = this.items;
       UndoHandler.DoAction(
         () => this.clear(false),
         () =>
@@ -96,7 +96,7 @@ export class ParticipantList
     }
   }
 
-  contains(p: IParticipant, log: boolean = true): boolean
+  contains(p: IParticipant, log = true): boolean
   {
     return this.items.indexOf(p) !== -1;
   }

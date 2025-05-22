@@ -1,22 +1,22 @@
 import { CommonModule } from "@angular/common";
-import { Component, OnInit, Input, forwardRef } from "@angular/core";
+import { Component, Input, forwardRef } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
 import { Utility } from "Common";
 
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => ConditionMonitorComponent),
   multi: true
 };
 
 @Component({
-  selector: "ng-condition-monitor",
+  selector: "app-condition-monitor",
   templateUrl: "./condition-monitor.component.html",
   styleUrls: ["./condition-monitor.component.css"],
   imports: [CommonModule],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
+export class ConditionMonitorComponent implements  ControlValueAccessor
 {
 
   get damage(): number
@@ -109,11 +109,9 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     this._hasPainEditor = false;
   }
 
-  ngOnInit() { }
-
   createRange(number: number)
   {
-    let items: number[] = [];
+    const items: number[] = [];
     for (let i = 1; i <= number; i++)
     {
       items.push(i);
@@ -145,7 +143,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   getCellStyle(n: number)
   {
-    let styles = {
+    const styles = {
       "damage": this.damage >= n,
       "overflow": n > this.health,
       "filled": n === this.cellCount && this.overflow > 0
@@ -157,7 +155,7 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   getCellText(n: number): string
   {
-    let result: string = "";
+    let result = "";
 
     if (this.hasPainEditor)
     {
@@ -179,17 +177,16 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
     }
   }
 
-  registerOnChange(fn: any): void
+  registerOnChange(fn: (_: unknown) => void): void
   {
     this.onChangeCallback = fn;
   }
 
-  registerOnTouched(fn: any): void
+  registerOnTouched(fn: () => void): void
   {
     this.onTouchedCallback = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void { }
-  private onTouchedCallback: () => void = () => { };
-  private onChangeCallback: (_: any) => void = () => { };
+  private onTouchedCallback: () => void = () => void 0
+  private onChangeCallback: (_: unknown) => void = () => void 0
 }
