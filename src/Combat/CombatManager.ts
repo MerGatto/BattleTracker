@@ -184,7 +184,7 @@ class CombatManager extends Undoable {
 
     let name = p.name;
     let int;
-    let numberStr: string
+    let numberStr: string | null = null
     if (regexresult) {
       let number = regexresult[0];
       //  Extract name and numbner
@@ -196,7 +196,10 @@ class CombatManager extends Undoable {
     let high = 0;
     for (let participant of this.participants.items) {
       if (participant.name.match(name)) {
-        numberStr = participant.name.match("\\d*$")[0];
+        regexresult = participant.name.match("\\d*$")
+        if (regexresult) {
+          numberStr = regexresult[0]
+        }
         if (numberStr) {
           int = Utility.convertToInt(numberStr);
           if (int > high) {
@@ -242,7 +245,7 @@ class CombatManager extends Undoable {
     }
   }
 
-  removeParticipant(participant) {
+  removeParticipant(participant: IParticipant) {
     if (this.currentActors.contains(participant)) {
       // Remove sender from active Actors
       this.act(participant);

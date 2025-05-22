@@ -23,10 +23,12 @@
         </div>
         <div class="col-6 position-relative">
           <div class="right btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}" [disabled]="isUndoDisabled()">
+            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}"
+              [disabled]="isUndoDisabled()">
               <i class="fa fa-undo fa-lg fa-inverse"></i>
             </button>
-            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo" [disabled]="isRedoDisabled()">
+            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo"
+              [disabled]="isRedoDisabled()">
               <i class="fa fa-redo fa-lg fa-inverse"></i>
             </button>
           </div>
@@ -190,6 +192,8 @@
     </div>
 
     <!--DETAILS BAR-->
+    @if (selectedActor != null)
+    {
     <div class="col-3 detailsBar">
       <div class="card">
         <div class="card-header">
@@ -291,5 +295,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </div>

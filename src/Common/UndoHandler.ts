@@ -19,8 +19,8 @@ type History = Array<Chapter>;
 class UndoHandler
 {
     private pastHistory: History = [];
-    private futureHistory: History;
-    private currentChapter: Chapter;
+    private futureHistory: History = [];
+    private currentChapter: Chapter = [];
 
     private halted: boolean = true;
     private recording: boolean = false;
