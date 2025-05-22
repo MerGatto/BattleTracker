@@ -4,7 +4,7 @@ import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.componen
 import { CommonModule } from "@angular/common";
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
-declare var Auth0Lock;
+declare var Auth0Lock: any;
 
 @Component({
   selector: "app-root",
@@ -17,8 +17,7 @@ export class AppComponent implements OnInit
 {
   title = "Battle Tracker";
 
-  public translatedText: string;
-  public supportedLanguages: any[];
+  public supportedLanguages: any[] = [];
 
   constructor(private _translate: TranslateService) {}
 
@@ -38,7 +37,7 @@ export class AppComponent implements OnInit
     return lang === this._translate.currentLang;
   }
 
-  selectLang(lang: string)
+  selectLang(lang: "en" | "de")
   {
     // set default;
     this._translate.use(lang);

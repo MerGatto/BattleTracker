@@ -102,16 +102,16 @@ export class ConditionMonitorComponent implements OnInit, ControlValueAccessor
 
   constructor()
   {
-    this.health = 10;
-    this.overflow = 0;
-    this.painTolerance = 0;
-    this.damage = 0;
-    this.hasPainEditor = false;
+    this._health = 10;
+    this._overflow = 0;
+    this._painTolerance = 0;
+    this._damage = 0;
+    this._hasPainEditor = false;
   }
 
   ngOnInit() { }
 
-  createRange(number)
+  createRange(number: number)
   {
     let items: number[] = [];
     for (let i = 1; i <= number; i++)

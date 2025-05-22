@@ -88,7 +88,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   sort() {
     if (!this.combatManager.started) {
-        this.combatManager.participants.sortBySortOrder();
+      this.combatManager.participants.sortBySortOrder();
     }
     else {
       this.combatManager.participants.sortByInitiative()
@@ -317,8 +317,8 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     if (keyCode === "Tab" && !e.shiftKey) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row.nextElementSibling as HTMLElement;
-      if (nextRow !== undefined) {
+      let nextRow = row?.nextElementSibling as HTMLElement | null;
+      if (nextRow != null) {
         let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
@@ -329,8 +329,8 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     } else if (keyCode === "Tab" && e.shiftKey) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      const prevRow = row.previousElementSibling as HTMLElement;
-      if (prevRow !== undefined) {
+      const prevRow = row?.previousElementSibling as HTMLElement | null;
+      if (prevRow != null) {
         let field: any = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
@@ -341,27 +341,27 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
   }
 
-  inpBaseIni_KeyDown(e) {
-    let keyCode = e.keyCode || e.which;
+  inpBaseIni_KeyDown(e: KeyboardEvent) {
+    let keyCode = e.code;
     let shift = e.shiftKey;
 
-    if (keyCode === 9 && !shift) {
+    if (keyCode === "Tab" && !shift) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row.nextElementSibling as HTMLElement;
-      if (nextRow !== undefined) {
-        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+      let nextRow = row?.nextElementSibling as HTMLElement | null;
+      if (nextRow != null) {
+        let field: HTMLInputElement = nextRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           nextRow.click()
           return;
         }
       }
-    } else if (keyCode === 9 && shift) {
+    } else if (keyCode === "Tab" && shift) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      const prevRow = row.previousElementSibling as HTMLElement;
-      if (prevRow !== undefined) {
+      const prevRow = row?.previousElementSibling as HTMLElement | null;
+      if (prevRow != null) {
         let field: any = prevRow.querySelectorAll(".inpBaseIni")[0];
         if (field) {
           field.select();
@@ -386,8 +386,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   // Focus Handler
-  inp_Focus(e) {
-    e.target.select();
+  inp_Focus(e: Event) {
+    if (e.target instanceof HTMLInputElement)
+      e.target.select();
   }
 
   iniChange(e: Event, p: IParticipant) {
