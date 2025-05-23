@@ -1,13 +1,19 @@
 <div class="cmWrapper">
   <table class="table-condensed cmTable">
-    <tr *ngFor="let row of createRange(rows)">
-      <td class="cmTd" *ngFor="let col of createRange(getCols(row))">
-        <div class="cmCell" [ngClass]="getCellStyle((row-1)*3+col)" (click)="OnCellClick((row-1)*3+col)">
+    @for(row of createRange(rows); track $index)
+    {
+    <tr>
+      @for(col of createRange(getCols(row)); track $index)
+      {
+      <td class="cmTd">
+        <div class="cmCell" [class]="getCellStyle((row-1)*3+col)" (click)="OnCellClick((row-1)*3+col)">
           <div class="cmCellContent">
             {{ getCellText((row-1)*3+col) }}
           </div>
         </div>
       </td>
+      }
     </tr>
+    }
   </table>
 </div>

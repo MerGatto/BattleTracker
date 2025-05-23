@@ -3,6 +3,7 @@ import { NgbActiveModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
+  standalone: true,
   selector: 'app-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
   imports: [TranslateModule, NgbNavModule],

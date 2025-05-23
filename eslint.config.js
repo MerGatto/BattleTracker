@@ -29,7 +29,8 @@ module.exports = tseslint.config(
           prefix: "app",
           style: "kebab-case",
         },
-      ]
+      ],
+      "@typescript-eslint/no-deprecated": "error"
     },
   },
   {
