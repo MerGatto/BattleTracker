@@ -4,10 +4,11 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
-    "ng": "ng",
+    "build": "ng build",
     "start": "ng serve",
     "prod": "ng serve --configuration=production",
     "test": "ng test",
+    "deploy": "ng deploy --base-href=/BattleTracker/",
     "lint": "ng lint",
     "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
     "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/en.json --clean --format json"

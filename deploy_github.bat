@@ -1,1 +1,0 @@
-cmd /k ng deploy --base-href=/BattleTracker/
