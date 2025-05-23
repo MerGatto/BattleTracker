@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirmation-dialog',
   templateUrl: './confirmation-dialog.component.html',
-  imports: [TranslateModule],
+  imports: [TranslateModule, NgbNavModule],
+  providers: [NgbActiveModal],
 })
 export class ConfirmationDialogComponent {
   @Input() title = 'Confirm';

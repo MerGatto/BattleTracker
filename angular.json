@@ -79,13 +79,13 @@
             ],
             "scripts": [],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/assets",
               "src/favicon.ico"
             ],
-            "tsConfig": "src/tsconfig.spec.json"
+            "tsConfig": "tsconfig.spec.json"
           }
         },
         "deploy": {
