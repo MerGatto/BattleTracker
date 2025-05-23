@@ -5,7 +5,7 @@ import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
-import { TranslatePipe } from "../services/translate/translate.pipe";
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -20,7 +20,7 @@ import { ConfirmationDialogService } from 'app/confirmation-dialog/confirmation-
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"],
   imports: [
-    TranslatePipe,
+    TranslateModule,
     NgxSliderModule,
     NgbNavModule,
     NgbDropdownModule,
