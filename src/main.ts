@@ -6,6 +6,8 @@ import {provideHttpClient, withNoXsrfProtection} from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
+import { LogMissingTranslationHandler } from 'LogMissingTranslationHandler';
+import { MissingTranslationHandler } from '@ngx-translate/core';
 
 // Factory for the loader
 export function HttpLoaderFactory(http: HttpClient) {
@@ -27,6 +29,10 @@ bootstrapApplication(AppComponent, {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
+        },
+        missingTranslationHandler: {
+          provide: MissingTranslationHandler,
+          useClass: LogMissingTranslationHandler
         }
       })
     )

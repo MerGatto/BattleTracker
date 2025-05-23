@@ -9,7 +9,9 @@
     "prod": "ng serve --prod=true",
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "i18n:init": "ngx-translate-extract --input ./src --output ./src/assets/i18n/template.json --key-as-default-value --replace --format json",
+    "i18n:extract": "ngx-translate-extract --input ./src --output ./src/assets/i18n/en.json --clean --format json"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +50,7 @@
     "@angular/cli": "19.2.12",
     "@angular/compiler-cli": "19.2.11",
     "@types/jasmine": "^5.1.8",
+    "@vendure/ngx-translate-extract": "^9.4.0",
     "angular-cli-ghpages": "^2.0.3",
     "angular-eslint": "19.4.0",
     "eslint": "^9.26.0",

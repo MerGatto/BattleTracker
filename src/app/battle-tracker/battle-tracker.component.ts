@@ -14,6 +14,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import ActionHandler from "Combat/ActionHandler";
 import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
 import { ConfirmationDialogService } from 'app/confirmation-dialog/confirmation-dialog.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-battle-tracker",
@@ -51,7 +52,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.Set("selectedActor", val);
   }
 
-  constructor(private ref: ChangeDetectorRef, private confirmationDialog: ConfirmationDialogService) {
+  constructor(private ref: ChangeDetectorRef, private confirmationDialog: ConfirmationDialogService, private translate: TranslateService) {
     super();
     this.addParticipant();
     this.changeDetector = ref;
@@ -144,11 +145,10 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     LogHandler.log(this.currentBTTime, "StartRound_Click");
     if (this.combatManager.participants.items.some(p => p.diceIni <= 0)) {
       const confirmed = await this.confirmationDialog.confirm(
-        "Some participants have no initiative. Do you want to roll initiative for them?",
-        "Roll Initiative",
+        "confirmation.RollInitiative.message",
+        "confirmation.RollInitiative.title",
         "Yes",
         "No")
-      // Confirm?
       if (confirmed) {
         this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
       }
@@ -166,10 +166,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.sort();
   }
 
-  btnDelete_Click(sender: IParticipant) {
+  async btnDelete_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " Delete_Click");
     if (sender.name !== "") {
-      if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
+      const confirmationText = this.translate.instant("confirmation.deleteParticipant", { name: sender.name });
+      const confirmed = await this.confirmationDialog.simpleConfirm(confirmationText);
+      if (!confirmed) {
         LogHandler.log(this.currentBTTime, sender.name + " Delete_Cancel");
         return;
       }
@@ -185,9 +187,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.combatManager.copyParticipant(sender);
   }
 
-  btnReset_Click() {
+  async btnReset_Click() {
     LogHandler.log(this.currentBTTime, "Reset_Click");
-    if (!confirm("Are you sure you want to end combat?")) {
+    const confirmationText = this.translate.instant("confirmation.endCombat");
+    const confirmed = await this.confirmationDialog.simpleConfirm(confirmationText);
+    if (!confirmed) {
       LogHandler.log(this.currentBTTime, "Reset_Cancel");
       return;
     }

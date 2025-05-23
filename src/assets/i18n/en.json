@@ -53,5 +53,13 @@
   "Sort by Initiative": "Sort by Initiative",
   "Initiative": "Initiative",
   "Custom": "Custom",
-  "Other": "Other"
+  "Other": "Other",
+  "Confirm": "Confirm",
+  "Yes": "Yes",
+  "No": "No",
+  "OK": "OK",
+  "confirmation.RollInitiative.title": "Roll Initiative?",
+  "confirmation.RollInitiative.message": "Some participants have no initiative. Do you want to roll initiative for them?",
+  "confirmation.deleteParticipant": "Are you sure you want to remove {{name}}?",
+  "confirmation.endCombat": "Are you sure you want to end combat?"
 }

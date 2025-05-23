@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-confirmation-dialog',
-  templateUrl: './confirmation-dialog.component.html'
+  templateUrl: './confirmation-dialog.component.html',
+  imports: [TranslateModule],
 })
 export class ConfirmationDialogComponent {
   @Input() title = 'Confirm';
@@ -11,5 +13,5 @@ export class ConfirmationDialogComponent {
   @Input() confirmText = 'Yes';
   @Input() cancelText = 'No';
 
-  constructor(public activeModal: NgbActiveModal) {}
+  constructor(public activeModal: NgbActiveModal) { }
 }

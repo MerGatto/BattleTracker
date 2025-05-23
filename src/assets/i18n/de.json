@@ -53,5 +53,13 @@
   "Sort by Initiative": "Nach Initiative sortieren",
   "Initiative": "Initiative",
   "Custom": "Nutzerdefiniert",
-  "Other": "Andere"
+  "Other": "Andere",
+  "Confirm": "Bestätigen",
+  "Yes": "Ja",
+  "No": "Nein",
+  "OK": "OK",
+  "confirmation.RollInitiative.title": "Initiative würfeln?",
+  "confirmation.RollInitiative.message": "Einige Teilnehmer haben keine Initiative. Möchten Sie die Initiative für sie würfeln?",
+  "confirmation.deleteParticipant": "Sind Sie sicher, dass Sie {{name}} entfernen möchten?",
+  "confirmation.endCombat": "Sind Sie sicher, dass Sie den Kampf beenden möchten?"
 }
