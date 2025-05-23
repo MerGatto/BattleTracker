@@ -65,11 +65,11 @@
         <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
           (click)="selectActor(p)" [class]="getParticipantStyles(p)" cdkDrag>
           <div class="col-4 col-xl-2">
-            <input id="name" name="name" type="text" autocomplete="off" placeholder="Name" class="form-control"
+            <input name="name" type="text" autocomplete="off" placeholder="Name" class="form-control"
               (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </div>
           <div class="col-2 col-xl text-center">
-            <label class="control-label lblIni" for="ini">{{ p.getCurrentInitiative() }} </label>
+            <span class="control-label lblIni">{{ p.getCurrentInitiative() }}</span>
           </div>
           <div class="col-6 col-xl-2 text-center">
             <div class="input-group">
