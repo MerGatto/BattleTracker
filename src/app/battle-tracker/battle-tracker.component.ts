@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
-import { Undoable, UndoHandler, Utility } from "Common";
+import { Undoable, UndoHandler } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
@@ -98,8 +98,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
       selected: p === this.selectedActor
     };
 
-    // This is necessary due to a bug in production mode
-    return Utility.ConvertStyleObjectToString(styles);
+    return styles;
   }
 
   /// Button Handler

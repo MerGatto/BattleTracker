@@ -1,6 +1,4 @@
 import { Component, Input, Output, forwardRef, EventEmitter } from "@angular/core";
-import { Utility } from "Common";
-
 @Component({
   standalone: true,
   selector: "app-condition-monitor",
@@ -107,8 +105,7 @@ export class ConditionMonitorComponent {
       "filled": n === this.cellCount && this.overflow > 0
     };
 
-    // This is necessary due to a bug in production mode
-    return Utility.ConvertStyleObjectToString(styles);
+    return styles
   }
 
   getCellText(n: number): string {

@@ -1,4 +1,4 @@
-import { Undoable, Utility } from "Common";
+import { Undoable } from "Common";
 import { ParticipantList } from "./Participants/ParticipantList";
 import { StatusEnum } from "./Participants/StatusEnum";
 import { IParticipant } from "./Participants/IParticipant";
@@ -184,7 +184,7 @@ class CombatManager extends Undoable {
       const number = regexresult[0];
       //  Extract name and numbner
       name = p.name.substring(0, regexresult.index);
-      int = Utility.convertToInt(number);
+      int = Number(number) || 0;
     }
 
     // Check for other Participants with the same name
@@ -196,7 +196,7 @@ class CombatManager extends Undoable {
           numberStr = regexresult[0]
         }
         if (numberStr) {
-          int = Utility.convertToInt(numberStr);
+          int = Number(numberStr) || 0;
           if (int > high) {
             high = int;
           }
