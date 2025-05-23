@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { NgbModal, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
-import { TranslatePipe } from "../translate/translate.pipe";
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -13,13 +13,15 @@ import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import ActionHandler from "Combat/ActionHandler";
 import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
+import { ConfirmationDialogService } from 'app/confirmation-dialog/confirmation-dialog.service';
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "app-battle-tracker",
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"],
   imports: [
-    TranslatePipe,
+    TranslateModule,
     NgxSliderModule,
     NgbNavModule,
     NgbDropdownModule,
@@ -50,7 +52,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.Set("selectedActor", val);
   }
 
-  constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
+  constructor(private ref: ChangeDetectorRef, private confirmationDialog: ConfirmationDialogService, private translate: TranslateService) {
     super();
     this.addParticipant();
     this.changeDetector = ref;
@@ -138,12 +140,18 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
   }
 
-  btnStartRound_Click() {
+  async btnStartRound_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
     if (this.combatManager.participants.items.some(p => p.diceIni <= 0)) {
-      // Confirm?
-      this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+      const confirmed = await this.confirmationDialog.confirm(
+        "confirmation.RollInitiative.message",
+        "confirmation.RollInitiative.title",
+        "Yes",
+        "No")
+      if (confirmed) {
+        this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+      }
     }
 
     this.combatManager.startRound();
@@ -158,10 +166,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.sort();
   }
 
-  btnDelete_Click(sender: IParticipant) {
+  async btnDelete_Click(sender: IParticipant) {
     LogHandler.log(this.currentBTTime, sender.name + " Delete_Click");
     if (sender.name !== "") {
-      if (!confirm("Are you sure you want to remove " + sender.name + "?")) {
+      const confirmationText = this.translate.instant("confirmation.deleteParticipant", { name: sender.name });
+      const confirmed = await this.confirmationDialog.simpleConfirm(confirmationText);
+      if (!confirmed) {
         LogHandler.log(this.currentBTTime, sender.name + " Delete_Cancel");
         return;
       }
@@ -177,9 +187,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.combatManager.copyParticipant(sender);
   }
 
-  btnReset_Click() {
+  async btnReset_Click() {
     LogHandler.log(this.currentBTTime, "Reset_Click");
-    if (!confirm("Are you sure you want to end combat?")) {
+    const confirmationText = this.translate.instant("confirmation.endCombat");
+    const confirmed = await this.confirmationDialog.simpleConfirm(confirmationText);
+    if (!confirmed) {
       LogHandler.log(this.currentBTTime, "Reset_Cancel");
       return;
     }

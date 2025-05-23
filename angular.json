@@ -13,7 +13,8 @@
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
-            "tsConfig": "src/tsconfig.json",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -23,15 +24,12 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.css",
-              "node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css"
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -75,18 +73,19 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "karmaConfig": "./karma.conf.js",
+            "karmaConfig": "karma.conf.js",
             "polyfills": [
               "zone.js"
             ],
             "scripts": [],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "assets": [
               "src/assets",
               "src/favicon.ico"
-            ]
+            ],
+            "tsConfig": "tsconfig.spec.json"
           }
         },
         "deploy": {

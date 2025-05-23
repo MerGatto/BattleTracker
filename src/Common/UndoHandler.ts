@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface PropertyHistoryItem {
+export interface IPropertyHistoryItem {
   obj: object;
   property: string;
   oldValue: any;

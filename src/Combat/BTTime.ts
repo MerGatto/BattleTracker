@@ -46,7 +46,7 @@ export class BTTime extends Undoable
     this._initiativeScore = initiativeScore;
   }
 
-  public toString(): string
+  public override toString(): string
   {
     let text = "";
     if (this.combatTurn === BTTime.Start)

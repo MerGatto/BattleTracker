@@ -1,24 +1,33 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
-    "baseUrl": "",
+    "baseUrl": "src",
     "strict": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
+    "noImplicitReturns": true,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "importHelpers": true,
     "experimentalDecorators": true,
     "lib": ["ES2022", "dom"],
     "mapRoot": "./",
     "module": "ES2022",
     "allowSyntheticDefaultImports": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "outDir": "../dist/out-tsc",
     "sourceMap": true,
     "target": "ES2022",
     "resolveJsonModule": true,
     "typeRoots": [
-      "../node_modules/@types"
+      "node_modules/@types"
     ],
     "types": [
-      "@angular/localize"
+      "node",
+      "jasmine"
     ]
   },
   "angularCompilerOptions": {
