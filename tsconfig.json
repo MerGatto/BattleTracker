@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "",
+    "baseUrl": "src",
     "strict": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
@@ -15,10 +15,12 @@
     "target": "ES2022",
     "resolveJsonModule": true,
     "typeRoots": [
-      "../node_modules/@types"
+      "node_modules/@types"
     ],
     "types": [
-      "@angular/localize"
+      "@angular/localize",
+      "node",
+      "jasmine"
     ]
   },
   "angularCompilerOptions": {

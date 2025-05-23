@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { TranslateService } from "./translate";
+import { TranslateService } from "./services/translate";
 import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.component";
 import { CommonModule } from "@angular/common";
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';

@@ -2,7 +2,7 @@
 import { enableProdMode, importProvidersFrom } from "@angular/core";
 import { environment } from "./environments/environment";
 import { bootstrapApplication } from "@angular/platform-browser";
-import { AppComponent } from "app/app.component";
+import { AppComponent } from "./app/app.component";
 import {provideHttpClient, withNoXsrfProtection} from '@angular/common/http';
 import { NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
 

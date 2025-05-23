@@ -1,11 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
-import { NgbModal, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
-import { TranslatePipe } from "../translate/translate.pipe";
+import { TranslatePipe } from "../services/translate/translate.pipe";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -13,6 +13,7 @@ import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import ActionHandler from "Combat/ActionHandler";
 import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
+import { ConfirmationDialogService } from 'app/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: "app-battle-tracker",
@@ -50,7 +51,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     this.Set("selectedActor", val);
   }
 
-  constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
+  constructor(private ref: ChangeDetectorRef, private confirmationDialog: ConfirmationDialogService) {
     super();
     this.addParticipant();
     this.changeDetector = ref;
@@ -138,12 +139,19 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
   }
 
-  btnStartRound_Click() {
+  async btnStartRound_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
     if (this.combatManager.participants.items.some(p => p.diceIni <= 0)) {
+      const confirmed = await this.confirmationDialog.confirm(
+        "Some participants have no initiative. Do you want to roll initiative for them?",
+        "Roll Initiative",
+        "Yes",
+        "No")
       // Confirm?
-      this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+      if (confirmed) {
+        this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+      }
     }
 
     this.combatManager.startRound();
