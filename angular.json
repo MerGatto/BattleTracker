@@ -40,6 +40,8 @@
             },
             "dev": {
               "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
               "fileReplacements": []
             },
             "production": {
