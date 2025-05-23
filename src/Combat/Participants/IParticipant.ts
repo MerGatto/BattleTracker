@@ -1,5 +1,4 @@
 import { StatusEnum } from "./StatusEnum";
-import { Actions } from "Combat/Actions";
 import { Action } from "Interfaces/Action";
 
 export interface IParticipant
@@ -9,6 +8,7 @@ export interface IParticipant
   finished: boolean;
   active: boolean;
   baseIni: number;
+  actionIniModifier: number
   diceIni: number;
   dices: number;
   hasPainEditor: boolean;
@@ -16,7 +16,6 @@ export interface IParticipant
   ooc: boolean;
   edge: boolean;
   status: StatusEnum;
-  actions: Actions;
   painTolerance: number;
   overflowHealth: number;
   physicalHealth: number;
@@ -24,15 +23,19 @@ export interface IParticipant
   physicalDamage: number;
   stunDamage: number;
   sortOrder: number;
+  actionHistory: Action[];
 
   clone(): IParticipant;
-  seizeInitiative();
-  getCurrentInitiative();
+  seizeInitiative(): void;
+  getCurrentInitiative(): number;
   canUseAction(action: Action): boolean;
-  leaveCombat();
-  enterCombat();
-  rollInitiative();
+  isInFullDefense(): boolean;
+  doAction(action: Action): void;
+  leaveCombat(): void;
+  enterCombat(): void;
+  rollInitiative(): void;
+  resetActions(): void;
 
-  softReset(revive?: boolean);
-  hardReset();
+  softReset(revive?: boolean): void;
+  hardReset(): void;
 }

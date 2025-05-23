@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
 import "zone.js/dist/long-stack-trace-zone";
@@ -14,11 +15,11 @@ import
 } from "@angular/platform-browser-dynamic/testing";
 
 // Unfortunately there's no typing for the `__karma__` variable. Just declare it as any.
-declare var __karma__: any;
-declare var require: any;
+declare let __karma__: any;
+declare let require: any;
 
 // Prevent Karma from running prematurely.
-__karma__.loaded = function () { };
+__karma__.loaded = () => void 0;
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(

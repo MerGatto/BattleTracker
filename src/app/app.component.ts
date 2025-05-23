@@ -4,7 +4,10 @@ import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.componen
 import { CommonModule } from "@angular/common";
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
-declare var Auth0Lock;
+interface LanguageEntry {
+  display: string
+  value: "en" | "de"
+}
 
 @Component({
   selector: "app-root",
@@ -13,12 +16,12 @@ declare var Auth0Lock;
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"]
 })
+
 export class AppComponent implements OnInit
 {
   title = "Battle Tracker";
 
-  public translatedText: string;
-  public supportedLanguages: any[];
+  public supportedLanguages: LanguageEntry[] = [];
 
   constructor(private _translate: TranslateService) {}
 
@@ -38,7 +41,7 @@ export class AppComponent implements OnInit
     return lang === this._translate.currentLang;
   }
 
-  selectLang(lang: string)
+  selectLang(lang: "en" | "de")
   {
     // set default;
     this._translate.use(lang);

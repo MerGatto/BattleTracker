@@ -1,134 +1,134 @@
-export interface PropertyHistoryItem
-{
-  obj: Object;
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export interface PropertyHistoryItem {
+  obj: object;
   property: string;
   oldValue: any;
   newValue: any;
 }
 
-interface HistoryEntry
-{
+interface HistoryEntry {
   action: () => void;
   undoAction: () => void;
 }
 
-type Chapter = Array<HistoryEntry>;
+type Chapter = HistoryEntry[];
 
-type History = Array<Chapter>;
+type History = Chapter[];
 
-export module UndoHandler
-{
-  let pastHistory: History = [];
-  let futureHistory: History;
-  let currentChapter: Chapter;
+class UndoHandler {
+  private pastHistory: History = [];
+  private futureHistory: History = [];
+  private currentChapter: Chapter = [];
 
-  let halted: boolean = true;
-  let recording: boolean = false;
+  private halted = true;
+  private recording = false;
 
-  export function Initialize()
-  {
-    pastHistory = [];
-    futureHistory = [];
-
-    recording = false;
+  constructor() {
+    // Debug stuff
+    Object.defineProperty(window, "uhdump", () => {
+      console.log("===========");
+      console.log("pastHistory: ");
+      console.log(this.pastHistory);
+      console.log("futureHistory: ");
+      console.log(this.futureHistory);
+      console.log("currentChapter: ");
+      console.log(this.currentChapter);
+      console.log("halted: ");
+      console.log(this.halted);
+      console.log("recording: ");
+      console.log(this.recording);
+      console.log("===========");
+    })
   }
 
-  // Debug stuff
-  (<any>window).uhdump = function uhdump()
-  {
-    console.log("===========");
-    console.log("pastHistory: ");
-    console.log(pastHistory);
-    console.log("futureHistory: ");
-    console.log(futureHistory);
-    console.log("currentChapter: ");
-    console.log(currentChapter);
-    console.log("halted: ");
-    console.log(halted);
-    console.log("recording: ");
-    console.log(recording);
-    console.log("===========");
-  };
+  Initialize() {
+    this.pastHistory = [];
+    this.futureHistory = [];
 
-  export function HandleProperty(obj: Object, prop: string, val: any)
-  {
-    let oldval = obj["_" + prop];
-    if (oldval !== val)
-    {
-      obj["_" + prop] = val;
-      let entry: HistoryEntry = {
-        action: function () { obj["_" + prop] = val; },
-        undoAction: function () { obj["_" + prop] = oldval; }
+    this.recording = false;
+  }
+
+  HandleProperty(obj: object, prop: string, val: any) {
+    const propBackingFieldName = "_" + prop;
+    if (!Object.prototype.hasOwnProperty.call(obj, propBackingFieldName)) {
+      throw new Error("obj is missing property: " + propBackingFieldName)
+    }
+
+    const oldval = (obj as any)[propBackingFieldName]
+    if (oldval !== val) {
+      (obj as any)[propBackingFieldName] = val;
+      const entry: HistoryEntry = {
+        action: function () { (obj as any)[propBackingFieldName] = val; },
+        undoAction: function () { (obj as any)[propBackingFieldName] = oldval; }
       };
-      if (!recording)
-      {
-        StartActions();
+      if (!this.recording) {
+        this.StartActions();
       }
-      currentChapter.push(entry);
+      this.currentChapter.push(entry);
     }
   }
 
-  export function DoAction(action: () => void, undoAction: () => void)
-  {
-    let entry: HistoryEntry = {
+  DoAction(action: () => void, undoAction: () => void) {
+    const entry: HistoryEntry = {
       action: action,
       undoAction: undoAction
     };
-    if (recording)
-    {
-      currentChapter.push(entry);
+    if (this.recording) {
+      this.currentChapter.push(entry);
     }
     action();
   }
 
-  export function Undo()
-  {
-    if (recording)
-    {
-      EndActions();
+  Undo() {
+    if (this.recording) {
+      this.EndActions();
     }
-    if (pastHistory.length <= 0)
-    {
+    if (this.pastHistory.length <= 0) {
       return;
     }
-    let chapt = pastHistory.pop();
-    let last = chapt.length - 1;
-    for (let i = last; i >= 0; i--)
-    {
+    const chapt = this.pastHistory.pop() as Chapter;
+    const last = chapt.length - 1;
+    for (let i = last; i >= 0; i--) {
       chapt[i].undoAction();
     }
-    futureHistory.push(chapt);
+    this.futureHistory.push(chapt);
   }
 
-  export function Redo()
-  {
-    if (futureHistory.length <= 0)
-    {
+  Redo() {
+    if (this.futureHistory.length <= 0) {
       return;
     }
-    let chapt = futureHistory.pop();
-    for (let i = 0; i < chapt.length; i++)
-    {
-      chapt[i].action();
+    const chapt = this.futureHistory.pop() as Chapter;
+    for (const entry of chapt) {
+      entry.action();
     }
-    pastHistory.push(chapt);
+    this.pastHistory.push(chapt);
   }
 
-  export function StartActions()
-  {
-    futureHistory = [];
-    if (recording)
-    {
-      EndActions();
-    }
-    recording = true;
-    currentChapter = new Array();
-    futureHistory = new Array();
+  hasFuture() {
+    return this.futureHistory.length > 0
   }
 
-  export function EndActions()
-  {
-    recording = false;
-    pastHistory.push(currentChapter);
+  hasPast() {
+    return this.pastHistory.length > 0
+  }
+
+  StartActions() {
+    this.futureHistory = [];
+    if (this.recording) {
+      this.EndActions();
+    }
+    this.recording = true;
+    this.currentChapter = [];
+    this.futureHistory = [];
+  }
+
+  EndActions() {
+    this.recording = false;
+    this.pastHistory.push(this.currentChapter);
   }
 }
+
+const _undoHandlerInstance = new UndoHandler()
+
+export default _undoHandlerInstance

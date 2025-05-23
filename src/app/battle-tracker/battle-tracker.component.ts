@@ -1,27 +1,18 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, ElementRef, QueryList, ViewChildren } from "@angular/core";
-import { NgbModal, NgbDropdown, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
+import { NgbModal, NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { Undoable, UndoHandler, Utility } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
 import { Action } from "Interfaces/Action";
 import { TranslatePipe } from "../translate/translate.pipe";
-import { ConditionMonitorComponent } from "../condition-monitor/condition-monitor.component";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-
-let bt: any;
-
-// Debug stuff
-(<any>window).btdump = function btdump() {
-  console.log("===========");
-  console.log("bt: ");
-  console.log(bt);
-  console.log("===========");
-};
+import ActionHandler from "Combat/ActionHandler";
+import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
 
 @Component({
   selector: "app-battle-tracker",
@@ -29,41 +20,39 @@ let bt: any;
   styleUrls: ["./battle-tracker.component.css"],
   imports: [
     TranslatePipe,
-    ConditionMonitorComponent,
     NgxSliderModule,
     NgbNavModule,
     NgbDropdownModule,
     FormsModule,
     CommonModule,
-    DragDropModule]
+    DragDropModule,
+    ConditionMonitorComponent
+  ]
 })
 export class BattleTrackerComponent extends Undoable implements OnInit {
-  combatManager: CombatManager;
-  indexToSelect: number = -1;
+  combatManager = CombatManager
+  indexToSelect = -1;
   logHandler = LogHandler;
   changeDetector: ChangeDetectorRef;
-
-  @ViewChildren(NgbDropdown) interruptDropdowns: QueryList<NgbDropdown>;
+  actionHandler = ActionHandler
 
   get currentBTTime(): BTTime {
     return new BTTime(this.combatManager.combatTurn, this.combatManager.initiativePass, this.combatManager.currentInitiative);
   }
 
-  private _selectedActor: IParticipant;
+  private _selectedActor: IParticipant | null = null
 
-  get selectedActor(): IParticipant {
+  get selectedActor(): IParticipant | null {
     return this._selectedActor;
   }
 
-  set selectedActor(val: IParticipant) {
+  set selectedActor(val: IParticipant | null) {
     this.Set("selectedActor", val);
   }
 
   constructor(private ref: ChangeDetectorRef, private modalService: NgbModal) {
     super();
-    this.initialize();
     this.addParticipant();
-    bt = this;
     this.changeDetector = ref;
   }
 
@@ -79,11 +68,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   ngOnInit() {
     UndoHandler.Initialize();
     UndoHandler.StartActions();
-    LogHandler.Initialize();
-  }
-
-  initialize() {
-    this.combatManager = CombatManager.getInstance();
   }
 
   selectActor(p: IParticipant) {
@@ -92,7 +76,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   sort() {
     if (!this.combatManager.started) {
-        this.combatManager.participants.sortBySortOrder();
+      this.combatManager.participants.sortBySortOrder();
     }
     else {
       this.combatManager.participants.sortByInitiative()
@@ -101,7 +85,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
 
   /// Style Handler
   getParticipantStyles(p: IParticipant) {
-    let styles = {
+    const styles = {
       acting: this.combatManager.currentActors.contains(p),
       ooc: p.ooc,
       delaying: p.status === StatusEnum.Delaying,
@@ -157,6 +141,11 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   btnStartRound_Click() {
     UndoHandler.StartActions();
     LogHandler.log(this.currentBTTime, "StartRound_Click");
+    if (this.combatManager.participants.items.some(p => p.diceIni <= 0)) {
+      // Confirm?
+      this.combatManager.participants.items.filter(p => p.diceIni <= 0).forEach(p => p.rollInitiative())
+    }
+
     this.combatManager.startRound();
     this.sort();
   }
@@ -216,44 +205,42 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     sender.enterCombat();
   }
 
-  btnAction_Click(p: IParticipant, action: Action, persistent: boolean, index: number) {
+  btnAction_Click(p: IParticipant, action: Action) {
     if (!p.canUseAction(action)) {
       return;
     }
     LogHandler.log(this.currentBTTime, p.name + " Action_Click: " + action.key);
     UndoHandler.StartActions();
-    if (!persistent) {
-      p.actions.doAction(action);
-    } else {
-      if (!p.actions[action.key]) {
-        p.actions[action.key] = !p.actions[action.key];
-      }
-    }
-
-    this.interruptDropdowns.toArray()[index].close();
+    p.doAction(action);
   }
 
-  btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement, index: number) {
+  btnCustomAction_Click(p: IParticipant, inputElem: HTMLInputElement) {
     if (!this.canUseCustomInterrupt(p, inputElem)) {
       return;
     }
     LogHandler.log(this.currentBTTime, p.name + " CustomAction_Click: " + inputElem.value);
     UndoHandler.StartActions();
-    let action: Action = {
+    const action: Action = {
       iniMod: Number(inputElem.value),
       edge: false,
       key: "custom",
       martialArt: false,
       persist: false
     };
-    p.actions.doAction(action);
+    p.doAction(action);
     inputElem.value = "-5";
-
-    this.interruptDropdowns.toArray()[index].close();
   }
 
   canUseCustomInterrupt(p: IParticipant, inputElem: HTMLInputElement) {
     return (Number(inputElem.value) * -1) <= p.getCurrentInitiative();
+  }
+
+  isUndoDisabled() {
+    return !UndoHandler.hasPast();
+  }
+
+  isRedoDisabled() {
+    return !UndoHandler.hasFuture();
   }
 
   btnUndo_Click() {
@@ -264,10 +251,6 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   btnRedo_Click() {
     LogHandler.log(this.currentBTTime, "Redo_Click");
     UndoHandler.Redo();
-  }
-
-  btnAddReminder_Click(content) {
-    this.modalService.open(content);
   }
 
   inpName_KeyDown(e: KeyboardEvent) {
@@ -317,26 +300,26 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   inpDiceIni_KeyDown(e: KeyboardEvent) {
-    let keyCode = e.code;
+    const keyCode = e.code;
 
     if (keyCode === "Tab" && !e.shiftKey) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row.nextElementSibling as HTMLElement;
-      if (nextRow !== undefined) {
-        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+      const nextRow = row?.nextElementSibling as HTMLElement | null;
+      if (nextRow != null) {
+        const field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
-          nextRow.click
+          nextRow.click()
           return;
         }
       }
     } else if (keyCode === "Tab" && e.shiftKey) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      const prevRow = row.previousElementSibling as HTMLElement;
-      if (prevRow !== undefined) {
-        let field: any = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+      const prevRow = row?.previousElementSibling as HTMLElement | null;
+      if (prevRow != null) {
+        const field: HTMLInputElement = prevRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           prevRow.click()
@@ -346,28 +329,28 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
     }
   }
 
-  inpBaseIni_KeyDown(e) {
-    let keyCode = e.keyCode || e.which;
-    let shift = e.shiftKey;
+  inpBaseIni_KeyDown(e: KeyboardEvent) {
+    const keyCode = e.code;
+    const shift = e.shiftKey;
 
-    if (keyCode === 9 && !shift) {
+    if (keyCode === "Tab" && !shift) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      let nextRow = row.nextElementSibling as HTMLElement;
-      if (nextRow !== undefined) {
-        let field: HTMLInputElement = nextRow.querySelectorAll(".inpDiceIni")[0] as HTMLInputElement;
+      const nextRow = row?.nextElementSibling as HTMLElement | null;
+      if (nextRow != null) {
+        const field: HTMLInputElement = nextRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           nextRow.click()
           return;
         }
       }
-    } else if (keyCode === 9 && shift) {
+    } else if (keyCode === "Tab" && shift) {
       e.preventDefault();
       const row = this.closestByClass(e.target as HTMLElement, "participant");
-      const prevRow = row.previousElementSibling as HTMLElement;
-      if (prevRow !== undefined) {
-        let field: any = prevRow.querySelectorAll(".inpBaseIni")[0];
+      const prevRow = row?.previousElementSibling as HTMLElement | null;
+      if (prevRow != null) {
+        const field: HTMLInputElement = prevRow.querySelectorAll(".inpBaseIni")[0] as HTMLInputElement;
         if (field) {
           field.select();
           prevRow.click();
@@ -378,9 +361,9 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   ngReady() {
-    let row = document.getElementById("participant" + this.indexToSelect);
+    const row = document.getElementById("participant" + this.indexToSelect);
     if (row) {
-      let field: any = row.querySelectorAll("input")[0];
+      const field: HTMLInputElement = row.querySelectorAll("input")[0] as HTMLInputElement;
       if (field) {
         this.indexToSelect = -1;
         field.select();
@@ -391,24 +374,26 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   }
 
   // Focus Handler
-  inp_Focus(e) {
-    e.target.select();
+  inp_Focus(e: Event) {
+    if (e.target instanceof HTMLInputElement)
+      e.target.select();
   }
 
-  iniChange(e, p: IParticipant) {
+  iniChange(e: Event, p: IParticipant) {
     if (p.diceIni < 0) {
       e.preventDefault();
       p.diceIni = 0;
-      e.target.value = 0;
+      const target = e.target as HTMLInputElement
+      target.value = '0';
     }
   }
 
-  onChange(e) {
+  onChange(e: Event) {
     console.log(e);
   }
 
   addParticipant(selectNewParticipant = true) {
-    let p = new Participant();
+    const p = new Participant();
     this.combatManager.addParticipant(p);
     if (selectNewParticipant) {
       this.selectActor(p);
@@ -418,7 +403,12 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
   // Helper to find the closest ancestor with a given class
   private closestByClass(el: HTMLElement, className: string): HTMLElement | null {
     while (el && !el.classList.contains(className)) {
-      el = el.parentElement;
+      if (el.parentElement != null) {
+        el = el.parentElement;
+      }
+      else {
+        return null
+      }
     }
     return el;
   }

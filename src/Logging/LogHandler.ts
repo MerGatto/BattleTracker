@@ -1,39 +1,37 @@
 import { BTTime } from "Combat";
 
-interface LogEntry
-{
+interface LogEntry {
   timestamp: Date;
-  text: String;
+  text: string;
   bttime: BTTime;
 }
 
-type Log = Array<LogEntry>;
+type Log = LogEntry[];
 
-export module LogHandler
-{
-  export let logbook: Log;
+class LogHandler {
+  public logbook: Log;
 
-  export function Initialize()
-  {
-    logbook = [];
+  constructor() {
+    this.logbook = [];
+
+    // Debug stuff
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).logdump = () => {
+      console.log("===========");
+      console.log("logbook: ");
+      console.log(this.logbook);
+      console.log("===========");
+    };
   }
 
-  export function log(time: BTTime, text: String)
-  {
-    let entry: LogEntry = {
+  log(time: BTTime, text: string) {
+    const entry: LogEntry = {
       text: text,
       timestamp: new Date(),
       bttime: time
     };
-    logbook.push(entry);
+    this.logbook.push(entry);
   }
-
-  // Debug stuff
-  (<any>window).logdump = function logdump()
-  {
-    console.log("===========");
-    console.log("logbook: ");
-    console.log(logbook);
-    console.log("===========");
-  };
 }
+
+export default new LogHandler()

@@ -1,4 +1,4 @@
-import {Injectable, Inject} from "@angular/core";
+import {Injectable} from "@angular/core";
 import translations from "./dictionary.json"
 
 @Injectable({
@@ -11,11 +11,11 @@ export class TranslateService
   {
     return this._currentLang;
   }
-  private _currentLang: string;
+  private _currentLang: "en" | "de" = "en";
 
-  private _logMissingTranslations: boolean = true;
+  private _logMissingTranslations = true;
 
-  public use(lang: string): void
+  public use(lang: "en" | "de"): void
   {
     // set current language
     this._currentLang = lang;
@@ -24,15 +24,16 @@ export class TranslateService
   public instant(key: string)
   {
     // public perform translation
-    return this.translate(key);
+    return this.translate(key as keyof typeof translations);
   }
 
-  private translate(key: string): string
+  private translate(key: keyof typeof translations): string
   {
+    const translationKey = key as keyof typeof translations
     // private perform translation
-    let translation = key;
+    const translation = key;
 
-    if (translations[key] && translations[key][this.currentLang])
+    if (translations[translationKey] && translations[key][this.currentLang])
     {
       return translations[key][this.currentLang];
     } else

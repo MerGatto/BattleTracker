@@ -23,10 +23,12 @@
         </div>
         <div class="col-6 position-relative">
           <div class="right btn-group" role="group">
-            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}">
+            <button type="button" class="btn btn-warning" (click)="btnUndo_Click()" attr.title="{{'Undo' | translate}}"
+              [disabled]="isUndoDisabled()">
               <i class="fa fa-undo fa-lg fa-inverse"></i>
             </button>
-            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo">
+            <button type="button" class="btn btn-warning" (click)="btnRedo_Click()" title="Redo"
+              [disabled]="isRedoDisabled()">
               <i class="fa fa-redo fa-lg fa-inverse"></i>
             </button>
           </div>
@@ -73,12 +75,12 @@
             <div class="input-group">
               <input class="form-control text-center inpBaseIni" name="baseIni" type="number"
                 (focus)="inp_Focus($event)" (keydown)="inpBaseIni_KeyDown($event)" [(ngModel)]="p.baseIni">
-              <input class="form-control inpBaseIni text-center" name="diceIni" type="number"
+              <input class="form-control inpDiceIni text-center" name="diceIni" type="number"
                 (keydown)="inpDiceIni_KeyDown($event)" (focus)="inp_Focus($event)" (input)="iniChange($event, p)"
                 [(ngModel)]="p.diceIni" #field="ngModel" [min]="0">
               <div class="input-group-append">
                 <button type="button" class="btn btn-dark p-0" (click)="btnRollInitiative_Click(p)"
-                  [disabled]="p.diceIni != 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
+                  [disabled]="p.diceIni !== 0" data-toggle="tooltip" data-placement="bottom" title="Roll Initiative">
                   <i class="fas fa-dice fa-lg"></i>
                 </button>
               </div>
@@ -92,11 +94,11 @@
               {{ "Seize Initiative" | translate }}
             </button>
             <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)"
-              *ngIf="combatManager.started && (p.status == 1 || p.status == 2)">
+              *ngIf="combatManager.started && (p.status === 1 || p.status === 2)">
               {{ "Act" | translate }}
             </button>
             <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)"
-              *ngIf="combatManager.started && p.status == 1">
+              *ngIf="combatManager.started && p.status === 1">
               {{ "Delay" | translate }}
             </button>
             <div class="btn-group p-0" #interruptDropdown ngbDropdown autoClose="outside"
@@ -106,13 +108,34 @@
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
               <div ngbDropdownMenu aria-labelledby="interruptDropdownButton">
+                <div class="dropdown-item" *ngFor="let action of actionHandler.commonInterrupts"
+                  [class.disabled]="!p.canUseAction(action)">
+                  @if (action.persist)
+                  {
+                  <div class="btn-group-toggle" data-toggle="buttons">
+                    <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
+                      (click)="btnAction_Click(p, action)">
+                      <input type="checkbox" attr.title="{{ action.iniMod }}">
+                      {{ action.key | translate }} ({{ action.iniMod }})
+                    </label>
+                  </div>
+                  }
+                  @else
+                  {
+                  <button type="button" class="btn btn-secondary btn-block"
+                    (click)="btnAction_Click(p, action)" [disabled]="!p.canUseAction(action)"
+                    attr.title="{{ action.iniMod }}">
+                    {{ action.key | translate }} ({{ action.iniMod }})
+                  </button>
+                  }
+                </div>
                 <div class="dropdown-item">
                   <div class="row mx-0 input-group">
                     <div class="col-6 p-0 input-group-prepend">
                       <button type="button" class="btn btn-secondary btn-block"
                         [disabled]="!canUseCustomInterrupt(p, custominterrupt)"
-                        (click)="btnCustomAction_Click(p, custominterrupt, i)">
-                        {{ "Custom" | translate }}
+                        (click)="btnCustomAction_Click(p, custominterrupt)">
+                        {{ "Other" | translate }}
                       </button>
                     </div>
                     <div class="col-6 p-0">
@@ -121,30 +144,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="dropdown-item" *ngFor="let action of p.actions.commonInterrupts"
-                  [class.disabled]="!p.canUseAction(action)">
-                  @if (action.persist)
-                  {
-                  <div class="btn-group-toggle" data-toggle="buttons">
-                    <label class=" btn btn-secondary btn-block" [class.disabled]="!p.canUseAction(action)"
-                      (click)="btnAction_Click(p, action, true, i)">
-                      <input type="checkbox" attr.title="{{ action.iniMod }}">
-                      {{ action.key | translate }}
-                    </label>
-                  </div>
-                  }
-                  @else
-                  {
-                  <button type="button" class="btn btn-secondary btn-block"
-                    (click)="btnAction_Click(p, action, false, i)" [disabled]="!p.canUseAction(action)"
-                    attr.title="{{ action.iniMod }}">
-                    {{ action.key | translate }}
-                  </button>
-                  }
-                </div>
               </div>
             </div>
-            <img src="./assets/shield.svg" [hidden]="!p.actions['fullDefense']"
+            <img src="./assets/shield.svg" [hidden]="!p.isInFullDefense()" alt="Shield Icon"
               attr.title="{{ 'fullDefense' | translate }}" />
           </div>
           <div class="col-5 col-xl-3 text-right">
@@ -190,6 +192,8 @@
     </div>
 
     <!--DETAILS BAR-->
+    @if (selectedActor !== null && selectActor !== undefined)
+    {
     <div class="col-3 detailsBar">
       <div class="card">
         <div class="card-header">
@@ -203,18 +207,18 @@
                 <h4>{{ "Condition Monitor" | translate }}</h4>
                 <div class="row">
                   <div class="col-xl-6 cm">
-                    <h4>Physical</h4>
-                    <ng-condition-monitor [health]="selectedActor.physicalHealth"
+                    <h4>{{"Physical" | translate}}</h4>
+                    <app-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
                       [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
-                    </ng-condition-monitor>
+                    </app-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
-                    <h4>Stun</h4>
-                    <ng-condition-monitor [health]="selectedActor.stunHealth"
+                    <h4>{{"Stun" | translate}}</h4>
+                    <app-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
                       [(ngModel)]="selectedActor.stunDamage">
-                    </ng-condition-monitor>
+                    </app-condition-monitor>
                   </div>
                 </div>
               </ng-template>
@@ -225,7 +229,17 @@
                 <h4>{{ "Stats" | translate }}</h4>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Overflow" | translate }}</label>
+                    <span>{{ "Initiative Dices" | translate }}</span>
+                  </div>
+                  <div class="col-12">
+                    <ngx-slider [(value)]="selectedActor.dices"
+                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1, animate: false}">
+                    </ngx-slider>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                    <span>{{ "Overflow" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.overflowHealth"
@@ -235,7 +249,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Physical Health" | translate }}</label>
+                    <span>{{ "Physical Health" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.physicalHealth"
@@ -245,7 +259,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Stun Health" | translate }}</label>
+                    <span>{{ "Stun Health" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.stunHealth"
@@ -255,7 +269,7 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Pain Tolerance" | translate }}</label>
+                    <span>{{ "Pain Tolerance" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <ngx-slider [(value)]="selectedActor.painTolerance"
@@ -265,23 +279,13 @@
                 </div>
                 <div class="row">
                   <div class="col-12">
-                    <label>{{ "Ignore Pain" | translate }}</label>
+                    <span>{{ "Ignore Pain" | translate }}</span>
                   </div>
                   <div class="col-12">
                     <label class="switch">
                       <input type="checkbox" [(ngModel)]="selectedActor.hasPainEditor" />
                       <span class="slider round"></span>
                     </label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-12">
-                    <label>{{ "Initiative Dices" | translate }}</label>
-                  </div>
-                  <div class="col-12">
-                    <ngx-slider [(value)]="selectedActor.dices"
-                      [options]="{ floor: 1, ceil: 5, step: 1, showTicks: true, tickStep: 1, animate: false}">
-                    </ngx-slider>
                   </div>
                 </div>
               </ng-template>
@@ -291,5 +295,6 @@
         </div>
       </div>
     </div>
+    }
   </div>
 </div>

@@ -1,6 +1,6 @@
 import { Action } from "./Interfaces/Action";
 
-export let interruptTable: Array<Action> = [
+export const interruptTable: Action[] = [
   {
     key: "fullDefense",
     iniMod: -10,
