@@ -1,107 +1,75 @@
-import { CommonModule } from "@angular/common";
-import { Component, Input, forwardRef } from "@angular/core";
-import { NG_VALUE_ACCESSOR, ControlValueAccessor } from "@angular/forms";
-import { Utility } from "Common";
-
-export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => ConditionMonitorComponent),
-  multi: true
-};
-
+import { Component, Input, Output, forwardRef, EventEmitter } from "@angular/core";
 @Component({
+  standalone: true,
   selector: "app-condition-monitor",
   templateUrl: "./condition-monitor.component.html",
-  styleUrls: ["./condition-monitor.component.css"],
-  imports: [CommonModule],
-  providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR]
+  styleUrls: ["./condition-monitor.component.css"]
 })
-export class ConditionMonitorComponent implements  ControlValueAccessor
-{
-
-  get damage(): number
-  {
+export class ConditionMonitorComponent {
+  private _damage: number;
+  @Input()
+  get damage(): number {
     return this._damage;
   }
-
-  @Input()
-  set damage(val: number)
-  {
-    this._damage = val;
-    this.onChangeCallback(val);
+  set damage(val: number) {
+    if (this._damage !== val) {
+      this._damage = val;
+      this.damageChange.emit(val);
+    }
   }
+  @Output()
+  readonly damageChange = new EventEmitter<number>();
 
+  private _health: number;
   @Input()
-  set health(value: number)
-  {
+  get health(): number {
+    return this._health;
+  }
+  set health(value: number) {
     this._health = value;
   }
 
-  get health(): number
-  {
-    return this._health;
-  }
-
+  private _overflow: number;
   @Input()
-  set overflow(value: number)
-  {
+  get overflow(): number {
+    return this._overflow;
+  }
+  set overflow(value: number) {
     this._overflow = value;
   }
 
-  get overflow(): number
-  {
-    return this._overflow;
-  }
-
+  private _painTolerance: number;
   @Input()
-  set painTolerance(value: number)
-  {
+  get painTolerance(): number {
+    return this._painTolerance;
+  }
+  set painTolerance(value: number) {
     this._painTolerance = value;
   }
 
-  get painTolerance(): number
-  {
-    return this._painTolerance;
-  }
 
+  private _hasPainEditor: boolean;
   @Input()
-  set hasPainEditor(value: boolean)
-  {
+  get hasPainEditor(): boolean {
+    return this._hasPainEditor;
+  }
+  set hasPainEditor(value: boolean) {
     this._hasPainEditor = value;
   }
 
-  get hasPainEditor(): boolean
-  {
-    return this._hasPainEditor;
-  }
-
-  get rows(): number
-  {
+  get rows(): number {
     return Math.ceil(this.cellCount / 3);
   }
 
-  get cellCount(): number
-  {
+  get cellCount(): number {
     let overflow = 0;
-    if (this.overflow > 0)
-    {
+    if (this.overflow > 0) {
       overflow = this.overflow + 1;
     }
     return this.health + overflow;
   }
 
-  private _damage: number;
-
-  private _health: number;
-
-  private _overflow: number;
-
-  private _painTolerance: number;
-
-  private _hasPainEditor: boolean;
-
-  constructor()
-  {
+  constructor() {
     this._health = 10;
     this._overflow = 0;
     this._painTolerance = 0;
@@ -109,84 +77,47 @@ export class ConditionMonitorComponent implements  ControlValueAccessor
     this._hasPainEditor = false;
   }
 
-  createRange(number: number)
-  {
+  createRange(number: number) {
     const items: number[] = [];
-    for (let i = 1; i <= number; i++)
-    {
+    for (let i = 1; i <= number; i++) {
       items.push(i);
     }
     return items;
   }
 
-  getCols(row: number)
-  {
-    if (this.cellCount / (row * 3) >= 1)
-    {
-      return 3;
-    } else
-    {
-      return this.cellCount % 3;
-    }
+  getCols(row: number) {
+    // Eg row 4 in 10 cell grid will return 1 here
+    return Math.min(3, this.cellCount - (row - 1) * 3);
   }
 
-  OnCellClick(n: number)
-  {
-    if (this.damage === n)
-    {
+  OnCellClick(n: number) {
+    if (this.damage === n) {
       this.damage = 0;
-    } else
-    {
+    } else {
       this.damage = n;
     }
   }
 
-  getCellStyle(n: number)
-  {
+  getCellStyle(n: number) {
     const styles = {
       "damage": this.damage >= n,
       "overflow": n > this.health,
       "filled": n === this.cellCount && this.overflow > 0
     };
 
-    // This is necessary due to a bug in production mode
-    return Utility.ConvertStyleObjectToString(styles);
+    return styles
   }
 
-  getCellText(n: number): string
-  {
+  getCellText(n: number): string {
     let result = "";
 
-    if (this.hasPainEditor)
-    {
+    if (this.hasPainEditor) {
       return result;
     }
 
-    if ((n > this.painTolerance) && (n - this.painTolerance) % 3 === 0 && n <= this.health)
-    {
+    if ((n > this.painTolerance) && (n - this.painTolerance) % 3 === 0 && n <= this.health) {
       result = "-" + ((n - this.painTolerance) / 3);
     }
     return result;
   }
-
-  writeValue(val: number): void
-  {
-    if (val !== this.damage)
-    {
-      this.damage = val;
-    }
-  }
-
-  registerOnChange(fn: (_: unknown) => void): void
-  {
-    this.onChangeCallback = fn;
-  }
-
-  registerOnTouched(fn: () => void): void
-  {
-    this.onTouchedCallback = fn;
-  }
-
-  private onTouchedCallback: () => void = () => void 0
-  private onChangeCallback: (_: unknown) => void = () => void 0
 }

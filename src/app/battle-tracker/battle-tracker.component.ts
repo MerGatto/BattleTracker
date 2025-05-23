@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { NgbNavModule, NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
-import { Undoable, UndoHandler, Utility } from "Common";
+import { Undoable, UndoHandler } from "Common";
 import { CombatManager, StatusEnum, BTTime, IParticipant } from "Combat";
 import { Participant } from "Combat/Participants/Participant";
 import { LogHandler } from "Logging";
@@ -9,7 +9,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule } from '@angular/forms';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CommonModule } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import ActionHandler from "Combat/ActionHandler";
 import { ConditionMonitorComponent } from "app/condition-monitor/condition-monitor.component";
@@ -17,6 +16,7 @@ import { ConfirmationDialogService } from 'app/confirmation-dialog/confirmation-
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
+  standalone: true,
   selector: "app-battle-tracker",
   templateUrl: "./battle-tracker.component.html",
   styleUrls: ["./battle-tracker.component.css"],
@@ -26,7 +26,6 @@ import { TranslateService } from "@ngx-translate/core";
     NgbNavModule,
     NgbDropdownModule,
     FormsModule,
-    CommonModule,
     DragDropModule,
     ConditionMonitorComponent
   ]
@@ -99,8 +98,7 @@ export class BattleTrackerComponent extends Undoable implements OnInit {
       selected: p === this.selectedActor
     };
 
-    // This is necessary due to a bug in production mode
-    return Utility.ConvertStyleObjectToString(styles);
+    return styles;
   }
 
   /// Button Handler

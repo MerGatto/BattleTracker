@@ -79,6 +79,12 @@ div {
   border-radius: 5px;
 }
 
+.lblIni {
+  display: grid;
+  align-items: center;
+  height: 100%;
+}
+
 .edged .lblIni::after { content: 'e'; }
 
 

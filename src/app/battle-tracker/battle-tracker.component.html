@@ -61,15 +61,15 @@
 
       <!--PARTICIPANT ROWS-->
       <div cdkDropList (cdkDropListDropped)="drop($event)">
+        @for(p of combatManager.participants.items; track $index; let i = $index; let last = $last) {
         <div class="row participant" attr.id="participant{{i}}" [attr.data-indexnr]="i" [attr.data.participant]="p"
-          (click)="selectActor(p)" [ngClass]="getParticipantStyles(p)"
-          *ngFor="let p of combatManager.participants.items let i = index let last = last" cdkDrag>
+          (click)="selectActor(p)" [class]="getParticipantStyles(p)" cdkDrag>
           <div class="col-4 col-xl-2">
-            <input id="name" name="name" type="text" autocomplete="off" placeholder="Name" class="form-control"
+            <input name="name" type="text" autocomplete="off" placeholder="Name" class="form-control"
               (keydown)="inpName_KeyDown($event)" [(ngModel)]="p.name">
           </div>
           <div class="col-2 col-xl text-center">
-            <label class="control-label lblIni" for="ini">{{ p.getCurrentInitiative() }} </label>
+            <span class="control-label lblIni">{{ p.getCurrentInitiative() }}</span>
           </div>
           <div class="col-6 col-xl-2 text-center">
             <div class="input-group">
@@ -89,27 +89,37 @@
           </div>
           <div class="col-7 col-xl-4 btn-group" role="group">
             <!--action-->
-            <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)"
-              *ngIf="!p.edge && (!combatManager.started || (combatManager.passEnded && p.getCurrentInitiative() > 10))">
+            <!-- todo move to method canSeizeInitiative in participant -->
+            @if (!p.edge
+            && (!combatManager.started || (combatManager.passEnded && p.getCurrentInitiative() > 10)))
+            {
+            <button type="button" class="btn btn-primary" (click)="btnEdge_Click(p)">
               {{ "Seize Initiative" | translate }}
             </button>
-            <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)"
-              *ngIf="combatManager.started && (p.status === 1 || p.status === 2)">
+            }
+            <!-- todo move to method canAct in participant -->
+            @if(combatManager.started && (p.status === 1 || p.status === 2))
+            {
+            <button type="button" class="btn btn-primary" (click)="btnAct_Click(p)">
               {{ "Act" | translate }}
             </button>
-            <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)"
-              *ngIf="combatManager.started && p.status === 1">
+            }
+            @if (combatManager.started && p.status === 1)
+            {
+            <button type="button" class="btn btn-warning" (click)="btnDelay_Click(p)">
               {{ "Delay" | translate }}
             </button>
-            <div class="btn-group p-0" #interruptDropdown ngbDropdown autoClose="outside"
-              *ngIf="combatManager.started && p.getCurrentInitiative() >= 1">
+            }
+            @if (combatManager.started && p.getCurrentInitiative() >= 1) {
+            <div class="btn-group p-0" #interruptDropdown ngbDropdown autoClose="outside">
               <button ngbDropdownToggle id="interruptDropdownButton" type="button" class="btn btn-secondary"
                 dropdownToggle>
                 {{ "Interrupts" | translate }} <span class="caret"></span>
               </button>
               <div ngbDropdownMenu aria-labelledby="interruptDropdownButton">
-                <div class="dropdown-item" *ngFor="let action of actionHandler.commonInterrupts"
-                  [class.disabled]="!p.canUseAction(action)">
+                @for(action of actionHandler.commonInterrupts; track action.key)
+                {
+                <div class="dropdown-item" [class.disabled]="!p.canUseAction(action)">
                   @if (action.persist)
                   {
                   <div class="btn-group-toggle" data-toggle="buttons">
@@ -122,13 +132,13 @@
                   }
                   @else
                   {
-                  <button type="button" class="btn btn-secondary btn-block"
-                    (click)="btnAction_Click(p, action)" [disabled]="!p.canUseAction(action)"
-                    attr.title="{{ action.iniMod }}">
+                  <button type="button" class="btn btn-secondary btn-block" (click)="btnAction_Click(p, action)"
+                    [disabled]="!p.canUseAction(action)" attr.title="{{ action.iniMod }}">
                     {{ action.key | translate }} ({{ action.iniMod }})
                   </button>
                   }
                 </div>
+                }
                 <div class="dropdown-item">
                   <div class="row mx-0 input-group">
                     <div class="col-6 p-0 input-group-prepend">
@@ -146,6 +156,7 @@
                 </div>
               </div>
             </div>
+            }
             <img src="./assets/shield.svg" [hidden]="!p.isInFullDefense()" alt="Shield Icon"
               attr.title="{{ 'fullDefense' | translate }}" />
           </div>
@@ -154,19 +165,26 @@
               <button type="button" class="btn btn-primary" (click)="btnDuplicate_Click(p)">
                 <i class="fas fa-clone fa-lg fa-flip-vertical"></i>
               </button>
-              <button type="button" class="btn btn-success" *ngIf="p.ooc" (click)="btnEnterCombat_Click(p)">
+              @if(p.ooc){
+              <button type="button" class="btn btn-success" (click)="btnEnterCombat_Click(p)">
                 <i class="fa fa-sign-in-alt fa-lg fa-inverse"></i>
               </button>
-              <button type="button" class="btn btn-warning" *ngIf="!p.ooc" (click)="btnLeaveCombat_Click(p)">
+              }
+              @else {
+              <button type="button" class="btn btn-warning" (click)="btnLeaveCombat_Click(p)">
                 <i class="fa fa-sign-out-alt fa-lg fa-inverse"></i>
               </button>
+              }
               <button type="button" class="btn btn-danger" (click)="btnDelete_Click(p)">
                 <i class="fa fa-trash fa-lg"></i>
               </button>
             </div>
           </div>
-          <span *ngIf="last">{{ ngReady() }}</span>
+          @if (last) {
+          <span>{{ ngReady() }}</span>
+          }
         </div>
+        }
       </div>
       <div>
         <div colspan="8">
@@ -210,14 +228,14 @@
                     <h4>{{"Physical" | translate}}</h4>
                     <app-condition-monitor [health]="selectedActor.physicalHealth"
                       [overflow]="selectedActor.overflowHealth" [painTolerance]="selectedActor.painTolerance"
-                      [hasPainEditor]="selectedActor.hasPainEditor" [(ngModel)]="selectedActor.physicalDamage">
+                      [hasPainEditor]="selectedActor.hasPainEditor" [(damage)]="selectedActor.physicalDamage">
                     </app-condition-monitor>
                   </div>
                   <div class="col-xl-6 cm">
                     <h4>{{"Stun" | translate}}</h4>
                     <app-condition-monitor [health]="selectedActor.stunHealth"
                       [painTolerance]="selectedActor.painTolerance" [hasPainEditor]="selectedActor.hasPainEditor"
-                      [(ngModel)]="selectedActor.stunDamage">
+                      [(damage)]="selectedActor.stunDamage">
                     </app-condition-monitor>
                   </div>
                 </div>

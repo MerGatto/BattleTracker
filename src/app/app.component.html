@@ -1,17 +1,18 @@
 <nav class="navbar navbar-dark bg-dark py-0 mb-3 justify-content-start">
   <a class="navbar-brand" rel="home" href="#" title="BattleTracker">
-    <img style="height: 50px; object-fit: contain;"
-          src="assets/logo.svg" alt="BattleTracker Logo">
+    <img style="height: 50px; object-fit: contain;" src="assets/logo.svg" alt="BattleTracker Logo">
   </a>
-  <a id="navbar-title"class="navbar-brand" href="#">BattleTracker</a>
+  <a id="navbar-title" class="navbar-brand" href="#">BattleTracker</a>
   <ul class="navbar-nav mr-auto">
     <li>
       <div class="btn-group" style="display: inline-block">
-        <button *ngFor="let lang of supportedLanguages"
-                (click)="selectLang(lang.value)"
-                class="btn nav-item" [class.btn-secondary]="!isCurrentLang(lang.value)" [class.btn-primary]="isCurrentLang(lang.value)">
+        @for(lang of supportedLanguages; track lang)
+        {
+        <button (click)="selectLang(lang.value)" class="btn nav-item"
+          [class.btn-secondary]="!isCurrentLang(lang.value)" [class.btn-primary]="isCurrentLang(lang.value)">
           {{ lang.display }}
         </button>
+        }
       </div>
     </li>
   </ul>
