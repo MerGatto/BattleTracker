@@ -4,8 +4,9 @@
   "license": "MIT",
   "angular-cli": {},
   "scripts": {
+    "prebuild": "git describe --tags --always > src/assets/version.txt",
     "build": "ng build",
-    "start": "ng serve",
+    "start": "npm run prebuild && ng serve",
     "prod": "ng serve --configuration=production",
     "test": "ng test",
     "deploy": "ng deploy --base-href='/BattleTracker/'",

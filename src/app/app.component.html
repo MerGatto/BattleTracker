@@ -1,30 +1,39 @@
-<nav class="navbar navbar-dark bg-dark py-0 mb-3 justify-content-start">
-  <a class="navbar-brand" rel="home" href="#" title="BattleTracker">
-    <img style="height: 50px; object-fit: contain;" src="assets/logo.svg" alt="BattleTracker Logo">
-  </a>
-  <a id="navbar-title" class="navbar-brand" href="#">BattleTracker</a>
-  <ul class="navbar-nav mr-auto">
-    <li>
-      <div class="btn-group" style="display: inline-block">
-        @for(lang of supportedLanguages; track lang)
-        {
-        <button (click)="selectLang(lang.value)" class="btn nav-item"
-          [class.btn-secondary]="!isCurrentLang(lang.value)" [class.btn-primary]="isCurrentLang(lang.value)">
-          {{ lang.display }}
-        </button>
-        }
-      </div>
-    </li>
-  </ul>
-  <ul class="nav navbar-nav navbar-right">
-    <!--<li *ngIf="!auth.authenticated()">
+<div class="content">
+  <nav class="navbar navbar-dark bg-dark py-0 mb-3 justify-content-start">
+    <a class="navbar-brand" rel="home" href="#" title="BattleTracker">
+      <img style="height: 50px; object-fit: contain;" src="assets/logo.svg" alt="BattleTracker Logo">
+    </a>
+    <a id="navbar-title" class="navbar-brand" href="#">BattleTracker</a>
+    <ul class="navbar-nav mr-auto">
+      <li>
+        <div class="btn-group" style="display: inline-block">
+          @for(lang of supportedLanguages; track lang)
+          {
+          <button (click)="selectLang(lang.value)" class="btn nav-item"
+            [class.btn-secondary]="!isCurrentLang(lang.value)" [class.btn-primary]="isCurrentLang(lang.value)">
+            {{ lang.display }}
+          </button>
+          }
+        </div>
+      </li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <!--<li *ngIf="!auth.authenticated()">
     <a href="#" (click)="auth.login()"><i class="fa fa-sign-in-alt fa-lg fa-inverse"></i> Login</a>
   </li>
   <li *ngIf="auth.authenticated()">
     <a href="#" (click)="auth.logout()"><i class="fa fa-sign-out-alt fa-lg fa-inverse"></i> Logout</a>
   </li>-->
-  </ul>
-</nav>
-<div class="container-fluid">
-  <app-battle-tracker></app-battle-tracker>
+    </ul>
+  </nav>
+  <div class="container-fluid">
+    <app-battle-tracker></app-battle-tracker>
+  </div>
+</div>
+
+<div class="footer">
+  <span>
+    BattleTracker - made by <a href="https://github.com/MerGatto/BattleTracker">MerGatto</a>.
+  </span>
+  <span>Version: {{ versionService.version }}</span>
 </div>

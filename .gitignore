@@ -47,3 +47,4 @@ obj/Debug/
 /BattleTracker.sln.DotSettings.user
 .angular/cache/*
 .vscode/settings.json
+src/assets/version.txt

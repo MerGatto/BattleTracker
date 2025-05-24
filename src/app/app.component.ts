@@ -1,8 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { TranslateService } from '@ngx-translate/core';
-import { BattleTrackerComponent } from "./battle-tracker/battle-tracker.component";
+import { BattleTrackerComponent } from "app/battle-tracker/battle-tracker.component";
 import { CommonModule } from "@angular/common";
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { VersionService } from "app/services/version.service";
 
 interface LanguageEntry {
   display: string
@@ -13,8 +14,7 @@ interface LanguageEntry {
   selector: "app-root",
   standalone: true,
   imports: [CommonModule,NgbNavModule, BattleTrackerComponent],
-  templateUrl: "./app.component.html",
-  styleUrls: ["./app.component.css"]
+  templateUrl: "./app.component.html"
 })
 
 export class AppComponent implements OnInit
@@ -23,10 +23,12 @@ export class AppComponent implements OnInit
 
   public supportedLanguages: LanguageEntry[] = [];
 
-  constructor(private _translate: TranslateService) {}
+  constructor(private _translate: TranslateService, public versionService: VersionService) {}
 
   ngOnInit()
   {
+    this.versionService.loadVersion();
+
     // standing data
     this.supportedLanguages = [
       { display: "English", value: "en" },
